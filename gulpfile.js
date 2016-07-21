@@ -6,10 +6,10 @@ gulp.task('clean', function () {
   return del('dist');
 });
 
-gulp.task('build', ['clean'], function () {
+gulp.task('build-simulator', ['clean'], function () {
   return gulp.src([
-    'src/**/*.ts'
+    'src/simulator/**/*.ts'
   ]).pipe(ts({
     module: 'commonjs'
-  })).js.pipe(gulp.dest('./dist'));
+  })).js.pipe(gulp.dest('./dist/simulator'));
 })
