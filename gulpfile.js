@@ -11,5 +11,5 @@ gulp.task('build', ['clean'], function () {
     'src/**/*.ts'
   ]).pipe(ts({
     module: 'commonjs'
-  })).js.pipe(gulp.dest('./dist/turing'));
+  })).js.pipe(gulp.dest('./dist'));
 })
