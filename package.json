@@ -5,13 +5,17 @@
   "description": "A Turing Machine simulator written in TypeScript",
   "main": "turing.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp build"
   },
   "author": "Matthias Mülhaupt <matthias.muelhaupt@gmail.com>",
   "license": "GPL-3.0",
   "devDependencies": {
     "del": "^2.2.1",
     "gulp": "^3.9.1",
-    "gulp-typescript": "^2.13.6"
+    "gulp-jasmine": "^2.4.0",
+    "gulp-tslint": "^6.0.1",
+    "gulp-typescript": "^2.13.6",
+    "jasmine": "^2.4.1",
+    "tslint": "^3.13.0"
   }
 }

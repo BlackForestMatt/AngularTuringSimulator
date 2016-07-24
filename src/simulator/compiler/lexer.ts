@@ -1,4 +1,4 @@
-export interface token {
+export interface Token {
   type: string;
   value: string;
   pos: number;
@@ -9,27 +9,27 @@ export interface token {
  */
 export class Lexer {
   private terminalAlphabet: string[] = [
-    'start',
-    'blank',
-    'end',
-    ':=',
-    '->',
-    ',',
-    ';',
-    '{',
-    '}',
-    '<',
-    '>',
-    '-',
+    "start",
+    "blank",
+    "end",
+    ":=",
+    "->",
+    ",",
+    ";",
+    "{",
+    "}",
+    "-",
+    "<",
+    ">",
   ];
-  private tokens: token[];
+  private tokens: Token[];
   private source: string;
   private len: number;
   private pos: number;
 
   constructor() {
     this.tokens = [];
-    this.source = '';
+    this.source = "";
     this.len = 0;
     this.pos = 0;
   }
@@ -56,7 +56,7 @@ export class Lexer {
    * @return Char is a newline char
    */
   private isNewline(char: string): boolean {
-    return char == '\r' || char == '\n';
+    return char === "\r" || char === "\n";
   }
 
   /**
@@ -65,7 +65,7 @@ export class Lexer {
    * @return Char is a space char
    */
   private isSpace(char: string): boolean {
-    return char == ' ' || char == '\t';
+    return char === " " || char === "\t";
   }
 
   /**
@@ -74,9 +74,9 @@ export class Lexer {
    * @return Char is an alphanumeric value
    */
   private isAplhaNumeric(char: string): boolean {
-    return (char >= 'a' && char <= 'z') ||
-           (char >= 'A' && char <= 'Z') ||
-           (char >= '0' && char <= '9');
+    return (char >= "a" && char <= "z") ||
+           (char >= "A" && char <= "Z") ||
+           (char >= "0" && char <= "9");
   }
 
   /**
@@ -96,11 +96,11 @@ export class Lexer {
       tPos = 0;
       match = true;
       while (match && tPos < terminal.length && iPos < this.source.length) {
-        match = match && this.source.charAt(iPos) == terminal.charAt(tPos);
+        match = match && this.source.charAt(iPos) === terminal.charAt(tPos);
         iPos++;
         tPos++;
       }
-      if (match && iPos - this.pos == tPos) {
+      if (match && iPos - this.pos === terminal.length) {
         return index;
       }
     }
@@ -119,7 +119,7 @@ export class Lexer {
   }
 
   /**
-   * Skips all input that is marked as a comment by a leading '/'
+   * Skips all input that is marked as a comment by a leading "/"
    * a comment ends at the next newline character
    */
   private parseComment(): void {
@@ -132,23 +132,23 @@ export class Lexer {
 
   /**
    * Parses the next input as an identifier
-   * and returns a token describing the identifier.
-   * An identifier is an alphanumeric sequence including '_'.
-   * @return a token containing the next identifier
+   * and returns a Token describing the identifier.
+   * An identifier is an alphanumeric sequence including "_".
+   * @return a Token containing the next identifier
    */
-  private parseIdentifier(): token {
-    let tok: token;
+  private parseIdentifier(): Token {
+    let tok: Token;
     let start: number = this.pos;
     let char: string = this.getChar();
-    while (this.inBounds() && (this.isAplhaNumeric(char) || char == '_')) {
+    while (this.inBounds() && (this.isAplhaNumeric(char) || char === "_")) {
       this.pos++;
       char = this.getChar();
     }
     tok = {
-      type: 'IDENTIFIER',
+      type: "IDENTIFIER",
       value: this.source.substring(start, this.pos),
       pos: start
-    }
+    };
     return tok;
   }
 
@@ -158,30 +158,31 @@ export class Lexer {
    * @param source The source code to tokenize
    * @return an array of tokens
    */
-  tokenize(source: string): token[] {
+  tokenize(source: string): Token[] {
     this.source = source;
     this.len = source.length;
     this.pos = 0;
+    this.tokens = [];
     while (this.inBounds()) {
       this.skipWhiteSpaces();
-      let tok: token;
+      let tok: Token;
       let char: string = this.getChar();
       let alphIndex: number = this.alphabetIndex();
-      if (char === '/') {
+      if (char === "/") {
         this.parseComment();
-      } else if (alphIndex != -1) {
+      } else if (alphIndex !== -1) {
         let terminal: string = this.terminalAlphabet[alphIndex];
         tok = {
-          type: 'TERMINAL',
+          type: "TERMINAL",
           value: this.terminalAlphabet[alphIndex],
           pos: this.pos
-        }
+        };
         this.pos += terminal.length;
         this.tokens.push(tok);
-      } else if ((this.isAplhaNumeric(char) || char == '_')) {
+      } else if ((this.isAplhaNumeric(char) || char === "_")) {
         this.tokens.push(this.parseIdentifier());
-      } else {
-        throw new Error('Unexpected character: ' + char);
+      } else if (char !== "") {
+        throw new Error("Unexpected character: " + char);
       }
     }
     return this.tokens;
