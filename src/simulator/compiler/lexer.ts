@@ -163,9 +163,9 @@ export class Lexer {
     this.len = source.length;
     this.pos = 0;
     this.tokens = [];
+    let tok: Token;
     while (this.inBounds()) {
       this.skipWhiteSpaces();
-      let tok: Token;
       let char: string = this.getChar();
       let alphIndex: number = this.alphabetIndex();
       if (char === "/") {
@@ -185,6 +185,13 @@ export class Lexer {
         throw new Error("Unexpected character: " + char);
       }
     }
+    // Always add end of input to token array
+    tok = {
+      type: "ENDOFINPUT",
+      value: "$",
+      pos: this.pos
+    };
+    this.tokens.push(tok);
     return this.tokens;
   }
 }
