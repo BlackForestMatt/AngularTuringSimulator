@@ -12,7 +12,7 @@ gulp.task('test-simulator', ['build-simulator'], function () {
   }));
 });
 
-gulp.task('lint', function () {
+gulp.task('lint', ['clean'], function () {
   gulp.src([
     'src/simulator/**/*.ts'
   ]).pipe(tslint({
