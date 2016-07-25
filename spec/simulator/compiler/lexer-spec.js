@@ -41,90 +41,90 @@ describe("Lexer", function () {
     src = "start";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      {type: "TERMINAL", value: "start", pos: 0}
+      jasmine.objectContaining({type: "TERMINAL", value: "start"})
     ]);
 
     src = "blank";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      {type: "TERMINAL", value: "blank", pos: 0}
+      jasmine.objectContaining({type: "TERMINAL", value: "blank"})
     ]);
 
     src = "end";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      {type: "TERMINAL", value: "end", pos: 0}
+      jasmine.objectContaining({type: "TERMINAL", value: "end"})
     ]);
 
     src = ":=";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      {type: "TERMINAL", value: ":=", pos: 0}
+      jasmine.objectContaining({type: "TERMINAL", value: ":="})
     ]);
 
     src = "->";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      {type: "TERMINAL", value: "->", pos: 0}
+      jasmine.objectContaining({type: "TERMINAL", value: "->"})
     ]);
 
     src = ",";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      {type: "TERMINAL", value: ",", pos: 0}
+      jasmine.objectContaining({type: "TERMINAL", value: ","})
     ]);
 
     src = ";";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      {type: "TERMINAL", value: ";", pos: 0}
+      jasmine.objectContaining({type: "TERMINAL", value: ";"})
     ]);
 
     src = "{";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      {type: "TERMINAL", value: "{", pos: 0}
+      jasmine.objectContaining({type: "TERMINAL", value: "{"})
     ]);
 
     src = "}";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      {type: "TERMINAL", value: "}", pos: 0}
+      jasmine.objectContaining({type: "TERMINAL", value: "}"})
     ]);
 
     src = "<";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      {type: "TERMINAL", value: "<", pos: 0}
+      jasmine.objectContaining({type: "TERMINAL", value: "<"})
     ]);
 
     src = ">";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      {type: "TERMINAL", value: ">", pos: 0}
+      jasmine.objectContaining({type: "TERMINAL", value: ">"})
     ]);
 
     src = "-";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      {type: "TERMINAL", value: "-", pos: 0}
+      jasmine.objectContaining({type: "TERMINAL", value: "-"})
     ]);
 
     src = "startblankend:={},;<>-->";
     tokens = lex.tokenize(src);
     expect(tokens).toEqual([
-      jasmine.objectContaining({value: "start"}),
-      jasmine.objectContaining({value: "blank"}),
-      jasmine.objectContaining({value: "end"}),
-      jasmine.objectContaining({value: ":="}),
-      jasmine.objectContaining({value: "{"}),
-      jasmine.objectContaining({value: "}"}),
-      jasmine.objectContaining({value: ","}),
-      jasmine.objectContaining({value: ";"}),
-      jasmine.objectContaining({value: "<"}),
-      jasmine.objectContaining({value: ">"}),
-      jasmine.objectContaining({value: "-"}),
-      jasmine.objectContaining({value: "->"}),
+      jasmine.objectContaining({type: "TERMINAL", value: "start"}),
+      jasmine.objectContaining({type: "TERMINAL", value: "blank"}),
+      jasmine.objectContaining({type: "TERMINAL", value: "end"}),
+      jasmine.objectContaining({type: "TERMINAL", value: ":="}),
+      jasmine.objectContaining({type: "TERMINAL", value: "{"}),
+      jasmine.objectContaining({type: "TERMINAL", value: "}"}),
+      jasmine.objectContaining({type: "TERMINAL", value: ","}),
+      jasmine.objectContaining({type: "TERMINAL", value: ";"}),
+      jasmine.objectContaining({type: "TERMINAL", value: "<"}),
+      jasmine.objectContaining({type: "TERMINAL", value: ">"}),
+      jasmine.objectContaining({type: "TERMINAL", value: "-"}),
+      jasmine.objectContaining({type: "TERMINAL", value: "->"}),
     ]);
   });
 
