@@ -1,4 +1,4 @@
-export interface Token {
+interface Token {
   type: string;
   value: string;
   pos: number;
@@ -7,7 +7,7 @@ export interface Token {
 /**
  * Lexical analyizer for Turing-lang
  */
-export class Lexer {
+class Lexer {
   private terminalAlphabet: string[] = [
     "start",
     "blank",

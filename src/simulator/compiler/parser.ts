@@ -1,4 +1,4 @@
-import { Token } from "./lexer";
+/// <reference path="./lexer.ts"/>
 
 class ParseStack {
   private stack: string[];
@@ -85,7 +85,7 @@ class ParseTable {
 
 }
 
-export class ASTNode {
+class ASTNode {
   data: string;
   parent: ASTNode;
   children: ASTNode[];
@@ -173,7 +173,7 @@ export class ASTNode {
   }
 }
 
-export class Parser {
+class Parser {
   private parseTable: ParseTable;
   private parseStack: ParseStack;
   private AST: ASTNode;
