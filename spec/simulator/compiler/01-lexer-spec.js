@@ -1,4 +1,6 @@
-var Lexer = require('../../../dist/simulator/compiler/lexer.js').Lexer;
+var fs = require('fs');
+var code = fs.readFileSync(__dirname + '/../../../dist/simulator.js','utf-8');
+eval(code);
 
 describe("Lexer", function () {
   var lex;

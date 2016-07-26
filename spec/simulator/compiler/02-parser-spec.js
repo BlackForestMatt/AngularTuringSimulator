@@ -1,4 +1,6 @@
-var Parser = require('../../../dist/simulator/compiler/parser.js').Parser;
+var fs = require('fs');
+var code = fs.readFileSync(__dirname + '/../../../dist/simulator.js','utf-8');
+eval(code);
 
 describe('Parser', function () {
   var parser;
@@ -583,7 +585,7 @@ describe('Parser', function () {
         parser.parse(tokens);
       }).toThrowError(SyntaxError, /;/);
     });
-    
+
     it("should throw SyntaxError on unknow symbols", function () {
       tokens = [
         {type: "TERMINAL", value: "+", pos: 0},
