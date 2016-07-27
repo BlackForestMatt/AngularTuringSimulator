@@ -1,15 +1,27 @@
 /// <reference path="./lexer.ts"/>
 
+/**
+ * Parsestack for parser
+ * Based on array, adds/modifies functions
+ */
 class ParseStack {
   private stack: string[];
   constructor() {
     this.stack = [];
   }
 
+  /**
+   * Removes and returns stack head
+   * @return head of stack
+   */
   pop(): string {
     return this.stack.pop();
   }
 
+  /**
+   * Pushes content onto stack
+   * @param content single emlent or array of elements
+   */
   push(content: any): void {
     if (typeof content === "string") {
       this.stack.push(content);
@@ -22,15 +34,27 @@ class ParseStack {
     }
   }
 
+  /**
+   * Gets to of stack without removing
+   * @return head of stack
+   */
   head(): string {
     return this.stack[this.stack.length - 1];
   }
 
+  /**
+   * Checks if stack is empty
+   * @return stack empty
+   */
   isEmpty(): boolean {
     return this.stack.length === 0;
   }
 }
 
+/**
+ * Holds expansions for non-terminals
+ * Manages getting correct expansion
+ */
 class ParseTable {
   private static table = {
     "STATEMENT": {
@@ -62,10 +86,21 @@ class ParseTable {
 
   }
 
-  getExpansions(variable: string): string {
+  /**
+   * Gets possible expansions from table according to non-terminal
+   * @param variable non-terminal to expand
+   * @return expansion
+   */
+  getExpansions(variable: string): any {
     return ParseTable.table[variable];
   }
 
+  /**
+   * Gets an expansion for a variable input combination
+   * @param variable the variable to expand
+   * @param input the next input token
+   * @return the expansion to use
+   */
   get(variable: string, input: Token): any {
     let expansions = this.getExpansions(variable);
     let expansion;
@@ -79,31 +114,51 @@ class ParseTable {
     return expansion;
   }
 
+  /**
+   * Checks if a string is a non-terminal
+   * @param item string to check
+   * @return is a non-terminal
+   */
   isNonTerminal(item: string): boolean {
     return this.getExpansions(item) !== null;
   }
 
 }
 
+/**
+ * Class representing a node of an Abstract Syntax Tree
+ */
 class ASTNode {
   data: string;
   parent: ASTNode;
   children: ASTNode[];
 
+  /**
+   * Constructor
+   * Initializes node with value and empty children and parent
+   * @param data value of node
+   */
   constructor(data: string) {
     this.data = data;
     this.children = [];
     this.parent = null;
   }
 
+  /**
+   * Adds a child to the current node
+   * @param data value of node to add
+   * @return the added node
+   */
   public add(data: any): ASTNode {
     let node: ASTNode;
     let first: ASTNode;
     if (typeof data === "string") {
+      // If data is a single item
       first = new ASTNode(data);
       first.parent = this;
       this.children.push(first);
     } else if (typeof data === "object" && data.length >= 0) {
+      // If data is an array of items
       for (let i = 0; i < data.length; i++) {
         node = new ASTNode(data[i]);
         node.parent = this;
@@ -113,11 +168,17 @@ class ASTNode {
         }
       }
     } else {
+      // If data is none of that throw an error
       throw new Error("Cannot add " + typeof data + "to AST");
     }
     return first;
   }
 
+  /**
+   * Traverses the AST in level order from bottom to top and left to right
+   * this corresponds to the left derivation done by the parser
+   * @param callback the callback to call on each node
+   */
   private traverse(callback: (ASTNode) => void): void {
     (function trav(elem: ASTNode) {
       for (let i = 0; i < elem.children.length; i++) {
@@ -127,6 +188,9 @@ class ASTNode {
     })(this);
   }
 
+  /**
+   * Prints a AST to the console
+   */
   public print(): void {
     let depth: number = 0;
     (function prt(elem: ASTNode) {
@@ -139,6 +203,11 @@ class ASTNode {
     })(this);
   }
 
+  /**
+   * Removes the first node containing a given value
+   * @param data the value to search for
+   * @return the removed node
+   */
   public remove(data: string): ASTNode {
     let node: ASTNode;
     this.traverse(function (elem: ASTNode) {
@@ -152,6 +221,11 @@ class ASTNode {
     return node;
   }
 
+  /**
+   * Gets the first node without children equal to a given value
+   * @param data the value to search for
+   * @return the node containing the given value
+   */
   public findEmpty(data: string): ASTNode {
     let node: ASTNode;
     this.traverse(function (elem: ASTNode) {
@@ -162,6 +236,11 @@ class ASTNode {
     return node;
   }
 
+  /**
+   * Gets all nodes equal to a given value
+   * @param data the value to search for
+   * @return nodes containing data
+   */
   public getAll(data: string): ASTNode[] {
     let nodes: ASTNode[] = [];
     this.traverse(function (elem: ASTNode) {
@@ -173,16 +252,27 @@ class ASTNode {
   }
 }
 
+/**
+ * Parses array of tokens into an Abstract Syntax Tree
+ */
 class Parser {
   private parseTable: ParseTable;
   private parseStack: ParseStack;
   private AST: ASTNode;
   private pos: number;
 
+  /**
+   * Constructor initializes parsetable
+   */
   constructor() {
     this.parseTable = new ParseTable();
   }
 
+  /**
+   * Parses given tokens into an AST
+   * @param tokens the input tokens to parse
+   * @return Abstract Syntax Tree
+   */
   parse(tokens: Token[]): ASTNode {
     // Create the base node of the abstract syntax tree.
     // Create and initialize the parser stack.
