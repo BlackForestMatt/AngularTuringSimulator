@@ -24,13 +24,13 @@ describe("Compiler", function () {
     expect(code[1]).toEqual([0]);
 
     code = comp.compile("end := {z0};");
-    expect(code[2]).toEqual([4]);
+    expect(code[2]).toEqual([0, 0, 0, 0, 1]);
 
     code = comp.compile("end := {z0, z1};");
-    expect(code[2]).toEqual([4,5]);
+    expect(code[2]).toEqual([0, 0, 0, 0, 1, 1]);
 
     code = comp.compile("end := {z0, z1, z2};");
-    expect(code[2]).toEqual([4,5,6]);
+    expect(code[2]).toEqual([0, 0, 0, 0, 1, 1, 1]);
   });
 
   it("should add functions", function () {

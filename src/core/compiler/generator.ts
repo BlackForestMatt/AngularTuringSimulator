@@ -46,7 +46,10 @@ class Generator {
    */
   private getState(name: string): number {
     if (!this.stateIndex.hasOwnProperty(name)) {
-      this.stateIndex[name] = this.statePool++;
+      let n: number = this.statePool++;
+      this.stateIndex[name] = n;
+      this.extendRow(2, n + 1);
+      this.TMScode.push([]);
     }
     return this.stateIndex[name];
   }
@@ -107,10 +110,9 @@ class Generator {
    * @param ends the end states
    */
   private setEnds(ends: string[]): void {
-    this.TMScode[2] = [];
     for (let i = 0; i < ends.length; i++) {
       let end: number = this.getState(ends[i]);
-      this.TMScode[2].push(end);
+      this.TMScode[2][end] = 1;
     }
   }
 
@@ -177,7 +179,15 @@ class Generator {
     this.statePool = 4;
     this.alphPool = 0;
     this.TMScode = [];
+    this.TMScode[2] = [];
     let self = this;
+    // Generate simulator code
+    let functions = AST.getAll("FUNCTION");
+    functions.forEach(function (fkt, index) {
+      // Iterate over functions and add them to code
+      let vals = fkt.children;
+      self.addTransition(vals[0].data, vals[1].data, vals[2].data, vals[3].data, vals[4].data);
+    });
     // Generate simulator settings
     let assignments = AST.getAll("ASSIGNMENT");
     assignments.forEach(function (item, index) {
@@ -194,13 +204,6 @@ class Generator {
         }
         self.setEnds(ends);
       }
-    });
-    // Generate simulator code
-    let functions = AST.getAll("FUNCTION");
-    functions.forEach(function (fkt, index) {
-      // Iterate over functions and add them to code
-      let vals = fkt.children;
-      self.addTransition(vals[0].data, vals[1].data, vals[2].data, vals[3].data, vals[4].data);
     });
     return this.TMScode;
   }
