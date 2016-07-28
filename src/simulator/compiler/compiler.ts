@@ -2,6 +2,11 @@
 /// <reference path="./parser.ts"/>
 /// <reference path="./generator.ts"/>
 
+/**
+ * Turing Machine Simulator Compiler
+ * Compiles Turing machine definitions into code runnable by the
+ * Turing Machine simulator
+ */
 class Compiler {
   private alphabet: string[] = [
     "start",
@@ -26,23 +31,42 @@ class Compiler {
   private astree: ASTNode;
   private code: number[][];
 
+  /**
+   * Constructor initializes compiler components
+   */
   constructor() {
     this.lexer = new Lexer(this.alphabet);
     this.parser = new Parser();
     this.generator = new Generator();
   }
 
+  /**
+   * Gets the tokens generated during compilation
+   * @return tokenized code
+   */
   getTokens(): Token[] {
     return this.tokens;
   }
 
+  /**
+   * Gets Abstract syntax tree generated during compilation
+   * @return syntax tree
+   */
   getAST(): ASTNode {
     return this.astree;
   }
 
+  /**
+   * Compiles source code to Turing executable
+   * @param source The sourcecode to compile
+   * @return the Turing executable code
+   */
   compile(source: string): number[][] {
+    // Break code into tokenz defined by alphabet
     this.tokens = this.lexer.tokenize(source);
+    // Parse tokens into an Abstract syntax tree
     this.astree = this.parser.parse(this.tokens);
+    // Generate Turing Simulator executable code
     this.code = this.generator.generate(this.astree);
     return this.code;
   }
