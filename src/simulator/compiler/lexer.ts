@@ -8,26 +8,18 @@ interface Token {
  * Lexical analyizer for Turing-lang
  */
 class Lexer {
-  private terminalAlphabet: string[] = [
-    "start",
-    "blank",
-    "end",
-    ":=",
-    "->",
-    ",",
-    ";",
-    "{",
-    "}",
-    "-",
-    "<",
-    ">",
-  ];
+  private terminalAlphabet: string[];
   private tokens: Token[];
   private source: string;
   private len: number;
   private pos: number;
 
-  constructor() {
+  constructor(alphabet: string[]) {
+    // Make a local copy of alphabet and sort elements by length
+    this.terminalAlphabet = alphabet.slice(0);
+    this.terminalAlphabet.sort(function (a: string, b: string): number {
+      return b.length - a.length;
+    });
     this.tokens = [];
     this.source = "";
     this.len = 0;

@@ -3,6 +3,21 @@
 /// <reference path="./generator.ts"/>
 
 class Compiler {
+  private alphabet: string[] = [
+    "start",
+    "blank",
+    "end",
+    ":=",
+    "->",
+    ",",
+    ";",
+    "{",
+    "}",
+    "-",
+    "<",
+    ">",
+  ];
+
   private lexer: Lexer;
   private parser: Parser;
   private generator: Generator;
@@ -12,7 +27,7 @@ class Compiler {
   private code: number[][];
 
   constructor() {
-    this.lexer = new Lexer();
+    this.lexer = new Lexer(this.alphabet);
     this.parser = new Parser();
     this.generator = new Generator();
   }

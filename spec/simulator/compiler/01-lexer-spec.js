@@ -6,9 +6,23 @@ describe("Lexer", function () {
   var lex;
   var tokens;
   var src;
+  var alph = [
+    "start",
+    "blank",
+    "end",
+    ":=",
+    "->",
+    ",",
+    ";",
+    "{",
+    "}",
+    "-",
+    "<",
+    ">",
+  ];
 
   beforeEach(function () {
-    lex = new Lexer();
+    lex = new Lexer(alph);
     tokens = [];
     src = "";
   });
