@@ -1,5 +1,5 @@
 var fs = require('fs');
-var code = fs.readFileSync(__dirname + '/../../../dist/simulator.js','utf-8');
+var code = fs.readFileSync(__dirname + '/../../../dist/turing.js','utf-8');
 eval(code);
 
 describe('Parser', function () {
