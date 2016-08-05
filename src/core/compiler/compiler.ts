@@ -57,6 +57,14 @@ class Compiler {
   }
 
   /**
+   * Gets the state mapping of the generator
+   * @return State map
+   */
+  getStateMap() {
+    return this.generator.getStateMap();
+  }
+
+  /**
    * Compiles source code to Turing executable
    * @param source The sourcecode to compile
    * @return the Turing executable code

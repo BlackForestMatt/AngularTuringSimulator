@@ -164,6 +164,14 @@ class Generator {
   }
 
   /**
+   * Gets the state to number mapping of the generated code
+   * @return State map
+   */
+  getStateMap() {
+    return this.stateIndex;
+  }
+
+  /**
    * Generates Turing Machine Code from AST
    * @param AST the Abstract Syntax tree
    * @return two dimensional code array
