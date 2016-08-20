@@ -21,7 +21,7 @@
       code = compiler.compile(src_code.value);
       simulator = new TuringSimulator(code);
       simulator.setStateMap(compiler.getStateMap());
-      out('compile OK!');
+      out('no compile errors');
     } catch (e) {
       out(e);
     }
@@ -33,6 +33,7 @@
     if (!simulator) {
       compile();
     }
+    out('running simulator on: ' + input.value);
     var transitions = '';
     simulator.setup(input.value);
     var conf = simulator.step();
@@ -41,9 +42,10 @@
       conf = simulator.step();
       transitions +=  conf.tape + " " + conf.state + '<br>';
     }
+    transitions += 'output: ' + conf.tape;
     out(transitions);
     if (!conf.isEndState) {
-      out('aborted in non endstate');
+      out('not accepted');
     } else {
       out('accepted');
     }
