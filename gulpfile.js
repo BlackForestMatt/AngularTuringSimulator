@@ -32,6 +32,14 @@ gulp.task('build-simulator', ['clean', 'lint'], function () {
   .pipe(gulp.dest('dist'));
 });
 
+gulp.task('copy', ['clean'], function () {
+  return gulp.src([
+    'src/example/tryit.html',
+    'src/example/tryit.js'
+  ])
+  .pipe(gulp.dest('dist'));
+});
+
 gulp.task('clean', function () {
   return del('dist');
 });
@@ -40,4 +48,4 @@ gulp.task('test', ['build', 'test-simulator']);
 
 gulp.task('build', ['clean', 'lint', 'build-simulator']);
 
-gulp.task('default', ['build', 'test']);
+gulp.task('default', ['build', 'copy', 'test']);

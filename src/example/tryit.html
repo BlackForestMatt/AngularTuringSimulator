@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Turing Machine Simulator</title>
+  </head>
+  <body>
+    <style>
+      .container {
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .container > * {
+        width: 100%;
+        margin: 2px;
+      }
+
+      #output {
+        padding: 5px;
+        height: 300px;
+        overflow-y: scroll;
+        color: #83948F;
+        background-color: #002B36;
+        border: 2px solid #b5b5b5;
+      }
+    </style>
+
+    <div class="container">
+      <h1>Try the Turing Machine Simulator!</h1>
+      <h2>Turing source code:</h2>
+      <textarea id="src_code" cols="50" rows="20">
+/ Example Turing Machine
+/ Removes all a's from input
+/ aaabbb -> bbb
+
+blank := _; / symbol to use as blank
+start := s0; / set start state
+end := {s5}; / set end states
+
+/ transition function
+s0, a -> s1, a, >;
+s0, b -> s0, b, >;
+s0, _ -> s5, _, <;
+s1, a -> s1, a, >;
+s1, b -> s2, a, <;
+s1, _ -> s4, _, <;
+s2, a -> s2, a, <;
+s2, b -> s3, b, >;
+s2, _ -> s3, _, >;
+s3, a -> s0, b, >;
+s4, a -> s4, _, <;
+s4, b -> s4, b, <;
+s4, _ -> s5, _, >;
+      </textarea><br>
+      <button id="btn_compile">Compile</button><br>
+      <h2>Input to run on:</h2>
+      <textarea id="input" cols="50" rows="1"></textarea><br>
+      <button id="btn_run">Run</button><br>
+      <h2>Output:</h2>
+      <div id="output"></div>
+    </div>
+
+    <!-- Load Simulator and init script -->
+    <script src="turing.js"></script>
+    <script src="tryit.js"></script>
+  </body>
+</html>
