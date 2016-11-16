@@ -57,7 +57,7 @@ export class CanvasComponent implements AfterViewInit {
         y: this.y,
         width: this.cellSize,
         height: this.cellSize,
-        fill: "blue",
+        fill: "#428bca",
         stroke: "white",
         strokeWidth: 2,
         cornerRadius: 2
@@ -84,7 +84,7 @@ export class CanvasComponent implements AfterViewInit {
     stage.add(layer);
 
 
-    var myCodeMirror = (CodeMirror as any).fromTextArea((document as any).getElementById('code_editor'), {
+    var myCodeMirror = (CodeMirror as any).fromTextArea((document as any).getElementById('consoleCM'), {
       mode: "text/html",
       lineNumbers: true
     });
@@ -105,6 +105,20 @@ export class CanvasComponent implements AfterViewInit {
         'max': 170
       },
     });
+
+
+
+
+    var myCodeMirror2 = (CodeMirror as any).fromTextArea((document as any).getElementById('editorCM'), {
+      mode: "text/html",
+      lineNumbers: true
+    });
+
+    myCodeMirror2.setSize(null,390);
+    myCodeMirror2.setValue("Test \n");
+
+
+
 
 
 
