@@ -5,3 +5,7 @@
 .max {
   max-width: 230px;
 }
+
+.ct-chart .ct-bar {
+  stroke-width: 20px;
+}

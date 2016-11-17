@@ -14,7 +14,7 @@
   "dependencies": {
     "@angular/common": "~2.0.0",
     "@angular/compiler": "~2.0.0",
-    "@angular/core": "~2.0.0",
+    "@angular/core": "^2.0.2",
     "@angular/forms": "~2.0.0",
     "@angular/http": "~2.0.0",
     "@angular/platform-browser": "~2.0.0",
@@ -24,6 +24,8 @@
     "@types/codemirror": "0.0.35",
     "@types/kineticjs": "0.0.28",
     "@types/nouislider": "^8.0.30",
+    "angular2-chartist": "^0.10.1",
+    "chartist": "^0.10.1",
     "codemirror": "^5.20.2",
     "core-js": "^2.4.1",
     "kinetic": "^5.2.0",
@@ -36,6 +38,7 @@
     "zone.js": "^0.6.23"
   },
   "devDependencies": {
+    "@types/chartist": "^0.9.33",
     "@types/jasmine": "^2.2.30",
     "@types/node": "^6.0.42",
     "angular-cli": "1.0.0-beta.17",
