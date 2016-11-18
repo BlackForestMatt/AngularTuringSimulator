@@ -21,7 +21,8 @@
       ],
       "scripts": [
         "../libs/kinetic-v5.1.0.js",
-        "../libs/nouislider.min.js"
+        "../libs/nouislider.min.js",
+        "../libs/Chart.js"
       ],
       "environments": {
         "source": "environments/environment.ts",

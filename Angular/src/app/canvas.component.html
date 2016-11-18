@@ -107,10 +107,15 @@
         <button type="button" class="btn btn-success btn-lg btn-block" style="width: 68%; margin:auto;">Compile</button>
         </div>
       <div id="statistic" class="tab-pane fade">
-        <div class="ct-chart" style="height:400px;">
-
-
-
+        <div style="display: block">
+          <canvas baseChart
+                  [datasets]="barChartData"
+                  [labels]="barChartLabels"
+                  [options]="barChartOptions"
+                  [legend]="barChartLegend"
+                  [chartType]="barChartType"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)"></canvas>
         </div>
       </div>
 

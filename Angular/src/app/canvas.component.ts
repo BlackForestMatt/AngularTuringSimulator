@@ -1,7 +1,9 @@
 import {Component, OnInit, AfterViewInit, ViewChild} from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import * as noUiSlider from 'nouislider';
-import * as Chartist from 'chartist';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
+
+
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html'
@@ -21,7 +23,6 @@ export class CanvasComponent implements AfterViewInit {
   x2:number;
   y: number;
   rectColor:string = "#0078FF";
-
 
 
   constructor() { }
@@ -118,23 +119,6 @@ export class CanvasComponent implements AfterViewInit {
     myCodeMirror2.setSize(null,390);
     myCodeMirror2.setValue("Test \n");
 
-    new Chartist.Bar('.ct-chart', {
-      labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      series: [
-        [5, 4, 3, 7, 5, 10, 3],
-        [3, 2, 9, 5, 4, 6, 4]
-      ]
-    }, {
-      seriesBarDistance: 10,
-      reverseData: true,
-      horizontalBars: true,
-      axisY: {
-        offset: 70
-      }
-    });
-
-
-
 
 
 
@@ -180,6 +164,51 @@ export class CanvasComponent implements AfterViewInit {
     tween_squares.play();
 
 
+  }
+
+
+
+  public barChartOptions:any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+  public barChartLabels:string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartType:string = 'horizontalBar';
+  public barChartLegend:boolean = true;
+
+  public barChartData:any[] = [
+    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
+    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
+  ];
+
+  // events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
+
+  public randomize():void {
+    // Only Change 3 values
+    let data = [
+      Math.round(Math.random() * 100),
+      59,
+      80,
+      (Math.random() * 100),
+      56,
+      (Math.random() * 100),
+      40];
+    let clone = JSON.parse(JSON.stringify(this.barChartData));
+    clone[0].data = data;
+    this.barChartData = clone;
+    /**
+     * (My guess), for Angular to recognize the change in the dataset
+     * it has to change the dataset variable directly,
+     * so one way around it, is to clone the data, change it and then
+     * assign it;
+     */
   }
 
 

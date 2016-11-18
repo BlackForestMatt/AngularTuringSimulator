@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { FaderComponent } from './fader.component';
 import { CanvasComponent } from './canvas.component';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { CanvasComponent } from './canvas.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
