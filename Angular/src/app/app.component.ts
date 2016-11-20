@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'my-app',
   template: `
-  <br><br><br>
+  <br>
     <app-canvas></app-canvas>
     
   `

@@ -10,7 +10,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 })
 export class CanvasComponent implements AfterViewInit {
   context:CanvasRenderingContext2D;
-  private containerWidth: number = document.body.offsetWidth - 2;
+  //private containerWidth: number = document.body.offsetWidth - 2;
+  private containerWidth: number = 1500; //1500 must be dynamically
   private cellSize: number;       //sq_size
   private nCell: number = 50;
   private containerHeight: number;
@@ -22,7 +23,7 @@ export class CanvasComponent implements AfterViewInit {
   x: number;
   x2:number;
   y: number;
-  rectColor:string = "#0078FF";
+  rectColor:string =  "#0078FF";
 
 
   constructor() { }
@@ -93,7 +94,8 @@ export class CanvasComponent implements AfterViewInit {
 
     myCodeMirror.setSize(null,100);
     myCodeMirror.setValue("Test \ntestdfasdf");
-
+    myCodeMirror.addLineClass(1,'Josef','CodeMirror-activeline-background');
+    myCodeMirror.replace
     //manage speed
     var speed_bar = document.getElementById('slider');
 
@@ -177,8 +179,7 @@ export class CanvasComponent implements AfterViewInit {
   public barChartLegend:boolean = true;
 
   public barChartData:any[] = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
+    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'}
   ];
 
   // events

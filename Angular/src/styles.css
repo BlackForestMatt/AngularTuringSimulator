@@ -9,3 +9,50 @@
 .ct-chart .ct-bar {
   stroke-width: 20px;
 }
+
+.centered {
+  width: 85%;
+  margin-right: auto;
+  margin-left: auto;
+}
+/* container!!! */
+@media (min-width: 768px) {
+  .container-small {
+    width: 300px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .container-large {
+    width: 970px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+@media (min-width: 992px) {
+  .container-small {
+    width: 500px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .container-large {
+    width: 1170px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-small {
+    width: 700px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .container-large {
+    width: 1500px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+
