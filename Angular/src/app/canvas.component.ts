@@ -23,7 +23,7 @@ export class CanvasComponent implements AfterViewInit {
   x: number;
   x2:number;
   y: number;
-  rectColor:string =  "#0078FF";
+  rectColor:string =  '#0078FF';
 
 
   constructor() { }
@@ -39,29 +39,29 @@ export class CanvasComponent implements AfterViewInit {
     this.cellSize = this.containerWidth / (25 - 2);
     this.containerHeight = this.cellSize * 2;
 
-    var stage = new Kinetic.Stage({ //height => 0 wird nicht angezeigt!!!
+    let stage = new Kinetic.Stage({ //height => 0 wird nicht angezeigt!!!
       container: 'container2',
       width: this.containerWidth,
       height: this.containerHeight
     });
-    var layer = new Kinetic.Layer();
+    let layer = new Kinetic.Layer();
     this.rectGroup = new Kinetic.Group({
 
     });
 
     this.x = 0;
     this.y = (this.containerHeight - this.cellSize) / 2; //Mitte
-    for( var i = 0; i <= this.nCell; i++) {
+    for( let i = 0; i <= this.nCell; i++) {
 
 
-      var rectangle = new Kinetic.Rect({
+      let rectangle = new Kinetic.Rect({
 
         x: this.cellSize * (i-1),
         y: this.y,
         width: this.cellSize,
         height: this.cellSize,
-        fill: "#428bca",
-        stroke: "white",
+        fill: '#428bca',
+        stroke: 'white',
         strokeWidth: 2,
         cornerRadius: 2
 
@@ -72,14 +72,14 @@ export class CanvasComponent implements AfterViewInit {
 
     }
 
-    var pos_y = ((0.1) + (4/3)) * this.cellSize - this.cellSize/6;
-    var poly = new Kinetic.RegularPolygon({
+    let pos_y = ((0.1) + (4/3)) * this.cellSize - this.cellSize/6;
+    let poly = new Kinetic.RegularPolygon({
       x: (this.containerWidth/2),
       y: (pos_y + 2 * this.cellSize/5),
       sides: 3,
       radius: (this.cellSize/3),
-      fill: "#000",
-      stroke: "#000",
+      fill: '#000',
+      stroke: '#000',
       strokeWidth: (4*2/3)
     });
     layer.add(this.rectGroup);
@@ -87,7 +87,7 @@ export class CanvasComponent implements AfterViewInit {
     stage.add(layer);
 
 
-    var myCodeMirror = (CodeMirror as any).fromTextArea((document as any).getElementById('consoleCM'), {
+    let myCodeMirror = (CodeMirror as any).fromTextArea((document as any).getElementById('consoleCM'), {
       mode: "text/html",
       lineNumbers: true
     });
@@ -95,9 +95,9 @@ export class CanvasComponent implements AfterViewInit {
     myCodeMirror.setSize(null,100);
     myCodeMirror.setValue("Test \ntestdfasdf");
     myCodeMirror.addLineClass(1,'Josef','CodeMirror-activeline-background');
-    myCodeMirror.replace
+
     //manage speed
-    var speed_bar = document.getElementById('slider');
+    let speed_bar = document.getElementById('slider');
 
 
     (noUiSlider as any).create(speed_bar, {
@@ -113,21 +113,13 @@ export class CanvasComponent implements AfterViewInit {
 
 
 
-    var myCodeMirror2 = (CodeMirror as any).fromTextArea((document as any).getElementById('editorCM'), {
+    let myCodeMirror2 = (CodeMirror as any).fromTextArea((document as any).getElementById('editorCM'), {
       mode: "text/html",
       lineNumbers: true
     });
 
     myCodeMirror2.setSize(null,390);
     myCodeMirror2.setValue("Test \n");
-
-
-
-
-
-
-
-
 
   }
 
