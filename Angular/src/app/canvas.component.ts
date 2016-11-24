@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, ViewChild} from '@angular/core';
+import {Component, OnInit, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import * as noUiSlider from 'nouislider';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
@@ -9,29 +9,36 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   templateUrl: './canvas.component.html'
 })
 export class CanvasComponent implements AfterViewInit {
-  context:CanvasRenderingContext2D;
   //private containerWidth: number = document.body.offsetWidth - 2;
-  private containerWidth: number = 1500; //1500 must be dynamically
+  private containerWidth: number; //1500 must be dynamically
   private cellSize: number;       //sq_size
-  private nCell: number = 50;
+  private nCell: number = 30;
   private containerHeight: number;
   private current_despl: number = 0;
   private rectGroup;
+  private symbolGroup;
   private first_displayed = 0;
   public visible  = true;
-
+  private trans_speed: number = 1.0001;
+  public inputData: string = "";
+  private layer;
+  private middleTape: number;
   x: number;
   x2:number;
   y: number;
   rectColor:string =  '#0078FF';
 
 
+
+
   constructor() { }
 
   ngAfterViewInit() {
-    //let canvas = this.myCanvas.nativeElement;
-    //this.context = canvas.getContext("2d");
 
+    this.containerWidth = document.getElementById("container2").offsetWidth;
+    this.containerWidth -=  this.containerWidth * 0.006024;
+
+    console.log(this.containerWidth);
     this.kinetic();
   }
 
@@ -44,19 +51,20 @@ export class CanvasComponent implements AfterViewInit {
       width: this.containerWidth,
       height: this.containerHeight
     });
-    let layer = new Kinetic.Layer();
-    this.rectGroup = new Kinetic.Group({
-
-    });
+    this.layer = new Kinetic.Layer();
+    this.rectGroup = new Kinetic.Group({});
+    this.symbolGroup = new Kinetic.Group({});
 
     this.x = 0;
     this.y = (this.containerHeight - this.cellSize) / 2; //Mitte
+    let middle = this.containerWidth / 2;
+
     for( let i = 0; i <= this.nCell; i++) {
 
+      this.x = this.cellSize * (i-1);
 
       let rectangle = new Kinetic.Rect({
-
-        x: this.cellSize * (i-1),
+        x: this.x,
         y: this.y,
         width: this.cellSize,
         height: this.cellSize,
@@ -64,15 +72,34 @@ export class CanvasComponent implements AfterViewInit {
         stroke: 'white',
         strokeWidth: 2,
         cornerRadius: 2
-
       });
+
+      if(((this.x + this.cellSize) >= middle) && (this.x <= middle)) {
+          this.middleTape = i;
+      }
+
+      let symbol = new Kinetic.Text({
+        x: this.cellSize * (i-1),
+        y: this.y + (this.cellSize/6),
+        fill: "white",
+        text: " ",
+        fontSize: (2 * this.cellSize/3) - (2 * this.cellSize/3) * 0.02,
+        fontFamily: 'Helvetica',
+        height: this.cellSize,
+        width: this.cellSize,
+        align: 'center',
+      });
+
+
       this.x = this.x + this.cellSize + 20;
 
       this.rectGroup.add(rectangle);
+      this.symbolGroup.add(symbol);
 
     }
 
     let pos_y = ((0.1) + (4/3)) * this.cellSize - this.cellSize/6;
+
     let poly = new Kinetic.RegularPolygon({
       x: (this.containerWidth/2),
       y: (pos_y + 2 * this.cellSize/5),
@@ -82,9 +109,10 @@ export class CanvasComponent implements AfterViewInit {
       stroke: '#000',
       strokeWidth: (4*2/3)
     });
-    layer.add(this.rectGroup);
-    layer.add(poly);
-    stage.add(layer);
+    this.layer.add(this.rectGroup);
+    this.layer.add(this.symbolGroup);
+    this.layer.add(poly);
+    stage.add(this.layer);
 
 
     let myCodeMirror = (CodeMirror as any).fromTextArea((document as any).getElementById('consoleCM'), {
@@ -106,8 +134,14 @@ export class CanvasComponent implements AfterViewInit {
       orientation: "horizontal",
       range: {
         'min': 0,
-        'max': 170
+        'max': 100
       },
+    });
+
+
+    (speed_bar as any).noUiSlider.on('slide', function(){
+      this.trans_speed = 2.0001 - (2 * (speed_bar as any).noUiSlider.get())/100;
+      console.log(this.trans_speed);
     });
 
 
@@ -120,6 +154,8 @@ export class CanvasComponent implements AfterViewInit {
 
     myCodeMirror2.setSize(null,390);
     myCodeMirror2.setValue("Test \n");
+
+
 
   }
 
@@ -153,11 +189,7 @@ export class CanvasComponent implements AfterViewInit {
       }
     });
 
-
-
     tween_squares.play();
-
-
   }
 
 
@@ -196,12 +228,18 @@ export class CanvasComponent implements AfterViewInit {
     let clone = JSON.parse(JSON.stringify(this.barChartData));
     clone[0].data = data;
     this.barChartData = clone;
-    /**
-     * (My guess), for Angular to recognize the change in the dataset
-     * it has to change the dataset variable directly,
-     * so one way around it, is to clone the data, change it and then
-     * assign it;
-     */
+  }
+
+  public loadInputData(data: string):void {
+
+    let group = this.symbolGroup.getChildren();
+
+    for (let i = 0; i < data.length; i++) {
+      let char = data.charAt(i);
+      group[this.middleTape+i].setText(char);
+    }
+    this.layer.draw();
+
   }
 
 

@@ -6,6 +6,12 @@
   max-width: 230px;
 }
 
+body {
+  width: 82%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .ct-chart .ct-bar {
   stroke-width: 20px;
 }
@@ -49,7 +55,7 @@
   }
 
   .container-large {
-    width: 1500px;
+    width: 1470px;  /* current width */
     margin-right: auto;
     margin-left: auto;
   }

@@ -1,8 +1,10 @@
 <div class="jumbotronklnr">
-  <h1>Turingmachine</h1>
+
+
+  <!--  <h1>Turingmachine</h1> -->
 </div>
 <br>
-  <div class="container-large" id="test">
+  <div id="container4" >
       <div class="row well"  style="padding:0;">
         <div class="col-md-3">
           <h4 class="gridHeader"><b>Steps: 23</b></h4>
@@ -30,9 +32,9 @@
         <div class ="col-md-4"  >
 
           <div class="input-group form-group-lg max" style=" padding-bottom: 3%; margin-left: auto; margin-right: auto;">
-            <input type="text" class="form-control" placeholder="Search for...">
+            <input type="text" class="form-control" placeholder="Input" [(ngModel)]="inputData">
             <span class="input-group-btn">
-              <button class="btn btn-lg btn-success btn-block" type="button" >Input</button>
+              <button class="btn btn-lg btn-success btn-block" type="button" (click)="loadInputData(inputData)" >Input</button>
             </span>
           </div><!-- /input-group -->
 
