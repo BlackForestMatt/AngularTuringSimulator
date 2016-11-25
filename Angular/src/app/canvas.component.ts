@@ -9,6 +9,25 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   templateUrl: './canvas.component.html'
 })
 export class CanvasComponent implements AfterViewInit {
+
+
+
+  private example1 = "blank := _; / symbol to use as blank \n " +
+    "start := s0; / set start state \n" +
+    "end := {s5}; \n" +
+    "/ transition function \n" +
+    "s0, a -> s1, a, >; \n" +
+    "s0, b -> s0, b, >; \n" +
+    "s0, _ -> s5, _, <; \n" +
+    "s1, a -> s1, a, >; \n" +
+    "s1, b -> s2, a, <; \n" +
+    "s1, _ -> s4, _, <; \n" +
+    "s2, a -> s2, a, <; \n" +
+    "s2, b -> s3, b, >; \n" +
+    "s2, _ -> s3, _, >; \n" +
+    "s3, a -> s0, b, >; \n" +
+    "s4, a -> s4, _, <; \n" +
+    "s4, b -> s4, b, <; \n";
   //private containerWidth: number = document.body.offsetWidth - 2;
   private containerWidth: number; //1500 must be dynamically
   private cellSize: number;       //sq_size
@@ -27,6 +46,7 @@ export class CanvasComponent implements AfterViewInit {
   x2:number;
   y: number;
   rectColor:string =  '#0078FF';
+  private editor;
 
 
 
@@ -147,16 +167,13 @@ export class CanvasComponent implements AfterViewInit {
 
 
 
-    let myCodeMirror2 = (CodeMirror as any).fromTextArea((document as any).getElementById('editorCM'), {
+    this.editor = (CodeMirror as any).fromTextArea((document as any).getElementById('editorCM'), {
       mode: "text/html",
       lineNumbers: true
     });
 
-    myCodeMirror2.setSize(null,390);
-    myCodeMirror2.setValue("Test \n");
-
-
-
+    this.editor.setSize(null,390);
+    //this.editor.setValue("Test \n");
   }
 
   loadCodeMirror() {
@@ -239,6 +256,15 @@ export class CanvasComponent implements AfterViewInit {
       group[this.middleTape+i].setText(char);
     }
     this.layer.draw();
+
+  }
+
+  public loadExample(data: string):void {
+    console.log("LoadExample");
+
+    if(data === "Example1") {
+      this.editor.setValue(this.example1);
+    }
 
   }
 
