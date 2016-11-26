@@ -13,6 +13,7 @@ import { TsTabComponent } from './turing-machine/ts-animation/ts-tab/ts-tab.comp
 import { EditorComponent } from './turing-machine/ts-animation/ts-tab/editor/editor.component';
 import { ChartComponent } from './turing-machine/ts-animation/ts-tab/chart/chart.component';
 import { ContaineWidthDirectiveDirective } from './containe-width-directive.directive';
+import {TuringmachineserviceService} from "./turingmachineservice.service";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { ContaineWidthDirectiveDirective } from './containe-width-directive.dire
     HttpModule,
     ChartsModule
   ],
-  providers: [],
+  providers: [TuringmachineserviceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

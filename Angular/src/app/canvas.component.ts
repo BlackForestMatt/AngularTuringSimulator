@@ -2,6 +2,7 @@ import {Component, OnInit, AfterViewInit, ViewChild, ElementRef} from '@angular/
 import * as CodeMirror from 'codemirror';
 import * as noUiSlider from 'nouislider';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import {TuringmachineserviceService} from "./turingmachineservice.service";
 
 
 @Component({
@@ -27,7 +28,8 @@ export class CanvasComponent implements AfterViewInit {
     "s2, _ -> s3, _, >; \n" +
     "s3, a -> s0, b, >; \n" +
     "s4, a -> s4, _, <; \n" +
-    "s4, b -> s4, b, <; \n";
+    "s4, b -> s4, b, <; \n"+
+    "s4, _ -> s5, _, >; \n";
   //private containerWidth: number = document.body.offsetWidth - 2;
   private containerWidth: number; //1500 must be dynamically
   private cellSize: number;       //sq_size
@@ -51,7 +53,7 @@ export class CanvasComponent implements AfterViewInit {
 
 
 
-  constructor() { }
+  constructor(private tsService: TuringmachineserviceService) { }
 
   ngAfterViewInit() {
 
@@ -260,11 +262,13 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   public loadExample(data: string):void {
-    console.log("LoadExample");
-
     if(data === "Example1") {
       this.editor.setValue(this.example1);
     }
+
+    console.log("LoadExample");
+    this.tsService.compile(this.example1);
+    this.tsService.start();
 
   }
 
