@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-ts-animation',
+  selector: 'ts-animation',
   templateUrl: './ts-animation.component.html',
   styleUrls: ['./ts-animation.component.css']
 })

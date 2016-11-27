@@ -1,76 +1,54 @@
 <div class="jumbotronklnr">
-  <h1>Turingmachine</h1>
+
+
+  <!--  <h1>Turingmachine</h1> -->
 </div>
 <br>
-<div class="container-large" id="test">
+<div id="container4">
+
   <div class="row well"  style="padding:0;">
-    <div class="col-md-3">
-      <h4 class="gridHeader"><b>Steps: 23</b></h4>
-    </div>
-    <div class="col-md-6">
-      <h4 class="gridHeader"><b>ExampleName</b></h4>
-    </div>
-    <div class="col-md-3">
-      <h4 class="gridHeader"><b>State: xE</b></h4>
+    <ts-animation></ts-animation>
+  </div>
+  <div class="row">
+    <div class="col-md-12" style="text-align:center;">
+      <load-example></load-example>
     </div>
 
     <div class="col-md-12" style="padding:0;">
-      <div id="container2">
-      </div>
-    </div>
-
-    <div class="col-md-12">
-      <h4 style="text-align: left;"><b>Console</b></h4>
-      <div class="panel panel-default">
-        <textarea id="consoleCM" style="display: none; height:50px;"></textarea>
-
-      </div>
-    </div>
-
-    <div class ="col-md-4"  >
-
-      <div class="input-group form-group-lg max" style=" padding-bottom: 3%; margin-left: auto; margin-right: auto;">
-        <input type="text" class="form-control" placeholder="Search for...">
-        <span class="input-group-btn">
-              <button class="btn btn-lg btn-success btn-block" type="button" >Input</button>
-            </span>
-      </div><!-- /input-group -->
-
-    </div>
-
-    <div class = "col-md-4">
-      <div class="text-center">
-        <div  class="btn-group btn-group-lg" >
-          <button  [disabled]="visible" type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
-          <button  [disabled]="visible" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
-          <button  [disabled]="visible"  type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span></button>
-          <button  [disabled]="visible" type="button" class="btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="col-md-4">
-      <div class="row" style="margin: 0px;">
-        <div class="col-md-5">
-          <h4 class="gridHeader" style="float: right;"><b>Speed: </b></h4>
-        </div>
-        <div class="col-md-7">
-
-          <div id="slider" style=" margin-bottom:10px; margin-top:10px;">
 
 
+      <ul class="nav nav-tabs" style="margin-bottom: 0;">
+        <li class="active"><a data-toggle="tab" href="#editor">Editor</a></li>
+        <li><a data-toggle="tab" href="#statistic">Statistic</a></li>
+      </ul>
+
+
+      <div class="tab-content" style="border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 0px 0px 5px 5px;
+    " >
+        <div id="editor" class="tab-pane fade in active">
+          <div class="panel panel-default" style=" margin: auto; width:68%; margin-top: 2%; margin-bottom:0;" >
+            <ts-editor></ts-editor>
           </div>
+
+          <button type="button" class="btn btn-success btn-lg btn-block" style="width: 68%; margin:auto;">Compile</button>
+        </div>
+        <div id="statistic" class="tab-pane fade">
+          <ts-chart></ts-chart>
         </div>
 
       </div>
-
-
-
-
     </div>
+
   </div>
+
+
 </div>
 
-<app-ts-tab></app-ts-tab>
+
+
+
 <br><br><br>

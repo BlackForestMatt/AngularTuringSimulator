@@ -10,9 +10,6 @@ export class TuringmachineserviceService {
   private code;
   private simulator;
 
-
-
-
   public compile(sourceCode: string) {
     this.compiler = new Compiler();
     this.code = this.compiler.compile(sourceCode);

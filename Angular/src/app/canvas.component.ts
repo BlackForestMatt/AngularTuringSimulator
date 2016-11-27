@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
+import {Component, OnInit, AfterViewInit, ViewChild, ElementRef, AfterContentInit} from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import * as noUiSlider from 'nouislider';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
@@ -9,7 +9,7 @@ import {TuringmachineserviceService} from "./turingmachineservice.service";
   selector: 'app-canvas',
   templateUrl: './canvas.component.html'
 })
-export class CanvasComponent implements AfterViewInit {
+export class CanvasComponent implements AfterViewInit,AfterContentInit,OnInit {
 
 
 
@@ -56,6 +56,7 @@ export class CanvasComponent implements AfterViewInit {
   constructor(private tsService: TuringmachineserviceService) { }
 
   ngAfterViewInit() {
+    console.log("ngAfterViewInit");
 
     this.containerWidth = document.getElementById("container2").offsetWidth;
     this.containerWidth -=  this.containerWidth * 0.006024;
@@ -63,6 +64,16 @@ export class CanvasComponent implements AfterViewInit {
     console.log(this.containerWidth);
     this.kinetic();
   }
+
+  ngAfterContentInit() {
+    console.log("ngAfterContentInit");
+  }
+
+  ngOnInit() {
+    console.log("ngOnInit");
+  }
+
+
 
   kinetic() {
     this.cellSize = this.containerWidth / (25 - 2);
