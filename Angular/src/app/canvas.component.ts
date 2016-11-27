@@ -2,7 +2,7 @@ import {Component, OnInit, AfterViewInit, ViewChild, ElementRef, AfterContentIni
 import * as CodeMirror from 'codemirror';
 import * as noUiSlider from 'nouislider';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
-import {TuringmachineserviceService} from "./turingmachineservice.service";
+import {TuringmachineService} from "./turingmachineservice.service";
 
 
 @Component({
@@ -53,7 +53,7 @@ export class CanvasComponent implements AfterViewInit,AfterContentInit,OnInit {
 
 
 
-  constructor(private tsService: TuringmachineserviceService) { }
+  constructor(private tsService: TuringmachineService) { }
 
   ngAfterViewInit() {
     console.log("ngAfterViewInit");
@@ -278,7 +278,7 @@ export class CanvasComponent implements AfterViewInit,AfterContentInit,OnInit {
     }
 
     console.log("LoadExample");
-    this.tsService.compile(this.example1);
+    //this.tsService.compile(this.example1);
     this.tsService.start();
 
   }

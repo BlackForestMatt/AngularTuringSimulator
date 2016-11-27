@@ -37,10 +37,10 @@
     var transitions = '';
     simulator.setup(input.value);
     var conf = simulator.step();
-    transitions += conf.tape + " " + conf.state + '<br>';
+     transitions +=  conf.tape + " " + conf.state + " Pos: " + conf.position + '<br>';
     while (!conf.isDone) {
       conf = simulator.step();
-      transitions +=  conf.tape + " " + conf.state + '<br>';
+      transitions +=  conf.tape + " " + conf.state + " Pos: " + conf.position + '<br>';
     }
     transitions += 'output: ' + conf.tape;
     out(transitions);

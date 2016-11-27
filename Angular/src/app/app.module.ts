@@ -12,7 +12,7 @@ import { TsAnimationComponent } from './turing-machine/ts-animation/ts-animation
 import { EditorComponent } from './turing-machine/editor/editor.component';
 import { ChartComponent } from './turing-machine/chart/chart.component';
 import { ContaineWidthDirectiveDirective } from './containe-width-directive.directive';
-import {TuringmachineserviceService} from "./turingmachineservice.service";
+import {TuringmachineService} from "./turingmachineservice.service";
 import { LoadExampleComponent } from './turing-machine/load-example/load-example.component';
 
 @NgModule({
@@ -34,7 +34,7 @@ import { LoadExampleComponent } from './turing-machine/load-example/load-example
     HttpModule,
     ChartsModule
   ],
-  providers: [TuringmachineserviceService],
+  providers: [TuringmachineService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
