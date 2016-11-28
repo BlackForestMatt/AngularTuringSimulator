@@ -82,7 +82,7 @@ export class TuringmachineService {
 }
   }
 
-  public step() {
+  public step():TuringData {
     if(this.isStart) {
       if (!this.lastConf.isDone) {
         let conf = this.simulator.step();
@@ -97,8 +97,11 @@ export class TuringmachineService {
         let transition = this.getTransition(this.lastTuringData.state,direction,conf.state);
 
         this.lastTuringData = new TuringData(conf.state,conf.tape,conf.position,conf.isEndState,conf.isDone,direction,this.writeChar,command,this.counter,transition);
+        this.counter++;
+        return this.lastTuringData;
       }
     }
+    return null;
   }
 
   private getDirection(oldPos: number,newPos: number):number {

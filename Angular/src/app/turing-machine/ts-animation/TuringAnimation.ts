@@ -1,6 +1,9 @@
 
 
 
+import {TuringmachineService} from "../../turingmachineservice.service";
+import {TuringData} from "../../TuringData";
+import {TuringCommand} from "../../TuringCommand";
 export class TuringAnimation {
   private canvasWidth: number;
   private canvasHeight: number;
@@ -10,12 +13,12 @@ export class TuringAnimation {
   private rectGroup;
   private symbolGroup;
   private layer;
-  private current_despl: number = 0;
-  private first_displayed: number = 0;
+  private currentX: number = 0;
+  private first_X: number = 0;
+  private isStarted = false;
+  private inputText;
 
-
-
-  constructor() {}
+  constructor(private tsService: TuringmachineService) {}
 
   init() {
     this.canvasWidth = document.getElementById("canvasWidth").offsetWidth;
@@ -96,33 +99,47 @@ export class TuringAnimation {
 
   }
 
-  animate(direction: number) {
+  animate(direction: number,turingCommand: TuringCommand,writeChar: string) {
     if (direction != 0) {
 
-      this.first_displayed = (this.first_displayed - direction + this.nCell) % this.nCell;
-      this.current_despl = this.current_despl + direction * this.cellSize;
+      this.first_X = (this.first_X - direction + this.nCell) % this.nCell;
+      this.currentX = this.currentX + direction * this.cellSize;
 
-      let to_move = (this.first_displayed - 1 + this.nCell) % this.nCell;
-      console.log(to_move);
-      let target_position = -this.current_despl + (this.nCell - 2) * this.cellSize;
+      let to_move = (this.first_X - 1 + this.nCell) % this.nCell;
+      console.log("Animate");
+      let target_position = this.currentX + (this.nCell - 2) * this.cellSize;
       let square_to_move = this.rectGroup.getChildren()[to_move];
 
-      let tween_squares = new (Kinetic as any).Tween({
+      let rectTween = new (Kinetic as any).Tween({
         node: this.rectGroup,
-        x: this.current_despl,
+        x: this.currentX,
         duration: 2,
         easing: (Kinetic as any).Easings.EaseInOut,
         onFinish: () => {
-
+          //this.write(turingCommand,writeChar);
+          //this.nextStep();
         }
       });
 
-      tween_squares.play();
+      let symbolTween = new (Kinetic as any).Tween({
+        node: this.symbolGroup,
+        x: this.currentX,
+        duration: 2,
+        easing: (Kinetic as any).Easings.EaseInOut,
+        onFinish: () => {
+          this.write(turingCommand,writeChar);
+          this.nextStep();
+        }
+      });
+
+      rectTween.play();
+      symbolTween.play();
     }
   }
 
 
   public loadInput(input: string) {
+    this.inputText = input;
     let group = this.symbolGroup.getChildren();
 
     for (let i = 0; i < input.length; i++) {
@@ -133,7 +150,43 @@ export class TuringAnimation {
   }
 
   public start() {
+    this.nextStep();
+  }
 
+  public nextStep() {
+    let turingData;
+      if(!this.isStarted && this.inputText !== '') {
+        turingData = this.tsService.start(this.inputText);
+        this.isStarted = true;
+      } else {
+        turingData = this.tsService.step();
+      }
+
+      if(!turingData.isDone) {
+        let direction = turingData.direction;
+        console.log("Direction: "+direction);
+        let writeChar = turingData.writeChar;
+        let turingCommand = turingData.turingCommand;
+
+        this.animate(direction,turingCommand,writeChar);
+      } else {
+
+      }
+
+  }
+
+
+
+  private write(turingCommand: TuringCommand,writeChar: string) {
+    let group = this.symbolGroup.getChildren();
+
+    switch(turingCommand) {
+      case TuringCommand.Write:
+        group[this.middleTape].setText(writeChar);
+        break;
+      case TuringCommand.Nothing:
+        break;
+    }
   }
 
 

@@ -3,6 +3,7 @@ import * as CodeMirror from 'codemirror';
 import * as noUiSlider from 'nouislider';
 import {TuringAnimation} from "./TuringAnimation";
 import {TuringData} from "../../TuringData";
+import {TuringmachineService} from "../../turingmachineservice.service";
 
 @Component({
   selector: 'ts-animation',
@@ -12,14 +13,14 @@ import {TuringData} from "../../TuringData";
 export class TsAnimationComponent implements OnInit {
 
   private turingAnimation: TuringAnimation;
-
+  private input = "";
   @Input()
   private isPlayBtnVisible: true;
 
-  constructor() { }
+  constructor(private tsService: TuringmachineService) { }
 
   ngOnInit() {
-    this.turingAnimation = new TuringAnimation();
+    this.turingAnimation = new TuringAnimation(this.tsService);
     this.turingAnimation.init();
     this.init();
   }
@@ -55,13 +56,13 @@ export class TsAnimationComponent implements OnInit {
   }
 
   public loadInputData(input: string):void {
-
+    this.input = input;
     this.turingAnimation.loadInput(input);
 
   }
 
   public play() {
-
+      this.turingAnimation.start();
   }
 
 
