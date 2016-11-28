@@ -71,6 +71,10 @@ class Lexer {
            (char >= "0" && char <= "9");
   }
 
+  private isValidChar(char: string): boolean {
+    return this.isAplhaNumeric(char) || "!\"#%&\'()*+.?@[]^_|~".indexOf(char) > 0;
+  }
+
   /**
    * Get the terminalAlphabet index of the next input
    * Returns -1 if the next input is not a terminal symbol
@@ -132,7 +136,7 @@ class Lexer {
     let tok: Token;
     let start: number = this.pos;
     let char: string = this.getChar();
-    while (this.inBounds() && (this.isAplhaNumeric(char) || char === "_")) {
+    while (this.inBounds() && this.isValidChar(char)) {
       this.pos++;
       char = this.getChar();
     }
@@ -171,7 +175,7 @@ class Lexer {
         };
         this.pos += terminal.length;
         this.tokens.push(tok);
-      } else if ((this.isAplhaNumeric(char) || char === "_")) {
+      } else if (this.isValidChar(char)) {
         this.tokens.push(this.parseIdentifier());
       } else if (char !== "") {
         throw new Error("Unexpected character: " + char);

@@ -77,6 +77,19 @@ class TuringSimulator {
   }
 
   /**
+   * Gets tape contents
+   * @return tape
+   */
+  private getTape(): string {
+    let word: string = "";
+    for (let i = 0; i < this.tape.length; i++) {
+      let code: number = this.tape[i];
+      word += String.fromCharCode(this.code[3][code]);
+    }
+    return word;
+  }
+
+  /**
    * Get the state name of a numerical representativ
    * if mapping isn't set it just returns the number
    * @param rep the state
@@ -98,7 +111,7 @@ class TuringSimulator {
     // If head position reaches bounds, resize tape
     if (this.tapePos >= this.tape.length) {
       this.tape.push(this.blank);
-    } else if (this.tapePos < 0) {
+    } else if (this.tapePos <= 0) {
       this.tape.unshift(this.blank);
       this.tapePos++;
     }
@@ -154,7 +167,7 @@ class TuringSimulator {
       config = new TuringConfiguration(
         this.getState(s),
         p,
-        this.getWord(),
+        this.getTape(),
         this.isEndState(s),
         !running
       );

@@ -305,16 +305,6 @@ describe("Lexer", function () {
       tokens = lex.tokenize(src);
     };
 
-    src = "+";
-    expect(run).toThrowError("Unexpected character: +");
 
-    src = "start+";
-    expect(run).toThrowError("Unexpected character: +");
-
-    src = "*";
-    expect(run).toThrowError("Unexpected character: *");
-
-    src = "#";
-    expect(run).toThrowError("Unexpected character: #");
   });
 });
