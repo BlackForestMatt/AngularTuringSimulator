@@ -11,7 +11,7 @@ export class TuringmachineService {
   private compiler;
   private code;
   private simulator;
-  private isCompile = false;
+  private _isCompile = false;
   private lastTuringData: TuringData;
   private lastConf;
   private isStart: boolean;
@@ -28,41 +28,39 @@ export class TuringmachineService {
       this.code = this.compiler.compile(sourcecode);
       this.simulator = new TuringSimulator(this.code);
       this.simulator.setStateMap(this.compiler.getStateMap());
-      this.isCompile = true;
+      this._isCompile = true;
     } catch(e) {
     }
   }
 
   constructor() {
-    //this.compile(this.example1);
-    console.log("Service success");
   }
 
-  public start2() {
-    let transitions = '';
-    this.simulator.setup('abba');
-    var conf = this.simulator.step();
-    transitions += conf.tape + " " + conf.state + " Pos: " + conf.position + '\n';
-    while (!conf.isDone) {
-      conf = this.simulator.step();
-      transitions +=  conf.tape + " " + conf.state + " Pos: " + conf.position + '\n';
-    }
-    transitions += 'output: ' + conf.tape;
-    console.log(transitions);
-    if (!conf.isEndState) {
-      console.log('not accepted');
-    } else {
-      console.log('accepted');
-    }
-  }
+  // public start2() {
+  //   let transitions = '';
+  //   this.simulator.setup('abba');
+  //   var conf = this.simulator.step();
+  //   transitions += conf.tape + " " + conf.state + " Pos: " + conf.position + '\n';
+  //   while (!conf.isDone) {
+  //     conf = this.simulator.step();
+  //     transitions +=  conf.tape + " " + conf.state + " Pos: " + conf.position + '\n';
+  //   }
+  //   transitions += 'output: ' + conf.tape;
+  //   console.log(transitions);
+  //   if (!conf.isEndState) {
+  //     console.log('not accepted');
+  //   } else {
+  //     console.log('accepted');
+  //   }
+  // }
 
-  public start():TuringData {
+  public start(input: string):TuringData {
     this.isStart = true;
     this.isDone = false;
     this.counter = 0;
 
-    if(this.isCompile) {
-      this.simulator.setup('abba');
+    if(this._isCompile) {
+      this.simulator.setup(input);
       let oldConf = this.simulator.step();
       let newConf = this.simulator.step();
 
@@ -152,12 +150,7 @@ export class TuringmachineService {
   }
 
 
-
-
-
-
-
-
-
-
+  get isCompile(): boolean {
+    return this._isCompile;
+  }
 }

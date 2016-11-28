@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, OnChanges} from '@angular/core';
+import {Component, OnInit, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
 import {TuringmachineService} from "../turingmachineservice.service";
 
 @Component({
@@ -8,8 +8,8 @@ import {TuringmachineService} from "../turingmachineservice.service";
 })
 export class TuringMachineComponent implements AfterViewInit,OnChanges {
   private exampleCode:string = ""; //For passsing the messages
-
   private currentCode:string;
+  private isPlayBtnVisible = true;
   constructor(private tsService: TuringmachineService) { }
 
   ngAfterViewInit() {
@@ -17,24 +17,23 @@ export class TuringMachineComponent implements AfterViewInit,OnChanges {
 
   }
 
-  ngOnChanges() {
-    console.log("currentCode change");
+  ngOnChanges(changes: SimpleChanges) {
 }
-
-
 
 
   setExample(example:string) {
     this.exampleCode = example;
   }
 
-  codeChange(code:string) {
+  codeChange(code:string) { //for any change on the editor
     this.currentCode = code;
-    console.log("CodeChanges!!");
   }
 
   compile() {
-    //this.tsService.compile();
+    this.tsService.compile(this.currentCode);
+    if(this.tsService.isCompile) {
+      this.isPlayBtnVisible = false;
+    }
   }
 
 

@@ -7,7 +7,7 @@
 <div id="container4">
 
   <div class="row well"  style="padding:0;">
-    <ts-animation></ts-animation>
+    <ts-animation [isPlayBtnVisible]="isPlayBtnVisible"></ts-animation>
   </div>
   <div class="row">
     <div class="col-md-12" style="text-align:center;">
@@ -31,7 +31,7 @@
     " >
         <div id="editor" class="tab-pane fade in active">
           <div class="panel panel-default" style=" margin: auto; width:68%; margin-top: 2%; margin-bottom:0;" >
-            <ts-editor [exampleData]="exampleCode" (codeChanges)="codeChange($event)"  ></ts-editor>
+            <ts-editor [exampleData]="exampleCode" (codeChanges)="codeChange($event)"></ts-editor>
           </div>
 
           <button type="button" class="btn btn-success btn-lg btn-block" style="width: 68%; margin:auto;" (click)="compile()">Compile</button>

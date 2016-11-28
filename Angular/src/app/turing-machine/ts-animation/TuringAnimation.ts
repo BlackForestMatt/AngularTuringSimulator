@@ -10,8 +10,10 @@ export class TuringAnimation {
   private rectGroup;
   private symbolGroup;
   private layer;
-  x: number;
-  y: number;
+  private current_despl: number = 0;
+  private first_displayed: number = 0;
+
+
 
   constructor() {}
 
@@ -33,17 +35,17 @@ export class TuringAnimation {
       height: this.canvasHeight
     });
 
-    this.x = 0;
-    this.y = (this.canvasHeight - this.cellSize) / 2; //Mitte
+    let x = 0;
+    let y = (this.canvasHeight - this.cellSize) / 2; //Mitte
     let middle = this.canvasWidth / 2;
 
     for( let i = 0; i <= this.nCell; i++) {
 
-      this.x = this.cellSize * (i-1);
+      x = this.cellSize * (i-1);
 
       let rectangle = new Kinetic.Rect({
-        x: this.x,
-        y: this.y,
+        x: x,
+        y: y,
         width: this.cellSize,
         height: this.cellSize,
         fill: '#428bca',
@@ -52,13 +54,13 @@ export class TuringAnimation {
         cornerRadius: 2
       });
 
-      if(((this.x + this.cellSize) >= middle) && (this.x <= middle)) {
+      if(((x + this.cellSize) >= middle) && (x <= middle)) {
         this.middleTape = i;
       }
 
       let symbol = new Kinetic.Text({
         x: this.cellSize * (i-1),
-        y: this.y + (this.cellSize/6),
+        y: y + (this.cellSize/6),
         fill: "white",
         text: " ",
         fontSize: (2 * this.cellSize/3) - (2 * this.cellSize/3) * 0.02,
@@ -69,18 +71,18 @@ export class TuringAnimation {
       });
 
 
-      this.x = this.x + this.cellSize + 20;
+      x = x + this.cellSize + 20;
 
       this.rectGroup.add(rectangle);
       this.symbolGroup.add(symbol);
 
     }
 
-    this.y = ((0.1) + (4/3)) * this.cellSize - this.cellSize/6;
+    y = ((0.1) + (4/3)) * this.cellSize - this.cellSize/6;
 
     let poly = new Kinetic.RegularPolygon({
       x: (this.canvasWidth/2),
-      y: (this.y + 2 * this.cellSize/5),
+      y: (y + 2 * this.cellSize/5),
       sides: 3,
       radius: (this.cellSize/3),
       fill: '#000',
@@ -93,6 +95,48 @@ export class TuringAnimation {
     stage.add(this.layer);
 
   }
+
+  animate(direction: number) {
+    if (direction != 0) {
+
+      this.first_displayed = (this.first_displayed - direction + this.nCell) % this.nCell;
+      this.current_despl = this.current_despl + direction * this.cellSize;
+
+      let to_move = (this.first_displayed - 1 + this.nCell) % this.nCell;
+      console.log(to_move);
+      let target_position = -this.current_despl + (this.nCell - 2) * this.cellSize;
+      let square_to_move = this.rectGroup.getChildren()[to_move];
+
+      let tween_squares = new (Kinetic as any).Tween({
+        node: this.rectGroup,
+        x: this.current_despl,
+        duration: 2,
+        easing: (Kinetic as any).Easings.EaseInOut,
+        onFinish: () => {
+
+        }
+      });
+
+      tween_squares.play();
+    }
+  }
+
+
+  public loadInput(input: string) {
+    let group = this.symbolGroup.getChildren();
+
+    for (let i = 0; i < input.length; i++) {
+      let char = input.charAt(i);
+      group[this.middleTape+i].setText(char);
+    }
+    this.layer.draw();
+  }
+
+  public start() {
+
+  }
+
+
 
 
 }

@@ -1,7 +1,8 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {Component, OnInit, AfterViewInit, Input} from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import * as noUiSlider from 'nouislider';
 import {TuringAnimation} from "./TuringAnimation";
+import {TuringData} from "../../TuringData";
 
 @Component({
   selector: 'ts-animation',
@@ -12,16 +13,16 @@ export class TsAnimationComponent implements OnInit {
 
   private turingAnimation: TuringAnimation;
 
+  @Input()
+  private isPlayBtnVisible: true;
+
   constructor() { }
 
   ngOnInit() {
-
     this.turingAnimation = new TuringAnimation();
     this.turingAnimation.init();
     this.init();
   }
-
-
 
   init() {
     let myCodeMirror = (CodeMirror as any).fromTextArea((document as any).getElementById('consoleCM'), {
@@ -52,6 +53,18 @@ export class TsAnimationComponent implements OnInit {
 
 
   }
+
+  public loadInputData(input: string):void {
+
+    this.turingAnimation.loadInput(input);
+
+  }
+
+  public play() {
+
+  }
+
+
 
 
 

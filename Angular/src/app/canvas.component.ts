@@ -279,7 +279,7 @@ export class CanvasComponent implements AfterViewInit,AfterContentInit,OnInit {
 
     console.log("LoadExample");
     //this.tsService.compile(this.example1);
-    this.tsService.start();
+    //this.tsService.start();
 
   }
 

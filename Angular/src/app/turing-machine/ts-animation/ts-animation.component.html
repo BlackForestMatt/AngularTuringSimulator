@@ -35,10 +35,10 @@
 <div class = "col-md-4">
   <div class="text-center">
     <div  class="btn-group btn-group-lg" >
-      <button  [disabled]="visible" type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
-      <button  [disabled]="visible" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
-      <button  [disabled]="visible"  type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span></button>
-      <button  [disabled]="visible" type="button" class="btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
+      <button  [disabled]="isPlayBtnVisible" (click)="play()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
+      <button  [disabled]="isPlayBtnVisible" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
+      <button  [disabled]="isPlayBtnVisible"  type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span></button>
+      <button  [disabled]="isPlayBtnVisible" type="button" class="btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
     </div>
   </div>
 

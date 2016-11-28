@@ -18,20 +18,15 @@ export class EditorComponent implements OnInit,OnChanges {
   private exampleData = "";
 
   @Output()
-  static codeChanges = new EventEmitter<string>();
+  private codeChanges = new EventEmitter<string>();
 
   constructor(private tsService: TuringmachineService) {
-    //this.exampleData.subscribe( (param:any) => console.log("ExampleData"));
   }
 
   ngOnChanges() {
     if(this.exampleData !== "") {
-      console.log("OnChangesEditor");
       this.editor.setValue(this.exampleData);
-
     }
-
-
   }
 
   ngOnInit() {
@@ -41,24 +36,19 @@ export class EditorComponent implements OnInit,OnChanges {
       lineNumbers: true
     });
 
-    var t = document.getElementById('editorCM');
-
     this.editor.setSize(null,390);
 
-    this.editor.on('change',this.change);
+    this.editor.on('change', (editor: CodeMirror.Editor) => {
+      let code = editor.getDoc().getValue();
+      this.codeChange(code);
+    });
+
   }
 
-
-   change(cMirror){ //JavaScript function!!
-    // get value right from instance
-    let code = cMirror.getValue();
-    EditorComponent.codeChange(code);
-  }
-
-
-  private static codeChange(code:string) { //static because of the function "change()"
+   codeChange(code:string) { //static because of the function "change()"
     console.log("EditorCodeChange");
     this.codeChanges.emit(code);
   }
+
 
 }
