@@ -99,7 +99,7 @@ export class TuringAnimation {
 
   }
 
-  animate(direction: number,turingCommand: TuringCommand,writeChar: string) {
+  animate(direction: number) {
     if (direction != 0) {
 
       this.first_X = (this.first_X - direction + this.nCell) % this.nCell;
@@ -118,6 +118,15 @@ export class TuringAnimation {
         onFinish: () => {
           //this.write(turingCommand,writeChar);
           //this.nextStep();
+
+          switch(direction) {
+            case -1:
+              this.middleTape++;
+              break;
+            case 1:
+              this.middleTape--;
+              break;
+          }
         }
       });
 
@@ -127,7 +136,6 @@ export class TuringAnimation {
         duration: 2,
         easing: (Kinetic as any).Easings.EaseInOut,
         onFinish: () => {
-          this.write(turingCommand,writeChar);
           this.nextStep();
         }
       });
@@ -164,11 +172,12 @@ export class TuringAnimation {
 
       if(!turingData.isDone) {
         let direction = turingData.direction;
-        console.log("Direction: "+direction);
+
         let writeChar = turingData.writeChar;
         let turingCommand = turingData.turingCommand;
 
-        this.animate(direction,turingCommand,writeChar);
+        this.write(turingCommand,writeChar);
+        this.animate(direction);
       } else {
 
       }

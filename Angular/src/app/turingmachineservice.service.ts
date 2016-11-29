@@ -61,20 +61,37 @@ export class TuringmachineService {
 
     if(this._isCompile) {
       this.simulator.setup(input);
-      let oldConf = this.simulator.step();
-      let newConf = this.simulator.step();
 
-      this.lastConf = newConf;
-      let direction = this.getDirection(oldConf.position,newConf.position);
-      let command = this.getTuringCommand(oldConf.tape,newConf.tape,oldConf.position,newConf.position);
+      let conf = this.simulator.step();
+
+      this.lastConf = conf;
+      let direction = this.getDirection(0,conf.position);
+      let command = this.getTuringCommand(input,conf.tape,0,conf.position);
+
+      console.log("Direction: "+direction);
+      let transitions1 =  input + " " + "s0" + " Pos: " + "0" + '<br>';
+      let transitions2 =  conf.tape + " " + conf.state + " Pos: " + conf.position + '<br>';
+
+      console.log(transitions1);
+      console.log(transitions2);
+
+      switch(command) {
+        case TuringCommand.Nothing:
+          console.log("Nothing");
+          break;
+        case TuringCommand.Write:
+          console.log("Write");
+          break;
+      }
+      console.log("________________________________________________________");
 
       if(command === TuringCommand.Nothing ) {
         this.writeChar = "";
       }
 
-      let transition = this.getTransition(oldConf.state,direction,newConf.state);
+      let transition = this.getTransition("S0",direction,conf.state);
 
-      this.lastTuringData = new TuringData(newConf.state,newConf.tape,newConf.position,newConf.isEndState,newConf.isDone,direction,this.writeChar,command,this.counter,transition);
+      this.lastTuringData = new TuringData(conf.state,conf.tape,conf.position,conf.isEndState,conf.isDone,direction,this.writeChar,command,this.counter,transition);
       this.counter++;
       return this.lastTuringData;
     } else {
@@ -89,6 +106,22 @@ export class TuringmachineService {
 
         let direction = this.getDirection(this.lastTuringData.position,conf.position);
         let command = this.getTuringCommand(this.lastTuringData.tape,conf.tape,this.lastTuringData.position,conf.position);
+
+        let transitions =  conf.tape + " " + conf.state + " Pos: " + conf.position + '<br>';
+
+        console.log("Direction: "+direction);
+        console.log(transitions);
+
+        switch(command) {
+          case TuringCommand.Nothing:
+            console.log("Nothing");
+            break;
+          case TuringCommand.Write:
+            console.log("Write");
+            break;
+        }
+
+        console.log("________________________________________________________");
 
         if(command === TuringCommand.Nothing ) {
           this.writeChar = "";
@@ -106,26 +139,30 @@ export class TuringmachineService {
 
   private getDirection(oldPos: number,newPos: number):number {
     if(newPos > oldPos) {
-      return 1;
-    } else if(oldPos > newPos) {
       return -1;
+    } else if(oldPos > newPos) {
+      return 1;
     } else {
       return 0;
     }
   }
 
   private getTuringCommand(currentTape: string,newTape: string, currentPos: number,newPos: number):TuringCommand{
-    if(currentPos < currentTape.length) {
+    console.log("CurrentTape: "+currentTape);
+    console.log("CurrentPos: "+currentPos);
+    console.log("NewTape: "+ newTape);
+    console.log("NewPos: "+ newPos);
+    if((currentPos < currentTape.length && (currentPos < newTape.length))) {
       this.currentChar = currentTape.charAt(currentPos);
+      this.newChar = newTape.charAt(currentPos);
+
+      console.log("CurrentChar: "+this.currentChar);
+      console.log("NewChar: "+this.newChar);
     } else {
       this.currentChar = '';
-    }
-
-    if(newPos < newTape.length) {
-      this.newChar = newTape.charAt(newPos);
-    } else {
       this.newChar = '';
     }
+
 
     if(this.currentChar === this.newChar) {
       return TuringCommand.Nothing;
