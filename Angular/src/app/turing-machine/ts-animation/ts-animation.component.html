@@ -36,7 +36,7 @@
   <div class="text-center">
     <div  class="btn-group btn-group-lg" >
       <button  [disabled]="isPlayBtnVisible" (click)="play()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
-      <button  [disabled]="isPlayBtnVisible" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
+      <button  [disabled]="isPlayBtnVisible" (click)="pause()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
       <button  [disabled]="isPlayBtnVisible"  type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span></button>
       <button  [disabled]="isPlayBtnVisible" type="button" class="btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
     </div>

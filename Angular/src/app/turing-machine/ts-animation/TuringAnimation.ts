@@ -17,6 +17,7 @@ export class TuringAnimation {
   private first_X: number = 0;
   private isStarted = false;
   private inputText;
+  private _isPause = false;
 
   constructor(private tsService: TuringmachineService) {}
 
@@ -99,7 +100,7 @@ export class TuringAnimation {
 
   }
 
-  animate(direction: number) {
+  animate(direction: number,turingCommand: TuringCommand,writeChar: string) {
     if (direction != 0) {
 
       this.first_X = (this.first_X - direction + this.nCell) % this.nCell;
@@ -113,7 +114,7 @@ export class TuringAnimation {
       let rectTween = new (Kinetic as any).Tween({
         node: this.rectGroup,
         x: this.currentX,
-        duration: 2,
+        duration: 4,
         easing: (Kinetic as any).Easings.EaseInOut,
         onFinish: () => {
           //this.write(turingCommand,writeChar);
@@ -133,10 +134,13 @@ export class TuringAnimation {
       let symbolTween = new (Kinetic as any).Tween({
         node: this.symbolGroup,
         x: this.currentX,
-        duration: 2,
+        duration: 4,
         easing: (Kinetic as any).Easings.EaseInOut,
         onFinish: () => {
+          this.write(turingCommand,writeChar);
+          if (!this._isPause) {
           this.nextStep();
+        }
         }
       });
 
@@ -176,8 +180,7 @@ export class TuringAnimation {
         let writeChar = turingData.writeChar;
         let turingCommand = turingData.turingCommand;
 
-        this.write(turingCommand,writeChar);
-        this.animate(direction);
+        this.animate(direction,turingCommand,writeChar);
       } else {
 
       }
@@ -199,6 +202,7 @@ export class TuringAnimation {
   }
 
 
-
-
+  set isPause(value) {
+    this._isPause = value;
+  }
 }

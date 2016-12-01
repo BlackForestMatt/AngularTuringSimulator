@@ -62,18 +62,19 @@ export class TuringmachineService {
     if(this._isCompile) {
       this.simulator.setup(input);
 
-      let conf = this.simulator.step();
+      let firstConf = this.simulator.step();
+      let secondConf = this.simulator.step();
 
-      this.lastConf = conf;
-      let direction = this.getDirection(0,conf.position);
-      let command = this.getTuringCommand(input,conf.tape,0,conf.position);
+      this.lastConf = secondConf;
+      let direction = this.getDirection(firstConf.position,secondConf.position);
+      let command = this.getTuringCommand(firstConf.tape,secondConf.tape,firstConf.position,secondConf.position);
 
       console.log("Direction: "+direction);
-      let transitions1 =  input + " " + "s0" + " Pos: " + "0" + '<br>';
-      let transitions2 =  conf.tape + " " + conf.state + " Pos: " + conf.position + '<br>';
+      //let transitions1 =  input + " " + "s0" + " Pos: " + "0" + '<br>';
+      //let transitions2 =  conf.tape + " " + conf.state + " Pos: " + conf.position + '<br>';
 
-      console.log(transitions1);
-      console.log(transitions2);
+      //console.log(transitions1);
+      //console.log(transitions2);
 
       switch(command) {
         case TuringCommand.Nothing:
@@ -89,9 +90,9 @@ export class TuringmachineService {
         this.writeChar = "";
       }
 
-      let transition = this.getTransition("S0",direction,conf.state);
+      let transition = this.getTransition(firstConf.state,direction,secondConf.state);
 
-      this.lastTuringData = new TuringData(conf.state,conf.tape,conf.position,conf.isEndState,conf.isDone,direction,this.writeChar,command,this.counter,transition);
+      this.lastTuringData = new TuringData(secondConf.state,secondConf.tape,secondConf.position,secondConf.isEndState,secondConf.isDone,direction,this.writeChar,command,this.counter,transition);
       this.counter++;
       return this.lastTuringData;
     } else {
@@ -149,26 +150,41 @@ export class TuringmachineService {
 
   private getTuringCommand(currentTape: string,newTape: string, currentPos: number,newPos: number):TuringCommand{
     console.log("CurrentTape: "+currentTape);
+    console.log("CurrentTapeLength: "+ currentTape.length);
     console.log("CurrentPos: "+currentPos);
     console.log("NewTape: "+ newTape);
+    console.log("NewTapeLength: "+ newTape.length);
     console.log("NewPos: "+ newPos);
-    if((currentPos < currentTape.length && (currentPos < newTape.length))) {
-      this.currentChar = currentTape.charAt(currentPos);
-      this.newChar = newTape.charAt(currentPos);
 
-      console.log("CurrentChar: "+this.currentChar);
-      console.log("NewChar: "+this.newChar);
+    newPos--;
+    if(currentTape.length == newTape.length) {
+      if ((currentPos < currentTape.length && (currentPos < newTape.length))) {
+        this.currentChar = currentTape.charAt(newPos);
+        this.newChar = newTape.charAt(newPos);
+
+        console.log("CurrentChar: " + this.currentChar);
+        console.log("NewChar: " + this.newChar);
+      } else {
+        this.currentChar = '';
+        this.newChar = '';
+      }
+
+
+      if (this.currentChar === this.newChar) {
+        return TuringCommand.Nothing;
+      } else {
+        this.writeChar = this.newChar;
+        return TuringCommand.Write;
+      }
     } else {
-      this.currentChar = '';
-      this.newChar = '';
-    }
+      if(newTape.length < currentTape.length) {
+        this.writeChar = '';
+        return TuringCommand.Write;
+      } else {
+        this.writeChar = newTape.charAt(newPos);
+        return TuringCommand.Write;
+      }
 
-
-    if(this.currentChar === this.newChar) {
-      return TuringCommand.Nothing;
-    } else {
-      this.writeChar = this.newChar;
-      return TuringCommand.Write;
     }
   }
 
@@ -193,4 +209,5 @@ export class TuringmachineService {
   get isCompile(): boolean {
     return this._isCompile;
   }
+
 }

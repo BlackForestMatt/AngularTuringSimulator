@@ -65,6 +65,10 @@ export class TsAnimationComponent implements OnInit {
       this.turingAnimation.start();
   }
 
+  public pause() {
+      this.turingAnimation.isPause = true;
+  }
+
 
 
 
