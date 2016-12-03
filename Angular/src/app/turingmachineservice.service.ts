@@ -202,7 +202,7 @@ export class TuringmachineService {
         break;
 
     }
-    return "("+currentState+","+this.currentChar +")" + " := " + "("+ newState + "," + this.newChar + "," + directionLRN + ")";
+    return "("+currentState+","+this.currentChar +")" + " := " + "("+ newState + "," + this.newChar + "," + directionLRN + ") \n";
   }
 
 

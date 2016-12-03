@@ -1,8 +1,9 @@
-<div class="jumbotronklnr">
 
-
-  <!--  <h1>Turingmachine</h1> -->
-</div>
+<header>
+  <div class="jumbotron" style="background-color: #ffffff; padding: 0;">
+      <h1 style="text-align: center;">TURINGMACHINE</h1>
+  </div>
+</header>
 <br>
 <div id="container4">
 
@@ -23,6 +24,7 @@
       </ul>
 
 
+
       <div class="tab-content" style="border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
@@ -34,7 +36,7 @@
             <ts-editor [exampleData]="exampleCode" (codeChanges)="codeChange($event)"></ts-editor>
           </div>
 
-          <button type="button" class="btn btn-success btn-lg btn-block" style="width: 68%; margin:auto;" (click)="compile()">Compile</button>
+          <button type="button" class="btn btn-primary btn-lg btn-block" style="width: 68%; margin:auto;" (click)="compile()">Compile</button>
         </div>
         <div id="statistic" class="tab-pane fade">
           <ts-chart></ts-chart>

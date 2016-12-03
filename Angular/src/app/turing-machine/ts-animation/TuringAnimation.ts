@@ -4,7 +4,9 @@
 import {TuringmachineService} from "../../turingmachineservice.service";
 import {TuringData} from "../../TuringData";
 import {TuringCommand} from "../../TuringCommand";
+import {transition} from "@angular/core";
 export class TuringAnimation {
+  private color: string = "#38A214";
   private canvasWidth: number;
   private canvasHeight: number;
   private cellSize: number;       //sq_size
@@ -18,6 +20,10 @@ export class TuringAnimation {
   private isStarted = false;
   private inputText;
   private _isPause = false;
+  private _transitionEditor;
+  private _speedBar;
+  private transitionData = "";
+  private speed: number;
 
   constructor(private tsService: TuringmachineService) {}
 
@@ -52,7 +58,7 @@ export class TuringAnimation {
         y: y,
         width: this.cellSize,
         height: this.cellSize,
-        fill: '#428bca',
+        fill: this.color,
         stroke: 'white',
         strokeWidth: 2,
         cornerRadius: 2
@@ -98,6 +104,12 @@ export class TuringAnimation {
     this.layer.add(poly);
     stage.add(this.layer);
 
+    this._speedBar.noUiSlider.on('slide',() => {
+      this.speed = 2.0001 - (2 * this._speedBar.noUiSlider.get())/100;
+      console.log("Speed: "+this.speed);
+
+    });
+
   }
 
   animate(direction: number,turingCommand: TuringCommand,writeChar: string) {
@@ -114,7 +126,7 @@ export class TuringAnimation {
       let rectTween = new (Kinetic as any).Tween({
         node: this.rectGroup,
         x: this.currentX,
-        duration: 4,
+        duration: this.speed,
         easing: (Kinetic as any).Easings.EaseInOut,
         onFinish: () => {
           //this.write(turingCommand,writeChar);
@@ -134,7 +146,7 @@ export class TuringAnimation {
       let symbolTween = new (Kinetic as any).Tween({
         node: this.symbolGroup,
         x: this.currentX,
-        duration: 4,
+        duration: this.speed,
         easing: (Kinetic as any).Easings.EaseInOut,
         onFinish: () => {
           this.write(turingCommand,writeChar);
@@ -180,6 +192,9 @@ export class TuringAnimation {
         let writeChar = turingData.writeChar;
         let turingCommand = turingData.turingCommand;
 
+        this.transitionData = this.transitionData + turingData.transition;
+        this._transitionEditor.setValue(this.transitionData);
+
         this.animate(direction,turingCommand,writeChar);
       } else {
 
@@ -202,7 +217,24 @@ export class TuringAnimation {
   }
 
 
+  // (speed_bar as any).noUiSlider.on('slide', () => {
+  //   this.trans_speed = 2.0001 - (2 * (speed_bar as any).noUiSlider.get())/100;
+  // });
+
+  public changeSpeed() {
+    //TuringAnimation.speed = 2.0001 - (2 * this._speedBar.noUiSlider.get())/100;
+    //console.log(TuringAnimation.speed);
+  }
+
   set isPause(value) {
     this._isPause = value;
+  }
+
+  set transitionEditor(value) {
+    this._transitionEditor = value;
+  }
+
+  set speedBar(value) {
+    this._speedBar = value;
   }
 }

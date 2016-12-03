@@ -16,7 +16,7 @@
 <div class="col-md-12">
   <h4 style="text-align: left;"><b>Console</b></h4>
   <div class="panel panel-default">
-    <textarea id="consoleCM" style="display: none; height:50px;"></textarea>
+    <textarea   id="consoleCM" style="display: none; height:50px;"></textarea>
 
   </div>
 </div>
@@ -26,7 +26,7 @@
   <div class="input-group form-group-lg max" style=" padding-bottom: 3%; margin-left: auto; margin-right: auto;">
     <input type="text" class="form-control" placeholder="Input" [(ngModel)]="inputData">
     <span class="input-group-btn">
-              <button class="btn btn-lg btn-success btn-block" type="button" (click)="loadInputData(inputData)" >Input</button>
+              <button class="btn btn-lg btn-primary btn-block" type="button" (click)="loadInputData(inputData)">Input</button>
             </span>
   </div><!-- /input-group -->
 
@@ -35,10 +35,10 @@
 <div class = "col-md-4">
   <div class="text-center">
     <div  class="btn-group btn-group-lg" >
-      <button  [disabled]="isPlayBtnVisible" (click)="play()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
-      <button  [disabled]="isPlayBtnVisible" (click)="pause()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
-      <button  [disabled]="isPlayBtnVisible"  type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span></button>
-      <button  [disabled]="isPlayBtnVisible" type="button" class="btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
+      <button  [disabled]="isPlayBtnVisible || (input === '')" (click)="play()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
+      <button  [disabled]="isPlayBtnVisible || (input === '')" (click)="pause()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
+      <button  [disabled]="isPlayBtnVisible || (input === '')"  type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span></button>
+      <button  [disabled]="isPlayBtnVisible || (input === '')" type="button" class="btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
     </div>
   </div>
 

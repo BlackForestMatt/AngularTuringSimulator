@@ -21,19 +21,21 @@ export class TsAnimationComponent implements OnInit {
 
   ngOnInit() {
     this.turingAnimation = new TuringAnimation(this.tsService);
-    this.turingAnimation.init();
     this.init();
+    this.turingAnimation.init();
+
   }
 
   init() {
-    let myCodeMirror = (CodeMirror as any).fromTextArea((document as any).getElementById('consoleCM'), {
+    let transitionEditor = (CodeMirror as any).fromTextArea((document as any).getElementById('consoleCM'), {
       mode: "text/html",
-      lineNumbers: true
+      lineNumbers: true,
+      readOnly: true
     });
 
-    myCodeMirror.setSize(null,100);
-    myCodeMirror.setValue("Test \ntestdfasdf");
-    myCodeMirror.addLineClass(1,'Josef','CodeMirror-activeline-background');
+    transitionEditor.setSize(null,100);
+    // myCodeMirror.setValue("Test \ntestdfasdf");
+    // myCodeMirror.addLineClass(1,'Josef','CodeMirror-activeline-background');
 
     let speed_bar = document.getElementById('slider');
     (noUiSlider as any).create(speed_bar, {
@@ -46,10 +48,12 @@ export class TsAnimationComponent implements OnInit {
       },
     });
 
-    (speed_bar as any).noUiSlider.on('slide', function(){
-      this.trans_speed = 2.0001 - (2 * (speed_bar as any).noUiSlider.get())/100;
-      console.log(this.trans_speed);
-    });
+    // (speed_bar as any).noUiSlider.on('slide', () => {
+    //   this.trans_speed = 2.0001 - (2 * (speed_bar as any).noUiSlider.get())/100;
+    // });
+
+    this.turingAnimation.transitionEditor = transitionEditor;
+    this.turingAnimation.speedBar = speed_bar;
 
 
 
