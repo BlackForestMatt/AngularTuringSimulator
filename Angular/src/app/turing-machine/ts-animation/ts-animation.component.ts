@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, Input} from '@angular/core';
+import {Component, OnInit, AfterViewInit, Input, NgZone} from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import * as noUiSlider from 'nouislider';
 import {TuringAnimation} from "./TuringAnimation";
@@ -17,10 +17,13 @@ export class TsAnimationComponent implements OnInit {
   @Input()
   private isPlayBtnVisible: true;
 
-  constructor(private tsService: TuringmachineService) { }
+  private _counter = 0;
+  private _state: String = "";
+
+  constructor(private tsService: TuringmachineService,private zone: NgZone) { }
 
   ngOnInit() {
-    this.turingAnimation = new TuringAnimation(this.tsService);
+    this.turingAnimation = new TuringAnimation(this.tsService,this,this.zone);
     this.init();
     this.turingAnimation.init();
 
@@ -51,11 +54,8 @@ export class TsAnimationComponent implements OnInit {
     // (speed_bar as any).noUiSlider.on('slide', () => {
     //   this.trans_speed = 2.0001 - (2 * (speed_bar as any).noUiSlider.get())/100;
     // });
-
     this.turingAnimation.transitionEditor = transitionEditor;
     this.turingAnimation.speedBar = speed_bar;
-
-
 
   }
 
@@ -73,16 +73,29 @@ export class TsAnimationComponent implements OnInit {
       this.turingAnimation.isPause = true;
   }
 
+  getCounter():string {
+    console.log("Counter::: "+this.turingAnimation.counter);
+    return this.turingAnimation.counter;
+  }
 
 
+  get counter(): number {
+    return this._counter;
+  }
 
+  set counter(value: number) {
+    this._counter = value;
+  }
 
+  get state(): String {
+    return this._state;
+  }
 
+  set state(value: String) {
+    this._state = value;
+  }
 
-
-
-
-
-
-
+  test2() {
+    this._counter++;
+  }
 }

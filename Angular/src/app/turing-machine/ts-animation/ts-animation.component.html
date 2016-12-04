@@ -1,11 +1,11 @@
 <div class="col-md-3">
-  <h4 class="gridHeader"><b>Steps: 23</b></h4>
+  <h4 class="gridHeader"><b>Steps: {{_counter}}</b></h4>
 </div>
 <div class="col-md-6">
   <h4 class="gridHeader"><b>ExampleName</b></h4>
 </div>
 <div class="col-md-3">
-  <h4 class="gridHeader"><b>State: xE</b></h4>
+  <h4 class="gridHeader"><b>State: {{_state}}</b></h4>
 </div>
 
 <div class="col-md-12" style="padding:0;">
@@ -17,7 +17,6 @@
   <h4 style="text-align: left;"><b>Console</b></h4>
   <div class="panel panel-default">
     <textarea   id="consoleCM" style="display: none; height:50px;"></textarea>
-
   </div>
 </div>
 
@@ -37,7 +36,7 @@
     <div  class="btn-group btn-group-lg" >
       <button  [disabled]="isPlayBtnVisible || (input === '')" (click)="play()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
       <button  [disabled]="isPlayBtnVisible || (input === '')" (click)="pause()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
-      <button  [disabled]="isPlayBtnVisible || (input === '')"  type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span></button>
+      <button  [disabled]="isPlayBtnVisible || (input === '')"  (click)="test2()"type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span></button>
       <button  [disabled]="isPlayBtnVisible || (input === '')" type="button" class="btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
     </div>
   </div>

@@ -57,7 +57,7 @@ export class TuringmachineService {
   public start(input: string):TuringData {
     this.isStart = true;
     this.isDone = false;
-    this.counter = 0;
+    this.counter = 1;
 
     if(this._isCompile) {
       this.simulator.setup(input);
