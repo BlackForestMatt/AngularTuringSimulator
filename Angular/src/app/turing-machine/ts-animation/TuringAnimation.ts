@@ -11,7 +11,7 @@ export class TuringAnimation {
   private canvasWidth: number;
   private canvasHeight: number;
   private cellSize: number;       //sq_size
-  private nCell: number = 30;
+  private nCell: number = 100;
   private middleTape: number;
   private rectGroup;
   private symbolGroup;

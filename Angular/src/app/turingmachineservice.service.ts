@@ -21,6 +21,8 @@ export class TuringmachineService {
   private writeChar: string = '';
   private currentChar: string;
   private newChar: string;
+  private isTapeChange = false;
+  private isTapeChangeTMP: string = "";
 
   public compile(sourcecode: string) {
     try {
@@ -84,15 +86,17 @@ export class TuringmachineService {
           console.log("Write");
           break;
       }
-      console.log("________________________________________________________");
+
 
       if(command === TuringCommand.Nothing ) {
         this.writeChar = "";
       }
 
-      let transition = this.getTransition(firstConf.state,direction,secondConf.state);
+      let transition = this.getTransition(firstConf.state,direction,secondConf.state,false,firstConf.tape,secondConf.position,firstConf.position);
 
-      this.lastTuringData = new TuringData(secondConf.state,secondConf.tape,secondConf.position,secondConf.isEndState,secondConf.isDone,direction,this.writeChar,command,this.counter,transition);
+      console.log("________________________________________________________");
+
+      this.lastTuringData = new TuringData(secondConf.state,secondConf.tape,secondConf.position,secondConf.isEndState,secondConf.isDone,direction,this.writeChar,command,this.counter,transition,this.isTapeChange,this.isTapeChangeTMP);
       this.counter++;
       return this.lastTuringData;
     } else {
@@ -122,15 +126,16 @@ export class TuringmachineService {
             break;
         }
 
-        console.log("________________________________________________________");
+
 
         if(command === TuringCommand.Nothing ) {
           this.writeChar = "";
         }
 
-        let transition = this.getTransition(this.lastTuringData.state,direction,conf.state);
+        let transition = this.getTransition(this.lastTuringData.state,direction,conf.state,this.lastTuringData.isTapeChange,this.lastTuringData.tape,conf.position,this.lastTuringData.position);
 
-        this.lastTuringData = new TuringData(conf.state,conf.tape,conf.position,conf.isEndState,conf.isDone,direction,this.writeChar,command,this.counter,transition);
+        console.log("________________________________________________________");
+        this.lastTuringData = new TuringData(conf.state,conf.tape,conf.position,conf.isEndState,conf.isDone,direction,this.writeChar,command,this.counter,transition,this.isTapeChange,this.isTapeChangeTMP);
         this.counter++;
         return this.lastTuringData;
       }
@@ -188,20 +193,43 @@ export class TuringmachineService {
     }
   }
 
-  private getTransition(currentState:string,direction:number,newState:string):string {
+  private getTransition(currentState:string,direction:number,newState:string,isTapeChanged:boolean,currentTape:string,newPos: number,currentPos:number):string {
     let directionLRN = "undefined!";
     switch(direction) {
       case 0:
         directionLRN = "N"
         break;
       case 1:
-        directionLRN = "R";
+        directionLRN = "L";
       break;
       case -1:
-        directionLRN = "L";
+        directionLRN = "R";
         break;
 
     }
+
+    // if((this.currentChar === this.newChar) && (isTapeChanged)) {
+    //   this.isTapeChange = false;
+    //   return "(" + currentState + "," + this.isTapeChangeTMP + ")" + " := " + "(" + newState + "," + this.newChar + "," + directionLRN + ") \n";
+    //
+    // } else if(this.currentChar !== this.newChar) {
+    //     this.isTapeChange = true;
+    //     currentPos--;
+    //     newPos--;
+    //     this.isTapeChangeTMP = currentTape.charAt(newPos);
+    //     console.log("isTapeChange: "+this.isTapeChangeTMP);
+    //     let currentChar = currentTape.charAt(currentPos);
+    //     return "(" + currentState + "," + currentChar + ")" + " := " + "(" + newState + "," + currentChar + "," + directionLRN + ") \n";
+    // } else {
+    //   let currentChar = currentTape.charAt(currentPos);
+    //   return "(" + currentState + "," + currentChar + ")" + " := " + "(" + newState + "," + currentChar + "," + directionLRN + ") \n";
+    // }
+
+    currentPos--;
+    newPos--;
+    let currentChar = currentTape.charAt(currentPos);
+
+
     return "("+currentState+","+this.currentChar +")" + " := " + "("+ newState + "," + this.newChar + "," + directionLRN + ") \n";
   }
 
