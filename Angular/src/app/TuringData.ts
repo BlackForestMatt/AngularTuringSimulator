@@ -16,10 +16,9 @@ export class TuringData {
   private _turingCommand: TuringCommand;
   private _counter: number;
   private _transition: string;
-  private _isTapeChange = false;
-  private _isTapeChangeTMP:string;
+  private
 
-  constructor(state: string, tape: string, position: number, endState: boolean, done: boolean, direction: number, writeChar: string, turingCommand: TuringCommand, counter: number, transition: string, isTapeChange: boolean, isTapeChangeTMP: string) {
+  constructor(state: string, tape: string, position: number, endState: boolean, done: boolean, direction: number, writeChar: string, turingCommand: TuringCommand, counter: number, transition: string) {
     this._state = state;
     this._tape = tape;
     this._position = position;
@@ -30,8 +29,6 @@ export class TuringData {
     this._turingCommand = turingCommand;
     this._counter = counter;
     this._transition = transition;
-    this._isTapeChange = isTapeChange;
-    this._isTapeChangeTMP = isTapeChangeTMP;
   }
 
   get transition(): string {
@@ -114,21 +111,4 @@ export class TuringData {
     this._done = value;
   }
 
-
-  get isTapeChange(): boolean {
-    return this._isTapeChange;
-  }
-
-  set isTapeChange(value: boolean) {
-    this._isTapeChange = value;
-  }
-
-
-  get isTapeChangeTMP(): string {
-    return this._isTapeChangeTMP;
-  }
-
-  set isTapeChangeTMP(value: string) {
-    this._isTapeChangeTMP = value;
-  }
 }

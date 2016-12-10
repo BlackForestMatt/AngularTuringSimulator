@@ -178,21 +178,27 @@ export class TuringAnimation {
   public nextStep() {
     let turingData;
       if(!this.isStarted && this.inputText !== '') {
+        console.log("Turing Startet");
         turingData = this.tsService.start(this.inputText);
         this.isStarted = true;
       } else {
+        console.log("Turing Service Step!!!");
         turingData = this.tsService.step();
+
       }
 
+    console.log("Turing Step!!!");
       if(!turingData.isDone) {
+
         let direction = turingData.direction;
 
         let writeChar = turingData.writeChar;
         let turingCommand = turingData.turingCommand;
 
         this.transitionData = this.transitionData + turingData.transition;
-        this._transitionEditor.setValue(this.transitionData);
-
+        if(this.transitionData !=="") {
+          this._transitionEditor.setValue(this.transitionData);
+        }
         this.zone.runOutsideAngular( () =>  {
           this.animate(direction,turingCommand,writeChar,() => {
             this.zone.run(() => {
@@ -203,7 +209,7 @@ export class TuringAnimation {
         })
 
       } else {
-
+          console.log("IsDone");
       }
 
   }
