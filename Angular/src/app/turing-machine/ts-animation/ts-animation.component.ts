@@ -19,6 +19,13 @@ export class TsAnimationComponent implements OnInit {
 
   private _counter = 0;
   private _state: String = "";
+  /*
+  turing machine process is success or not
+  */
+  private _isSuccess = false;
+  private _isFail = false;
+  private inputBtnNotVisible = false;
+
 
   constructor(private tsService: TuringmachineService,private zone: NgZone) { }
 
@@ -26,7 +33,6 @@ export class TsAnimationComponent implements OnInit {
     this.turingAnimation = new TuringAnimation(this.tsService,this,this.zone);
     this.init();
     this.turingAnimation.init();
-
   }
 
   init() {
@@ -51,9 +57,6 @@ export class TsAnimationComponent implements OnInit {
       },
     });
 
-    // (speed_bar as any).noUiSlider.on('slide', () => {
-    //   this.trans_speed = 2.0001 - (2 * (speed_bar as any).noUiSlider.get())/100;
-    // });
     this.turingAnimation.transitionEditor = transitionEditor;
     this.turingAnimation.speedBar = speed_bar;
 
@@ -62,7 +65,7 @@ export class TsAnimationComponent implements OnInit {
   public loadInputData(input: string):void {
     this.input = input;
     this.turingAnimation.loadInput(input);
-
+    this.inputBtnNotVisible = true;
   }
 
   public play() {
@@ -72,12 +75,6 @@ export class TsAnimationComponent implements OnInit {
   public pause() {
       this.turingAnimation.isPause = true;
   }
-
-  getCounter():string {
-    console.log("Counter::: "+this.turingAnimation.counter);
-    return this.turingAnimation.counter;
-  }
-
 
   get counter(): number {
     return this._counter;
@@ -97,5 +94,30 @@ export class TsAnimationComponent implements OnInit {
 
   test2() {
     this._counter++;
+  }
+
+
+  get isSuccess() {
+    return this._isSuccess;
+  }
+
+  set isSuccess(value) {
+    this._isSuccess = value;
+  }
+
+  get isFail() {
+    return this._isFail;
+  }
+
+  set isFail(value) {
+    this._isFail = value;
+  }
+
+  clear() {
+    console.log("Clear");
+    this.inputBtnNotVisible = false;
+    this.turingAnimation.clear();
+    this.tsService.clear();
+    this.input = "";
   }
 }

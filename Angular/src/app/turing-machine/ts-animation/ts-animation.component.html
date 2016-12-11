@@ -20,27 +20,43 @@
   </div>
 </div>
 
-<div class ="col-md-4"  >
+<div class ="col-md-3"  >
 
-  <div class="input-group form-group-lg max" style=" padding-bottom: 3%; margin-left: auto; margin-right: auto;">
-    <input type="text" class="form-control" placeholder="Input" [(ngModel)]="inputData">
+
+  <div class="input-group form-group-lg max" style="  padding-bottom: 3%; margin-left: auto; margin-right: auto;">
+    <input [disabled]="inputBtnNotVisible" type="text" class="form-control" placeholder="Input" [(ngModel)]="inputData">
     <span class="input-group-btn">
               <button class="btn btn-lg btn-primary btn-block" type="button" (click)="loadInputData(inputData)">Input</button>
             </span>
+
   </div><!-- /input-group -->
 
 </div>
 
-<div class = "col-md-4">
+<div class="col-md-2">
+
+  <div class="alert alert-danger" *ngIf="_isFail">
+    Not working!
+  </div>
+  <div class="alert alert-success" *ngIf="_isSuccess">
+    Success!
+  </div>
+
+</div>
+
+<div class = "col-md-2">
   <div class="text-center">
     <div  class="btn-group btn-group-lg" >
       <button  [disabled]="isPlayBtnVisible || (input === '')" (click)="play()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
       <button  [disabled]="isPlayBtnVisible || (input === '')" (click)="pause()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
-      <button  [disabled]="isPlayBtnVisible || (input === '')"  (click)="test2()"type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span></button>
+      <button  [disabled]="isPlayBtnVisible || (input === '')" (click)="clear()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span></button>
       <button  [disabled]="isPlayBtnVisible || (input === '')" type="button" class="btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
     </div>
   </div>
 
+</div>
+
+<div class="col-md-1">
 </div>
 
 <div class="col-md-4">

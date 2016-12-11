@@ -9,21 +9,20 @@ export class TuringData {
   private _state:string;
   private _tape:string;
   private _position:number;
-  private _endState: boolean;
-  private _done: boolean;
+  private _isEndState: boolean;
+  private _isDone: boolean;
   private _direction: number; //1 or -1
   private _writeChar: string;
   private _turingCommand: TuringCommand;
   private _counter: number;
   private _transition: string;
-  private
 
-  constructor(state: string, tape: string, position: number, endState: boolean, done: boolean, direction: number, writeChar: string, turingCommand: TuringCommand, counter: number, transition: string) {
+  constructor(state: string, tape: string, position: number, isEndState: boolean, isDone: boolean, direction: number, writeChar: string, turingCommand: TuringCommand, counter: number, transition: string) {
     this._state = state;
     this._tape = tape;
     this._position = position;
-    this._endState = endState;
-    this._done = done;
+    this._isEndState = isEndState;
+    this._isDone = isDone;
     this._direction = direction;
     this._writeChar = writeChar;
     this._turingCommand = turingCommand;
@@ -95,20 +94,20 @@ export class TuringData {
     this._position = value;
   }
 
-  get endState(): boolean {
-    return this._endState;
+
+  get isEndState(): boolean {
+    return this._isEndState;
   }
 
-  set endState(value: boolean) {
-    this._endState = value;
+  set isEndState(value: boolean) {
+    this._isEndState = value;
   }
 
-  get done(): boolean {
-    return this._done;
+  get isDone(): boolean {
+    return this._isDone;
   }
 
-  set done(value: boolean) {
-    this._done = value;
+  set isDone(value: boolean) {
+    this._isDone = value;
   }
-
 }

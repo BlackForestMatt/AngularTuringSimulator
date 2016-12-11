@@ -10,6 +10,8 @@ export class TuringMachineComponent implements AfterViewInit,OnChanges {
   private exampleCode:string = ""; //For passsing the messages
   private currentCode:string;
   private isPlayBtnVisible = true;
+  private isCompileError = false;
+  private errorMessage = "";
   constructor(private tsService: TuringmachineService) { }
 
   ngAfterViewInit() {
@@ -33,6 +35,9 @@ export class TuringMachineComponent implements AfterViewInit,OnChanges {
     this.tsService.compile(this.currentCode);
     if(this.tsService.isCompile) {
       this.isPlayBtnVisible = false;
+    } else {
+      this.errorMessage = this.tsService.errorCompileMessage;
+      this.isCompileError = true;
     }
   }
 

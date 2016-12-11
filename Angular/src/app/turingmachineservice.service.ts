@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {TuringData} from "./TuringData";
 import {TuringCommand} from "./TuringCommand";
-import {TransitionData} from "./TransitionData";
 import {TConfiguration} from "./TConfiguration";
 
 declare var Compiler: any;
@@ -15,15 +14,15 @@ export class TuringmachineService {
   private simulator;
   private _isCompile = false;
   private lastTuringData: TuringData;
-  private isStart: boolean;
-  private isDone: boolean;
+  private isStart = false;
+  private isDone = false;
   private counter: number;
-
   private writeChar: string = '';
   private currentChar: string;
   private newChar: string;
   private secondTuringConf:TConfiguration;
   private thirdTuringConf:TConfiguration;
+  private _errorCompileMessage: string;
 
   public compile(sourcecode: string) {
     try {
@@ -33,29 +32,12 @@ export class TuringmachineService {
       this.simulator.setStateMap(this.compiler.getStateMap());
       this._isCompile = true;
     } catch(e) {
+      this._errorCompileMessage = e;
     }
   }
 
   constructor() {
   }
-
-  // public start2() {
-  //   let transitions = '';
-  //   this.simulator.setup('abba');
-  //   var conf = this.simulator.step();
-  //   transitions += conf.tape + " " + conf.state + " Pos: " + conf.position + '\n';
-  //   while (!conf.isDone) {
-  //     conf = this.simulator.step();
-  //     transitions +=  conf.tape + " " + conf.state + " Pos: " + conf.position + '\n';
-  //   }
-  //   transitions += 'output: ' + conf.tape;
-  //   console.log(transitions);
-  //   if (!conf.isEndState) {
-  //     console.log('not accepted');
-  //   } else {
-  //     console.log('accepted');
-  //   }
-  // }
 
   public start(input: string):TuringData {
     this.isStart = true;
@@ -63,8 +45,8 @@ export class TuringmachineService {
     this.counter = 1;
 
     if(this._isCompile) {
-      this.simulator.setup(input);
 
+      this.simulator.setup(input);
       let firstConf = this.simulator.step();
       let secondConf = this.simulator.step();
       let thirdConf = this.simulator.step();
@@ -76,12 +58,9 @@ export class TuringmachineService {
       let command = this.getTuringCommand(firstConf.tape,secondConf.tape,firstConf.position,secondConf.position);
 
       console.log("Direction: "+direction);
+      console.log(firstConf);
       console.log(secondConf);
-      //let transitions1 =  input + " " + "s0" + " Pos: " + "0" + '<br>';
-      //let transitions2 =  conf.tape + " " + conf.state + " Pos: " + conf.position + '<br>';
 
-      //console.log(transitions1);
-      //console.log(transitions2);
 
       switch(command) {
         case TuringCommand.Nothing:
@@ -238,7 +217,9 @@ export class TuringmachineService {
         let direction2 = this.getDirection(lastPos, nextPos);
         let directionLRN2 = this.getDirectionLRN(direction2);
 
-        return "("+currentState+","+currentChar +")" + " := " + "("+ lastState + "," + newChar + "," + directionLRN + ") \n ("+lastState+","+currentChar2 +")" + " := " + "("+ nextState + "," + newChar2 + "," + directionLRN2 + ") \n";
+        let transition1 = "("+currentState+","+currentChar +")" + " := " + "("+ lastState + "," + newChar + "," + directionLRN + ")\n";
+        let transition2 = "("+lastState+","+currentChar2 +")" + " := " + "("+ nextState + "," + newChar2 + "," + directionLRN2 + ")\n";
+        return transition1 + transition2;
       } else {
 
         newChar = currentTape.charAt(currentPos);
@@ -250,7 +231,8 @@ export class TuringmachineService {
     }
 
 
-    return "("+currentState+","+currentChar +")" + " := " + "("+ nextState + "," + newChar + "," + directionLRN + ") \n";
+    let transition = "("+currentState+","+currentChar +")" + " := " + "("+ nextState + "," + newChar + "," + directionLRN + ")\n";
+    return transition;
   }
 
   private getDirectionLRN(direction: number):string {
@@ -265,9 +247,24 @@ export class TuringmachineService {
     }
   }
 
-
   get isCompile(): boolean {
     return this._isCompile;
   }
 
+  get errorCompileMessage(): string {
+    return this._errorCompileMessage;
+  }
+
+  public clear() {
+  this.lastTuringData = null;
+  this.isStart = false;
+  this.isDone = false;
+  this.counter = 1;
+  this.writeChar = "";
+  this.currentChar = null;
+  this.newChar = null;
+  this.secondTuringConf = null;
+  this.thirdTuringConf = null;
+  this._errorCompileMessage = null;
+  }
 }

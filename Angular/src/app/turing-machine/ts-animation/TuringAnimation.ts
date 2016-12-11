@@ -25,8 +25,7 @@ export class TuringAnimation {
   private _speedBar;
   private transitionData = "";
   private speed: number;
-  private _counter;
-  private _state;
+  private isAnimationDone = false;
 
   constructor(private tsService: TuringmachineService,private tsComponent: TsAnimationComponent,private zone: NgZone) {}
 
@@ -113,6 +112,7 @@ export class TuringAnimation {
       console.log("Speed: "+this.speed);
     });
 
+
   }
 
   animate(direction: number,turingCommand: TuringCommand,writeChar: string,doneCallback: () => void) {
@@ -172,44 +172,52 @@ export class TuringAnimation {
   }
 
   public start() {
+    this._isPause = false;
     this.nextStep();
   }
 
   public nextStep() {
     let turingData;
-      if(!this.isStarted && this.inputText !== '') {
-        console.log("Turing Startet");
-        turingData = this.tsService.start(this.inputText);
-        this.isStarted = true;
-      } else {
-        console.log("Turing Service Step!!!");
-        turingData = this.tsService.step();
+    if(!this.isStarted && this.inputText !== '') {
+      turingData = this.tsService.start(this.inputText);
+      this.isStarted = true;
+    } else {
+      turingData = this.tsService.step();
+    }
 
+    if(!turingData.isDone || !this.isAnimationDone) {
+      let direction = turingData.direction;
+      let writeChar = turingData.writeChar;
+      let turingCommand = turingData.turingCommand;
+
+      this.transitionData = this.transitionData + turingData.transition;
+      if(turingData.isDone) {
+        this.isAnimationDone = false;
       }
 
-    console.log("Turing Step!!!");
-      if(!turingData.isDone) {
+      if(this.transitionData !=="") {
+        this._transitionEditor.setValue(this.transitionData);
+        let lastLine = this._transitionEditor.lastLine()-1;
+        this._transitionEditor.setCursor({line: lastLine, ch: 0})
+      }
 
-        let direction = turingData.direction;
+      this.zone.runOutsideAngular( () =>  {
+        this.animate(direction,turingCommand,writeChar,() => {
+          this.zone.run(() => {
+            this.tsComponent.counter = turingData.counter;
+            this.tsComponent.state = turingData.state;
 
-        let writeChar = turingData.writeChar;
-        let turingCommand = turingData.turingCommand;
-
-        this.transitionData = this.transitionData + turingData.transition;
-        if(this.transitionData !=="") {
-          this._transitionEditor.setValue(this.transitionData);
-        }
-        this.zone.runOutsideAngular( () =>  {
-          this.animate(direction,turingCommand,writeChar,() => {
-            this.zone.run(() => {
-              this.tsComponent.counter = turingData.counter;
-              this.tsComponent.state = turingData.state;
+            if(turingData.isDone) {
+              if (turingData.isEndState) {
+                this.tsComponent.isSuccess = true;
+              } else {
+                this.tsComponent.isFail = true;
+              }
+            }
             });
-          })
         })
+      })
 
-      } else {
-          console.log("IsDone");
       }
 
   }
@@ -241,19 +249,19 @@ export class TuringAnimation {
   }
 
 
-  get counter() {
-    return this._counter;
-  }
+  public clear() {
+    this.isStarted = false;
+    this._isPause = false;
+    this.inputText = "";
+    this.isAnimationDone = false;
 
-  set counter(value) {
-    this._counter = value;
-  }
+    let group = this.symbolGroup.getChildren();
+    let min = this.middleTape - 12;
+    let max = this.middleTape + 12;
 
-  get state() {
-    return this._state;
-  }
-
-  set state(value) {
-    this._state = value;
+    for(let i = min; i < max ;i++) {
+       group[i].setText(" ");
+     }
+     this.layer.draw();
   }
 }
