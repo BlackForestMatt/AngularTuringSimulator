@@ -1,9 +1,10 @@
-import {Component, OnInit, AfterViewInit, Input, NgZone} from '@angular/core';
+import {Component, OnInit, AfterViewInit, Input, NgZone, Output,EventEmitter} from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import * as noUiSlider from 'nouislider';
 import {TuringAnimation} from "./TuringAnimation";
 import {TuringData} from "../../TuringData";
 import {TuringmachineService} from "../../turingmachineservice.service";
+import {TuringDiagram} from "../../TuringDiagram";
 
 @Component({
   selector: 'ts-animation',
@@ -14,6 +15,7 @@ export class TsAnimationComponent implements OnInit {
 
   private turingAnimation: TuringAnimation;
   private input = "";
+
   @Input()
   private isPlayBtnVisible: true;
 
@@ -26,6 +28,8 @@ export class TsAnimationComponent implements OnInit {
   private _isFail = false;
   private inputBtnNotVisible = false;
 
+  @Output()
+  eventStateDiagram = new EventEmitter<TuringDiagram>();
 
   constructor(private tsService: TuringmachineService,private zone: NgZone) { }
 
@@ -59,7 +63,6 @@ export class TsAnimationComponent implements OnInit {
 
     this.turingAnimation.transitionEditor = transitionEditor;
     this.turingAnimation.speedBar = speed_bar;
-
   }
 
   public loadInputData(input: string):void {
@@ -119,5 +122,12 @@ export class TsAnimationComponent implements OnInit {
     this.turingAnimation.clear();
     this.tsService.clear();
     this.input = "";
+  }
+
+
+  public sendStateDiagram( stateDiagram: Map<string,number>) {
+    let turingDiagram = new TuringDiagram();
+    turingDiagram.stateDiagram = stateDiagram;
+    this.eventStateDiagram.emit(turingDiagram);
   }
 }

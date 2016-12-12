@@ -1,5 +1,6 @@
 import {Component, OnInit, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
 import {TuringmachineService} from "../turingmachineservice.service";
+import {TuringDiagram} from "../TuringDiagram";
 
 @Component({
   selector: 'app-turing-machine',
@@ -12,6 +13,7 @@ export class TuringMachineComponent implements AfterViewInit,OnChanges {
   private isPlayBtnVisible = true;
   private isCompileError = false;
   private errorMessage = "";
+  private stateDiagram = new Map<string,number>();
   constructor(private tsService: TuringmachineService) { }
 
   ngAfterViewInit() {
@@ -39,6 +41,10 @@ export class TuringMachineComponent implements AfterViewInit,OnChanges {
       this.errorMessage = this.tsService.errorCompileMessage;
       this.isCompileError = true;
     }
+  }
+
+  public setStateDiagram(turingDiagram : TuringDiagram) {
+    this.stateDiagram = turingDiagram.stateDiagram;
   }
 
 

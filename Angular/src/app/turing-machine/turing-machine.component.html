@@ -8,7 +8,7 @@
 <div id="container4">
 
   <div class="row well"  style="padding:0;">
-    <ts-animation [isPlayBtnVisible]="isPlayBtnVisible"></ts-animation>
+    <ts-animation [isPlayBtnVisible]="isPlayBtnVisible" (eventStateDiagram)="setStateDiagram($event)"></ts-animation>
   </div>
   <div class="row">
     <div class="col-md-12" style="text-align:center;">
@@ -27,7 +27,7 @@
 
       <ul class="nav nav-tabs" style="margin-bottom: 0;">
         <li class="active"><a data-toggle="tab" href="#editor">Editor</a></li>
-        <li><a data-toggle="tab" href="#statistic">Statistic</a></li>
+        <li><a data-toggle="tab" href="#statistic">State Diagram</a></li>
       </ul>
 
       <div class="tab-content" style="border-left: 1px solid #ddd;
@@ -46,7 +46,7 @@
           </form>
         </div>
         <div id="statistic" class="tab-pane fade">
-          <ts-chart></ts-chart>
+          <ts-chart [stateDiagram]="stateDiagram" ></ts-chart>
         </div>
 
       </div>

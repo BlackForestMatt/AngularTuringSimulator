@@ -26,6 +26,7 @@ export class TuringAnimation {
   private transitionData = "";
   private speed: number;
   private isAnimationDone = false;
+  private stateDiagram = new Map<string,number>();
 
   constructor(private tsService: TuringmachineService,private tsComponent: TsAnimationComponent,private zone: NgZone) {}
 
@@ -39,7 +40,6 @@ export class TuringAnimation {
     this.layer = new Kinetic.Layer();
     this.rectGroup = new Kinetic.Group({});
     this.symbolGroup = new Kinetic.Group({});
-
 
     let stage = new Kinetic.Stage({ //height => 0 wird nicht angezeigt!!!
       container: 'canvasWidth',
@@ -82,12 +82,10 @@ export class TuringAnimation {
         align: 'center',
       });
 
-
       x = x + this.cellSize + 20;
 
       this.rectGroup.add(rectangle);
       this.symbolGroup.add(symbol);
-
     }
 
     y = ((0.1) + (4/3)) * this.cellSize - this.cellSize/6;
@@ -111,8 +109,6 @@ export class TuringAnimation {
       this.speed = 2.0001 - (1.7 * this._speedBar.noUiSlider.get())/100;
       console.log("Speed: "+this.speed);
     });
-
-
   }
 
   animate(direction: number,turingCommand: TuringCommand,writeChar: string,doneCallback: () => void) {
@@ -206,8 +202,10 @@ export class TuringAnimation {
           this.zone.run(() => {
             this.tsComponent.counter = turingData.counter;
             this.tsComponent.state = turingData.state;
+            this.updateDiagram(turingData.state);
 
             if(turingData.isDone) {
+
               if (turingData.isEndState) {
                 this.tsComponent.isSuccess = true;
               } else {
@@ -263,5 +261,16 @@ export class TuringAnimation {
        group[i].setText(" ");
      }
      this.layer.draw();
+  }
+
+  private updateDiagram(state:string) {
+     if(this.stateDiagram.has(state)) {
+        let counter = this.stateDiagram.get(state);
+        counter++;
+        this.stateDiagram.delete(state);
+        this.stateDiagram.set(state,counter);
+     } else {
+       this.stateDiagram.set(state,1);
+     }
   }
 }
