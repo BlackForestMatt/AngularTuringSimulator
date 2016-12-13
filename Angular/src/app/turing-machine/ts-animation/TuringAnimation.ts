@@ -205,7 +205,7 @@ export class TuringAnimation {
             this.updateDiagram(turingData.state);
 
             if(turingData.isDone) {
-
+              this.tsComponent.sendStateDiagram(this.stateDiagram);
               if (turingData.isEndState) {
                 this.tsComponent.isSuccess = true;
               } else {

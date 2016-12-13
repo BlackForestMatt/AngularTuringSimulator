@@ -44,6 +44,7 @@ export class TuringMachineComponent implements AfterViewInit,OnChanges {
   }
 
   public setStateDiagram(turingDiagram : TuringDiagram) {
+    console.log("TuringDiagram");
     this.stateDiagram = turingDiagram.stateDiagram;
   }
 

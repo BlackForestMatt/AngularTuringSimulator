@@ -126,6 +126,7 @@ export class TsAnimationComponent implements OnInit {
 
 
   public sendStateDiagram( stateDiagram: Map<string,number>) {
+    console.log("TsAnimation StateDiagram");
     let turingDiagram = new TuringDiagram();
     turingDiagram.stateDiagram = stateDiagram;
     this.eventStateDiagram.emit(turingDiagram);
