@@ -8,15 +8,21 @@ import {Component, OnInit, Input, SimpleChanges, OnChanges} from '@angular/core'
 export class ChartComponent implements OnInit,OnChanges {
   public barChartOptions:any = {
     scaleShowVerticalLines: false,
-    responsive: true
+    responsive: true,
+    beginAtZero:true,
+    scales: {
+      xAxes: [{
+        ticks: {
+          beginAtZero:true
+        }
+      }]
+    }
   };
   public barChartLabels:string[] = [];
   public barChartType:string = 'horizontalBar';
   public barChartLegend:boolean = true;
 
-  public barChartData:any[] = [
-    {data: [], label: 'Series A'}
-  ];
+  public barChartData:number[] = [];
 
   @Input()
   stateDiagram = new Map<string,number>();
@@ -27,24 +33,24 @@ export class ChartComponent implements OnInit,OnChanges {
     //
     //   }
     // )
-    console.log("Char OnChange");
-    let states = this.stateDiagram.keys();
-    console.log(this.stateDiagram);
-    let data = [];
+    for(let change in changes) {
 
-    this.stateDiagram.forEach( (key,value) => {
-      this.barChartLabels.push(String(value));
+      console.log("Char OnChange");
+      if (change.length > 1) {
+        let data = [];
+        this.stateDiagram.forEach((key, value) => {
+          this.barChartLabels.push(String(value));
 
-      data.push(key);
-      console.log("State: "+value);
-      console.log("Number: "+key);
-    });
-    console.log(data);
-    console.log(this.barChartLabels);
-    let clone = JSON.parse(JSON.stringify(this.barChartData));
-    clone[0].data = data;
-    this.barChartData = clone;
-    console.log(this.barChartData);
+          data.push(key);
+          console.log("State: " + value);
+          console.log("Number: " + key);
+        });
+
+        this.barChartData = data;
+        console.log(data);
+        console.log(this.barChartLabels);
+      }
+    }
   }
 
 
