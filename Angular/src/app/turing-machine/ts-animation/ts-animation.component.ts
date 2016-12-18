@@ -29,6 +29,9 @@ export class TsAnimationComponent implements OnInit {
   private inputBtnNotVisible = false;
 
   @Output()
+  eventWordStatus = new EventEmitter<string>();
+
+  @Output()
   eventStateDiagram = new EventEmitter<TuringDiagram>();
 
   constructor(private tsService: TuringmachineService,private zone: NgZone) { }
@@ -105,6 +108,9 @@ export class TsAnimationComponent implements OnInit {
   }
 
   set isSuccess(value) {
+    if(value) {
+      this.eventWordStatus.emit("isSuccess");
+    }
     this._isSuccess = value;
   }
 
@@ -113,6 +119,9 @@ export class TsAnimationComponent implements OnInit {
   }
 
   set isFail(value) {
+    if(value) {
+      this.eventWordStatus.emit("isFail");
+    }
     this._isFail = value;
   }
 
@@ -130,5 +139,9 @@ export class TsAnimationComponent implements OnInit {
     let turingDiagram = new TuringDiagram();
     turingDiagram.stateDiagram = stateDiagram;
     this.eventStateDiagram.emit(turingDiagram);
+  }
+
+  public resetInputBtnVisible() {
+    this.inputBtnNotVisible = false;
   }
 }

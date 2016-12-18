@@ -1,6 +1,7 @@
 <div style="display: block">
   <canvas baseChart
-          [data]="barChartData"
+          [datasets]="barChartData"
+          [colors]="chartColors"
           [labels]="barChartLabels"
           [options]="barChartOptions"
           [legend]="barChartLegend"

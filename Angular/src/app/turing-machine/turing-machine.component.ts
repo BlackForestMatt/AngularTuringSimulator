@@ -14,6 +14,10 @@ export class TuringMachineComponent implements AfterViewInit,OnChanges {
   private isCompileError = false;
   private errorMessage = "";
   private stateDiagram = new Map<string,number>();
+  private isSuccess = false;
+  private isFail = false;
+
+
   constructor(private tsService: TuringmachineService) { }
 
   ngAfterViewInit() {
@@ -37,6 +41,7 @@ export class TuringMachineComponent implements AfterViewInit,OnChanges {
     this.tsService.compile(this.currentCode);
     if(this.tsService.isCompile) {
       this.isPlayBtnVisible = false;
+      this.isCompileError = false;
     } else {
       this.errorMessage = this.tsService.errorCompileMessage;
       this.isCompileError = true;
@@ -44,8 +49,15 @@ export class TuringMachineComponent implements AfterViewInit,OnChanges {
   }
 
   public setStateDiagram(turingDiagram : TuringDiagram) {
-    console.log("TuringDiagram");
     this.stateDiagram = turingDiagram.stateDiagram;
+  }
+
+  public setWordStatus(status:string) {
+    if(status === "isSuccess") {
+      this.isSuccess = true;
+    } else if(status === "isFail") {
+      this.isFail = true;
+    }
   }
 
 

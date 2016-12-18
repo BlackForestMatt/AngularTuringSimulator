@@ -21,21 +21,29 @@ export class ChartComponent implements OnInit,OnChanges {
   public barChartLabels:string[] = [];
   public barChartType:string = 'horizontalBar';
   public barChartLegend:boolean = true;
+  public chartColors: Array<any> = [
+    { // first color
+      backgroundColor: 'rgba(231, 201, 12, 1)',
+      borderColor: 'rgba(231, 201, 12, 1)',
+      pointHoverBackgroundColor: 'rgba(231, 201, 12, 1)',
+      pointHoverBorderColor: 'rgba(231, 201, 12, 1)'
 
-  public barChartData:number[] = [];
+    }];
+
+  public barChartData:any[] = [
+    {data:[],
+      label: 'States'
+    }
+  ];
 
   @Input()
   stateDiagram = new Map<string,number>();
 
   ngOnChanges(changes: SimpleChanges) {
-    // this.stateDiagram.forEach(
-    //   (key,value) => {
-    //
-    //   }
-    // )
-    for(let change in changes) {
 
-      console.log("Char OnChange");
+    for(let change in changes) {
+      this.clearCharData();
+
       if (change.length > 1) {
         let data = [];
         this.stateDiagram.forEach((key, value) => {
@@ -46,11 +54,20 @@ export class ChartComponent implements OnInit,OnChanges {
           console.log("Number: " + key);
         });
 
-        this.barChartData = data;
-        console.log(data);
+        let clone = JSON.parse(JSON.stringify(this.barChartData));
+        clone[0].data = data;
+        this.barChartData = clone;
+        console.log(this.barChartData);
         console.log(this.barChartLabels);
       }
     }
+  }
+
+  public clearCharData() {
+    let clone = JSON.parse(JSON.stringify(this.barChartData));
+    clone[0].data = [];
+    this.barChartData = clone;
+    this.barChartLabels = [];
   }
 
 

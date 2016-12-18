@@ -45,7 +45,6 @@ export class TuringmachineService {
     this.counter = 1;
 
     if(this._isCompile) {
-
       this.simulator.setup(input);
       let firstConf = this.simulator.step();
       let secondConf = this.simulator.step();
@@ -266,5 +265,18 @@ export class TuringmachineService {
   this.secondTuringConf = null;
   this.thirdTuringConf = null;
   this._errorCompileMessage = null;
+  }
+
+  public getStateDiagram():Map<string,number> {
+    let stateList = this.compiler.getStateMap();
+
+    let stateDiagram = new Map<string,number>();
+
+    for(let v in stateList) {
+      if((v !== "start") && (v !== "blank") && (v !== "end") && (v !== "alph")) {
+        stateDiagram.set(v,0);
+      }
+    }
+    return stateDiagram;
   }
 }

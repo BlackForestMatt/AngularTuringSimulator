@@ -26,7 +26,7 @@ export class TuringAnimation {
   private transitionData = "";
   private speed: number;
   private isAnimationDone = false;
-  private stateDiagram = new Map<string,number>();
+  private stateDiagram: Map<string,number>;
 
   constructor(private tsService: TuringmachineService,private tsComponent: TsAnimationComponent,private zone: NgZone) {}
 
@@ -157,6 +157,7 @@ export class TuringAnimation {
 
 
   public loadInput(input: string) {
+    this.clear();
     this.inputText = input;
     let group = this.symbolGroup.getChildren();
 
@@ -175,6 +176,7 @@ export class TuringAnimation {
   public nextStep() {
     let turingData;
     if(!this.isStarted && this.inputText !== '') {
+      this.stateDiagram = this.tsService.getStateDiagram();
       turingData = this.tsService.start(this.inputText);
       this.isStarted = true;
     } else {
@@ -205,6 +207,7 @@ export class TuringAnimation {
             this.updateDiagram(turingData.state);
 
             if(turingData.isDone) {
+              this.tsComponent.resetInputBtnVisible();
               this.tsComponent.sendStateDiagram(this.stateDiagram);
               if (turingData.isEndState) {
                 this.tsComponent.isSuccess = true;
@@ -219,7 +222,6 @@ export class TuringAnimation {
       }
 
   }
-
 
 
   private write(turingCommand: TuringCommand,writeChar: string) {
@@ -253,14 +255,18 @@ export class TuringAnimation {
     this.inputText = "";
     this.isAnimationDone = false;
 
+    this.resetInputSymbols();
+  }
+
+  public resetInputSymbols() {
     let group = this.symbolGroup.getChildren();
     let min = this.middleTape - 12;
     let max = this.middleTape + 12;
 
     for(let i = min; i < max ;i++) {
-       group[i].setText(" ");
-     }
-     this.layer.draw();
+      group[i].setText(" ");
+    }
+    this.layer.draw();
   }
 
   private updateDiagram(state:string) {
@@ -269,8 +275,6 @@ export class TuringAnimation {
         counter++;
         this.stateDiagram.delete(state);
         this.stateDiagram.set(state,counter);
-     } else {
-       this.stateDiagram.set(state,1);
      }
   }
 }
