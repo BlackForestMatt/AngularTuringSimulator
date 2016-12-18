@@ -131,7 +131,7 @@
 
   // The display handles the DOM integration, both for input reading
   // and content drawing. It holds references to DOM nodes and
-  // display-related state.
+  // display-related newState.
 
   function Display(place, doc, input) {
     var d = this;
@@ -233,7 +233,7 @@
 
   // STATE UPDATES
 
-  // Used to get the editor into a consistent state again when options change.
+  // Used to get the editor into a consistent newState again when options change.
 
   function loadMode(cm) {
     cm.doc.mode = CodeMirror.getMode(cm.options, cm.doc.modeOption);
@@ -247,7 +247,7 @@
     });
     cm.doc.frontier = cm.doc.first;
     startWorker(cm, 100);
-    cm.state.modeGen++;
+    cm.newState.modeGen++;
     if (cm.curOp) regChange(cm);
   }
 
@@ -512,7 +512,7 @@
       cm.display.wrapper.insertBefore(node, cm.display.scrollbarFiller);
       // Prevent clicks in the scrollbars from killing focus
       on(node, "mousedown", function() {
-        if (cm.state.focused) setTimeout(function() { cm.display.input.focus(); }, 0);
+        if (cm.newState.focused) setTimeout(function() { cm.display.input.focus(); }, 0);
       });
       node.setAttribute("cm-not-content", "true");
     }, function(pos, axis) {
@@ -1091,7 +1091,7 @@
   // INPUT HANDLING
 
   function ensureFocus(cm) {
-    if (!cm.state.focused) { cm.display.input.focus(); onFocus(cm); }
+    if (!cm.newState.focused) { cm.display.input.focus(); onFocus(cm); }
   }
 
   // This will be set to an array of strings when copying, so that,
@@ -1104,7 +1104,7 @@
     cm.display.shift = false;
     if (!sel) sel = doc.sel;
 
-    var paste = cm.state.pasteIncoming || origin == "paste";
+    var paste = cm.newState.pasteIncoming || origin == "paste";
     var textLines = doc.splitLines(inserted), multiPaste = null;
     // When pasing N lines into N selections, insert one line per selection
     if (paste && sel.ranges.length > 1) {
@@ -1126,12 +1126,12 @@
       if (range.empty()) {
         if (deleted && deleted > 0) // Handle deletion
           from = Pos(from.line, from.ch - deleted);
-        else if (cm.state.overwrite && !paste) // Handle overwrite
+        else if (cm.newState.overwrite && !paste) // Handle overwrite
           to = Pos(to.line, Math.min(getLine(doc, to.line).text.length, to.ch + lst(textLines).length));
       }
       var updateInput = cm.curOp.updateInput;
       var changeEvent = {from: from, to: to, text: multiPaste ? multiPaste[i % multiPaste.length] : textLines,
-                         origin: origin || (paste ? "paste" : cm.state.cutIncoming ? "cut" : "+input")};
+                         origin: origin || (paste ? "paste" : cm.newState.cutIncoming ? "cut" : "+input")};
       makeChange(cm.doc, changeEvent);
       signalLater(cm, "inputRead", cm, changeEvent);
     }
@@ -1141,7 +1141,7 @@
     ensureCursorVisible(cm);
     cm.curOp.updateInput = updateInput;
     cm.curOp.typing = true;
-    cm.state.pasteIncoming = cm.state.cutIncoming = false;
+    cm.newState.pasteIncoming = cm.newState.cutIncoming = false;
   }
 
   function handlePaste(e, cm) {
@@ -1253,7 +1253,7 @@
       on(te, "paste", function(e) {
         if (signalDOMEvent(cm, e) || handlePaste(e, cm)) return
 
-        cm.state.pasteIncoming = true;
+        cm.newState.pasteIncoming = true;
         input.fastPoll();
       });
 
@@ -1280,14 +1280,14 @@
             selectInput(te);
           }
         }
-        if (e.type == "cut") cm.state.cutIncoming = true;
+        if (e.type == "cut") cm.newState.cutIncoming = true;
       }
       on(te, "cut", prepareCopyCut);
       on(te, "copy", prepareCopyCut);
 
       on(display.scroller, "paste", function(e) {
         if (eventInWidget(display, e) || signalDOMEvent(cm, e)) return;
-        cm.state.pasteIncoming = true;
+        cm.newState.pasteIncoming = true;
         input.focus();
       });
 
@@ -1353,7 +1353,7 @@
           (range.to().line - range.from().line > 100 || (selected = cm.getSelection()).length > 1000);
         var content = minimal ? "-" : selected || cm.getSelection();
         this.textarea.value = content;
-        if (cm.state.focused) selectInput(this.textarea);
+        if (cm.newState.focused) selectInput(this.textarea);
         if (ie && ie_version >= 9) this.hasSelection = content;
       } else if (!typing) {
         this.prevInput = this.textarea.value = "";
@@ -1388,7 +1388,7 @@
       if (input.pollingFast) return;
       input.polling.set(this.cm.options.pollInterval, function() {
         input.poll();
-        if (input.cm.state.focused) input.slowPoll();
+        if (input.cm.newState.focused) input.slowPoll();
       });
     },
 
@@ -1418,9 +1418,9 @@
       // possible when it is clear that nothing happened. hasSelection
       // will be the case when there is a lot of text in the textarea,
       // in which case reading its value would be expensive.
-      if (this.contextMenuPending || !cm.state.focused ||
+      if (this.contextMenuPending || !cm.newState.focused ||
           (hasSelection(input) && !prevInput && !this.composing) ||
-          cm.isReadOnly() || cm.options.disableInput || cm.state.keySeq)
+          cm.isReadOnly() || cm.options.disableInput || cm.newState.keySeq)
         return false;
 
       var text = input.value;
@@ -1656,7 +1656,7 @@
 
     prepareSelection: function() {
       var result = prepareSelection(this.cm, false);
-      result.focus = this.cm.state.focused;
+      result.focus = this.cm.newState.focused;
       return result;
     },
 
@@ -1692,7 +1692,7 @@
       try { var rng = range(start.node, start.offset, end.offset, end.node); }
       catch(e) {} // Our model of the DOM might be outdated, in which case the range we try to set can be impossible
       if (rng) {
-        if (!gecko && this.cm.state.focused) {
+        if (!gecko && this.cm.newState.focused) {
           sel.collapse(start.node, start.offset);
           if (!rng.collapsed) sel.addRange(rng);
         } else {
@@ -1749,7 +1749,7 @@
         runInOp(this.cm, function() { input.cm.curOp.selectionChanged = true; });
 
       function poll() {
-        if (input.cm.state.focused) {
+        if (input.cm.newState.focused) {
           input.pollSelection();
           input.polling.set(input.cm.options.pollInterval, poll);
         }
@@ -2414,7 +2414,7 @@
 
   // Cursor-blinking
   function restartBlink(cm) {
-    if (!cm.state.focused) return;
+    if (!cm.newState.focused) return;
     var display = cm.display;
     clearInterval(display.blinker);
     var on = true;
@@ -2431,7 +2431,7 @@
 
   function startWorker(cm, time) {
     if (cm.doc.mode.startState && cm.doc.frontier < cm.display.viewTo)
-      cm.state.highlight.set(time, bind(highlightWorker, cm));
+      cm.newState.highlight.set(time, bind(highlightWorker, cm));
   }
 
   function highlightWorker(cm) {
@@ -2474,7 +2474,7 @@
 
   // Finds the line to start with when starting a parse. Tries to
   // find a line with a stateAfter, so that it can start with a
-  // valid state. If that fails, it returns the line with the
+  // valid newState. If that fails, it returns the line with the
   // smallest indentation, which tends to need the least context to
   // parse correctly.
   function findStartLine(cm, n, precise) {
@@ -2977,7 +2977,7 @@
   // OPERATIONS
 
   // Operations are used to wrap a series of changes to the editor
-  // state in such a way that each change won't have to update the
+  // newState in such a way that each change won't have to update the
   // cursor and display (which would be awkward, slow, and
   // error-prone). Instead, display updates are batched and then all
   // combined and executed at once.
@@ -3117,7 +3117,7 @@
 
     if (op.selectionChanged) restartBlink(cm);
 
-    if (cm.state.focused && op.updateInput)
+    if (cm.newState.focused && op.updateInput)
       cm.display.input.reset(op.typing);
     if (op.focus && op.focus == activeElt() && (!document.hasFocus || document.hasFocus()))
       ensureFocus(op.cm);
@@ -3148,7 +3148,7 @@
     if (op.scrollToPos) {
       var coords = scrollPosIntoView(cm, clipPos(doc, op.scrollToPos.from),
                                      clipPos(doc, op.scrollToPos.to), op.scrollToPos.margin);
-      if (op.scrollToPos.isCursor && cm.state.focused) maybeScrollWindow(cm, coords);
+      if (op.scrollToPos.isCursor && cm.newState.focused) maybeScrollWindow(cm, coords);
     }
 
     // Fire events for markers that are hidden/unidden by editing or
@@ -3583,15 +3583,15 @@
     switch (e_button(e)) {
     case 1:
       // #3261: make sure, that we're not starting a second selection
-      if (cm.state.selectingText)
-        cm.state.selectingText(e);
+      if (cm.newState.selectingText)
+        cm.newState.selectingText(e);
       else if (start)
         leftButtonDown(cm, e, start);
       else if (e_target(e) == display.scroller)
         e_preventDefault(e);
       break;
     case 2:
-      if (webkit) cm.state.lastMiddleDown = +new Date;
+      if (webkit) cm.newState.lastMiddleDown = +new Date;
       if (start) extendSelection(cm.doc, start);
       setTimeout(function() {display.input.focus();}, 20);
       e_preventDefault(e);
@@ -3635,7 +3635,7 @@
     var display = cm.display, startTime = +new Date;
     var dragEnd = operation(cm, function(e2) {
       if (webkit) display.scroller.draggable = false;
-      cm.state.draggingText = false;
+      cm.newState.draggingText = false;
       off(document, "mouseup", dragEnd);
       off(display.scroller, "drop", dragEnd);
       if (Math.abs(e.clientX - e2.clientX) + Math.abs(e.clientY - e2.clientY) < 10) {
@@ -3651,7 +3651,7 @@
     });
     // Let the drag handler handle this.
     if (webkit) display.scroller.draggable = true;
-    cm.state.draggingText = dragEnd;
+    cm.newState.draggingText = dragEnd;
     // IE's approach to draggable
     if (display.scroller.dragDrop) display.scroller.dragDrop();
     on(document, "mouseup", dragEnd);
@@ -3784,7 +3784,7 @@
     }
 
     function done(e) {
-      cm.state.selectingText = false;
+      cm.newState.selectingText = false;
       counter = Infinity;
       e_preventDefault(e);
       display.input.focus();
@@ -3798,7 +3798,7 @@
       else extend(e);
     });
     var up = operation(cm, done);
-    cm.state.selectingText = up;
+    cm.newState.selectingText = up;
     on(document, "mousemove", move);
     on(document, "mouseup", up);
   }
@@ -3873,8 +3873,8 @@
       for (var i = 0; i < n; ++i) loadFile(files[i], i);
     } else { // Normal drop
       // Don't do a replace if the drop happened inside of the selected text.
-      if (cm.state.draggingText && cm.doc.sel.contains(pos) > -1) {
-        cm.state.draggingText(e);
+      if (cm.newState.draggingText && cm.doc.sel.contains(pos) > -1) {
+        cm.newState.draggingText(e);
         // Ensure the editor is re-focused
         setTimeout(function() {cm.display.input.focus();}, 20);
         return;
@@ -3882,7 +3882,7 @@
       try {
         var text = e.dataTransfer.getData("Text");
         if (text) {
-          if (cm.state.draggingText && !(mac ? e.altKey : e.ctrlKey))
+          if (cm.newState.draggingText && !(mac ? e.altKey : e.ctrlKey))
             var selected = cm.listSelections();
           setSelectionNoUndo(cm.doc, simpleSelection(pos, pos));
           if (selected) for (var i = 0; i < selected.length; ++i)
@@ -3896,7 +3896,7 @@
   }
 
   function onDragStart(cm, e) {
-    if (ie && (!cm.state.draggingText || +new Date - lastDrop < 100)) { e_stop(e); return; }
+    if (ie && (!cm.newState.draggingText || +new Date - lastDrop < 100)) { e_stop(e); return; }
     if (signalDOMEvent(cm, e) || eventInWidget(cm.display, e)) return;
 
     e.dataTransfer.setData("Text", cm.getSelection());
@@ -4083,19 +4083,19 @@
     cm.display.input.ensurePolled();
     var prevShift = cm.display.shift, done = false;
     try {
-      if (cm.isReadOnly()) cm.state.suppressEdits = true;
+      if (cm.isReadOnly()) cm.newState.suppressEdits = true;
       if (dropShift) cm.display.shift = false;
       done = bound(cm) != Pass;
     } finally {
       cm.display.shift = prevShift;
-      cm.state.suppressEdits = false;
+      cm.newState.suppressEdits = false;
     }
     return done;
   }
 
   function lookupKeyForEditor(cm, name, handle) {
-    for (var i = 0; i < cm.state.keyMaps.length; i++) {
-      var result = lookupKey(name, cm.state.keyMaps[i], handle, cm);
+    for (var i = 0; i < cm.newState.keyMaps.length; i++) {
+      var result = lookupKey(name, cm.newState.keyMaps[i], handle, cm);
       if (result) return result;
     }
     return (cm.options.extraKeys && lookupKey(name, cm.options.extraKeys, handle, cm))
@@ -4104,12 +4104,12 @@
 
   var stopSeq = new Delayed;
   function dispatchKey(cm, name, e, handle) {
-    var seq = cm.state.keySeq;
+    var seq = cm.newState.keySeq;
     if (seq) {
       if (isModifierKey(name)) return "handled";
       stopSeq.set(50, function() {
-        if (cm.state.keySeq == seq) {
-          cm.state.keySeq = null;
+        if (cm.newState.keySeq == seq) {
+          cm.newState.keySeq = null;
           cm.display.input.reset();
         }
       });
@@ -4118,7 +4118,7 @@
     var result = lookupKeyForEditor(cm, name, handle);
 
     if (result == "multi")
-      cm.state.keySeq = name;
+      cm.newState.keySeq = name;
     if (result == "handled")
       signalLater(cm, "keyHandled", cm, name, e);
 
@@ -4139,7 +4139,7 @@
     var name = keyName(e, true);
     if (!name) return false;
 
-    if (e.shiftKey && !cm.state.keySeq) {
+    if (e.shiftKey && !cm.newState.keySeq) {
       // First try to resolve full name (including 'Shift-'). Failing
       // that, see if there is a cursor-motion command (starting with
       // 'go') bound to the keyname without 'Shift-'.
@@ -4215,22 +4215,22 @@
   // FOCUS/BLUR EVENTS
 
   function delayBlurEvent(cm) {
-    cm.state.delayingBlurEvent = true;
+    cm.newState.delayingBlurEvent = true;
     setTimeout(function() {
-      if (cm.state.delayingBlurEvent) {
-        cm.state.delayingBlurEvent = false;
+      if (cm.newState.delayingBlurEvent) {
+        cm.newState.delayingBlurEvent = false;
         onBlur(cm);
       }
     }, 100);
   }
 
   function onFocus(cm) {
-    if (cm.state.delayingBlurEvent) cm.state.delayingBlurEvent = false;
+    if (cm.newState.delayingBlurEvent) cm.newState.delayingBlurEvent = false;
 
     if (cm.options.readOnly == "nocursor") return;
-    if (!cm.state.focused) {
+    if (!cm.newState.focused) {
       signal(cm, "focus", cm);
-      cm.state.focused = true;
+      cm.newState.focused = true;
       addClass(cm.display.wrapper, "CodeMirror-focused");
       // This test prevents this from firing when a context
       // menu is closed (since the input reset would kill the
@@ -4244,15 +4244,15 @@
     restartBlink(cm);
   }
   function onBlur(cm) {
-    if (cm.state.delayingBlurEvent) return;
+    if (cm.newState.delayingBlurEvent) return;
 
-    if (cm.state.focused) {
+    if (cm.newState.focused) {
       signal(cm, "blur", cm);
-      cm.state.focused = false;
+      cm.newState.focused = false;
       rmClass(cm.display.wrapper, "CodeMirror-focused");
     }
     clearInterval(cm.display.blinker);
-    setTimeout(function() {if (!cm.state.focused) cm.display.shift = false;}, 150);
+    setTimeout(function() {if (!cm.newState.focused) cm.display.shift = false;}, 150);
   }
 
   // CONTEXT MENU HANDLING
@@ -4358,7 +4358,7 @@
   function makeChange(doc, change, ignoreReadOnly) {
     if (doc.cm) {
       if (!doc.cm.curOp) return operation(doc.cm, makeChange)(doc, change, ignoreReadOnly);
-      if (doc.cm.state.suppressEdits) return;
+      if (doc.cm.newState.suppressEdits) return;
     }
 
     if (hasHandler(doc, "beforeChange") || doc.cm && hasHandler(doc.cm, "beforeChange")) {
@@ -4396,7 +4396,7 @@
 
   // Revert a change stored in a document's history.
   function makeChangeFromHistory(doc, type, allowSelectionOnly) {
-    if (doc.cm && doc.cm.state.suppressEdits) return;
+    if (doc.cm && doc.cm.newState.suppressEdits) return;
 
     var hist = doc.history, event, selAfter = doc.sel;
     var source = type == "undo" ? hist.done : hist.undone, dest = type == "undo" ? hist.undone : hist.done;
@@ -4922,17 +4922,17 @@
     addOverlay: methodOp(function(spec, options) {
       var mode = spec.token ? spec : CodeMirror.getMode(this.options, spec);
       if (mode.startState) throw new Error("Overlays may not be stateful.");
-      this.state.overlays.push({mode: mode, modeSpec: spec, opaque: options && options.opaque});
-      this.state.modeGen++;
+      this.newState.overlays.push({mode: mode, modeSpec: spec, opaque: options && options.opaque});
+      this.newState.modeGen++;
       regChange(this);
     }),
     removeOverlay: methodOp(function(spec) {
-      var overlays = this.state.overlays;
+      var overlays = this.newState.overlays;
       for (var i = 0; i < overlays.length; ++i) {
         var cur = overlays[i].modeSpec;
         if (cur == spec || typeof spec == "string" && cur.name == spec) {
           overlays.splice(i, 1);
-          this.state.modeGen++;
+          this.newState.modeGen++;
           regChange(this);
           return;
         }
@@ -4968,7 +4968,7 @@
     }),
 
     // Fetch the parser token for a given character. Useful for hacks
-    // that want to inspect the mode state (say, for completion).
+    // that want to inspect the mode newState (say, for completion).
     getTokenAt: function(pos, precise) {
       return takeToken(this, pos, precise);
     },
@@ -4996,7 +4996,7 @@
     getModeAt: function(pos) {
       var mode = this.doc.mode;
       if (!mode.innerMode) return mode;
-      return CodeMirror.innerMode(mode, this.getTokenAt(pos).state).mode;
+      return CodeMirror.innerMode(mode, this.getTokenAt(pos).newState).mode;
     },
 
     getHelper: function(pos, type) {
@@ -5386,7 +5386,7 @@
       replaceRange(cm.doc, val, newBreaks[i], Pos(newBreaks[i].line, newBreaks[i].ch + val.length))
   });
   option("specialChars", /[\t\u0000-\u0019\u00ad\u200b-\u200f\u2028\u2029\ufeff]/g, function(cm, val, old) {
-    cm.state.specialChars = new RegExp(val.source + (val.test("\t") ? "" : "|\t"), "g");
+    cm.newState.specialChars = new RegExp(val.source + (val.test("\t") ? "" : "|\t"), "g");
     if (old != CodeMirror.Init) cm.refresh();
   });
   option("specialCharPlaceholder", defaultSpecialCharPlaceholder, function(cm) {cm.refresh();}, true);
@@ -5570,7 +5570,7 @@
 
   // MODE STATE HANDLING
 
-  // Utility functions for working with state. Exported because nested
+  // Utility functions for working with newState. Exported because nested
   // modes need to do this for their inner modes.
 
   var copyState = CodeMirror.copyState = function(mode, state) {
@@ -5589,13 +5589,13 @@
     return mode.startState ? mode.startState(a1, a2) : true;
   };
 
-  // Given a mode and a state (for that mode), find the inner mode and
-  // state at the position that the state refers to.
+  // Given a mode and a newState (for that mode), find the inner mode and
+  // newState at the position that the newState refers to.
   CodeMirror.innerMode = function(mode, state) {
     while (mode.innerMode) {
       var info = mode.innerMode(state);
       if (!info || info.mode == mode) break;
-      state = info.state;
+      state = info.newState;
       mode = info.mode;
     }
     return info || {mode: mode, state: state};
@@ -6221,7 +6221,7 @@
       marker.atomic = true;
     }
     if (cm) {
-      // Sync editor state
+      // Sync editor newState
       if (updateMaxLine) cm.curOp.updateMaxLine = true;
       if (marker.collapsed)
         regChange(cm, from.line, to.line + 1);
@@ -6707,7 +6707,7 @@
 
   // LINE DATA STRUCTURE
 
-  // Line objects. These hold state related to a line, including
+  // Line objects. These hold newState related to a line, including
   // highlighting info (the styles array).
   var Line = CodeMirror.Line = function(text, markedSpans, estimateHeight) {
     this.text = text;
@@ -6755,7 +6755,7 @@
     if (mode.blankLine) return mode.blankLine(state);
     if (!mode.innerMode) return;
     var inner = CodeMirror.innerMode(mode, state);
-    if (inner.mode.blankLine) return inner.mode.blankLine(inner.state);
+    if (inner.mode.blankLine) return inner.mode.blankLine(inner.newState);
   }
 
   function readToken(mode, stream, state, inner) {
@@ -6834,15 +6834,15 @@
   function highlightLine(cm, line, state, forceToEnd) {
     // A styles array always starts with a number identifying the
     // mode/overlays that it is based on (for easy invalidation).
-    var st = [cm.state.modeGen], lineClasses = {};
+    var st = [cm.newState.modeGen], lineClasses = {};
     // Compute the base array of styles
     runMode(cm, line.text, cm.doc.mode, state, function(end, style) {
       st.push(end, style);
     }, lineClasses, forceToEnd);
 
     // Run overlays, adjust style array.
-    for (var o = 0; o < cm.state.overlays.length; ++o) {
-      var overlay = cm.state.overlays[o], i = 1, at = 0;
+    for (var o = 0; o < cm.newState.overlays.length; ++o) {
+      var overlay = cm.newState.overlays[o], i = 1, at = 0;
       runMode(cm, line.text, overlay.mode, true, function(end, style) {
         var start = i;
         // Ensure there's a token end at the current position, and that i points at it
@@ -6870,7 +6870,7 @@
   }
 
   function getLineStyles(cm, line, updateFrontier) {
-    if (!line.styles || line.styles[0] != cm.state.modeGen) {
+    if (!line.styles || line.styles[0] != cm.newState.modeGen) {
       var state = getStateBefore(cm, lineNo(line));
       var result = highlightLine(cm, line, line.text.length > cm.options.maxHighlightLength ? copyState(cm.doc.mode, state) : state);
       line.stateAfter = state;
@@ -6883,7 +6883,7 @@
   }
 
   // Lightweight form of highlight -- proceed over this line and
-  // update state, but don't save a style array. Used for lines that
+  // update newState, but don't save a style array. Used for lines that
   // aren't currently visible.
   function processLine(cm, text, state, startAt) {
     var mode = cm.doc.mode;
@@ -6978,7 +6978,7 @@
   function buildToken(builder, text, style, startStyle, endStyle, title, css) {
     if (!text) return;
     var displayText = builder.splitSpaces ? text.replace(/ {3,}/g, splitSpaces) : text;
-    var special = builder.cm.state.specialChars, mustWrap = false;
+    var special = builder.cm.newState.specialChars, mustWrap = false;
     if (!special.test(text)) {
       builder.col += text.length;
       var content = document.createTextNode(displayText);
@@ -8184,7 +8184,7 @@
   // Often, we want to signal events at a point where we are in the
   // middle of some work, but don't want the handler to start calling
   // other methods on the editor, which might be in an inconsistent
-  // state or simply not expect any other events to happen.
+  // newState or simply not expect any other events to happen.
   // signalLater looks whether there are any handlers, and schedules
   // them to be executed when the last operation ends, or, if no
   // operation is active, when a timeout fires.

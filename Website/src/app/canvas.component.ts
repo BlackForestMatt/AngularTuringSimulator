@@ -14,7 +14,7 @@ export class CanvasComponent implements AfterViewInit,AfterContentInit,OnInit {
 
 
   private example1 = "blank := _; / symbol to use as blank \n " +
-    "start := s0; / set start state \n" +
+    "start := s0; / set start newState \n" +
     "end := {s5}; \n" +
     "/ transition function \n" +
     "s0, a -> s1, a, >; \n" +

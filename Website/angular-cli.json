@@ -24,7 +24,7 @@
         "../libs/kinetic-v5.1.0.js",
         "../libs/nouislider.min.js",
         "../libs/Chart.js",
-        "../../dist/turing.js"
+        "../../Compiler/dist/turing.js"
       ],
       "environments": {
         "source": "environments/environment.ts",

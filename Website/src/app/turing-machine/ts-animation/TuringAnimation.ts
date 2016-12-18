@@ -178,6 +178,9 @@ export class TuringAnimation {
     if(!this.isStarted && this.inputText !== '') {
       this.stateDiagram = this.tsService.getStateDiagram();
       turingData = this.tsService.start(this.inputText);
+
+      this.tsComponent.counter = turingData.counter;
+      this.tsComponent.state = turingData.currentState;
       this.isStarted = true;
     } else {
       turingData = this.tsService.step();
@@ -193,7 +196,7 @@ export class TuringAnimation {
         this.isAnimationDone = false;
       }
 
-      if(this.transitionData !=="") {
+      if(this.transitionData !== "") {
         this._transitionEditor.setValue(this.transitionData);
         let lastLine = this._transitionEditor.lastLine()-1;
         this._transitionEditor.setCursor({line: lastLine, ch: 0})
@@ -203,10 +206,12 @@ export class TuringAnimation {
         this.animate(direction,turingCommand,writeChar,() => {
           this.zone.run(() => {
             this.tsComponent.counter = turingData.counter;
-            this.tsComponent.state = turingData.state;
-            this.updateDiagram(turingData.state);
+            this.updateDiagram(turingData.currentState);
 
             if(turingData.isDone) {
+              this.tsComponent.state = turingData.newState;
+              this.updateDiagram(turingData.newState);
+              
               this.tsComponent.resetInputBtnVisible();
               this.tsComponent.sendStateDiagram(this.stateDiagram);
               if (turingData.isEndState) {
@@ -214,6 +219,9 @@ export class TuringAnimation {
               } else {
                 this.tsComponent.isFail = true;
               }
+
+            } else {
+              this.tsComponent.state = turingData.currentState;
             }
             });
         })

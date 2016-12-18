@@ -66,7 +66,7 @@ declare namespace CodeMirror {
     function on(line: LineHandle, eventName: 'change', handler: (line: LineHandle, change: EditorChange) => void ): void;
     function off(line: LineHandle, eventName: 'change', handler: (line: LineHandle, change: EditorChange) => void ): void;
 
-    /** Fired when the cursor enters the marked range. From this event handler, the editor state may be inspected but not modified,
+    /** Fired when the cursor enters the marked range. From this event handler, the editor newState may be inspected but not modified,
     with the exception that the range on which the event fires may be cleared. */
     function on(marker: TextMarker, eventName: 'beforeCursorEnter', handler: () => void ): void;
     function off(marker: TextMarker, eventName: 'beforeCursorEnter', handler: () => void ): void;
@@ -283,13 +283,13 @@ declare namespace CodeMirror {
             string: string;
             /** The token type the mode assigned to the token, such as "keyword" or "comment" (may also be null). */
             type: string;
-            /** The mode's state at the end of this token. */
+            /** The mode's newState at the end of this token. */
             state: any;
         };
 
-        /** Returns the mode's parser state, if any, at the end of the given line number.
-        If no line number is given, the state at the end of the document is returned.
-        This can be useful for storing parsing errors in the state, or getting other kinds of contextual information for a line. */
+        /** Returns the mode's parser newState, if any, at the end of the given line number.
+        If no line number is given, the newState at the end of the document is returned.
+        This can be useful for storing parsing errors in the newState, or getting other kinds of contextual information for a line. */
         getStateAfter(line?: number): any;
 
         /** CodeMirror internally buffers changes and only updates its DOM structure after it has finished performing some operation.
@@ -354,7 +354,7 @@ declare namespace CodeMirror {
         off(eventName: 'cursorActivity', handler: (instance: CodeMirror.Editor) => void ): void;
 
         /** This event is fired before the selection is moved. Its handler may modify the resulting selection head and anchor.
-        Handlers for this event have the same restriction as "beforeChange" handlers � they should not do anything to directly update the state of the editor. */
+        Handlers for this event have the same restriction as "beforeChange" handlers � they should not do anything to directly update the newState of the editor. */
         on(eventName: 'beforeSelectionChange', handler: (instance: CodeMirror.Editor, selection: { head: CodeMirror.Position; anchor: CodeMirror.Position; }) => void ): void;
         off(eventName: 'beforeSelectionChange', handler: (instance: CodeMirror.Editor, selection: { head: CodeMirror.Position; anchor: CodeMirror.Position; }) => void ): void;
 
@@ -386,11 +386,11 @@ declare namespace CodeMirror {
         off(eventName: 'update', handler: (instance: CodeMirror.Editor) => void ): void;
 
         /** Fired whenever a line is (re-)rendered to the DOM. Fired right after the DOM element is built, before it is added to the document.
-        The handler may mess with the style of the resulting element, or add event handlers, but should not try to change the state of the editor. */
+        The handler may mess with the style of the resulting element, or add event handlers, but should not try to change the newState of the editor. */
         on(eventName: 'renderLine', handler: (instance: CodeMirror.Editor, line: number, element: HTMLElement) => void ): void;
         off(eventName: 'renderLine', handler: (instance: CodeMirror.Editor, line: number, element: HTMLElement) => void ): void;
 
-        /** Expose the state object, so that the Editor.state.completionActive property is reachable*/
+        /** Expose the newState object, so that the Editor.newState.completionActive property is reachable*/
         state: any;
     }
 
@@ -591,7 +591,7 @@ declare namespace CodeMirror {
         /** The reverse of posFromIndex. */
         indexFromPos(object: CodeMirror.Position): number;
 
-        /** Expose the state object, so that the Doc.state.completionActive property is reachable*/
+        /** Expose the newState object, so that the Doc.newState.completionActive property is reachable*/
         state: any;
     }
 
@@ -996,27 +996,27 @@ declare namespace CodeMirror {
      */
     interface Mode<T> {
         /**
-         * This function should read one token from the stream it is given as an argument, optionally update its state,
+         * This function should read one token from the stream it is given as an argument, optionally update its newState,
          * and return a style string, or null for tokens that do not have to be styled. Multiple styles can be returned, separated by spaces.
          */
         token(stream: StringStream, state: T): string;
 
         /**
-         * A function that produces a state object to be used at the start of a document.
+         * A function that produces a newState object to be used at the start of a document.
          */
         startState?: () => T;
         /**
-         * For languages that have significant blank lines, you can define a blankLine(state) method on your mode that will get called
-         * whenever a blank line is passed over, so that it can update the parser state.
+         * For languages that have significant blank lines, you can define a blankLine(newState) method on your mode that will get called
+         * whenever a blank line is passed over, so that it can update the parser newState.
          */
         blankLine?: (state: T) => void;
         /**
-         * Given a state returns a safe copy of that state.
+         * Given a newState returns a safe copy of that newState.
          */
         copyState?: (state: T) => T;
 
         /**
-         * The indentation method should inspect the given state object, and optionally the textAfter string, which contains the text on
+         * The indentation method should inspect the given newState object, and optionally the textAfter string, which contains the text on
          * the line that is being indented, and return an integer, the amount of spaces to indent.
          */
         indent?: (state: T, textAfter: string) => number;
@@ -1078,7 +1078,7 @@ declare namespace CodeMirror {
      * Utility function from the overlay.js addon that allows modes to be combined. The mode given as the base argument takes care of
      * most of the normal mode functionality, but a second (typically simple) mode is used, which can override the style of text.
      * Both modes get to parse all of the text, but when both assign a non-null style to a piece of code, the overlay wins, unless
-     * the combine argument was true and not overridden, or state.overlay.combineTokens was true, in which case the styles are combined.
+     * the combine argument was true and not overridden, or newState.overlay.combineTokens was true, in which case the styles are combined.
      */
     function overlayMode<T, S>(base: Mode<T>, overlay: Mode<S>, combine?: boolean): Mode<any>
 

@@ -80,7 +80,7 @@ export class TuringmachineService {
 
       console.log("________________________________________________________");
 
-      this.lastTuringData = new TuringData(secondConf.state,secondConf.tape,secondConf.position,secondConf.isEndState,secondConf.isDone,direction,this.writeChar,command,this.counter,transition);
+      this.lastTuringData = new TuringData(secondConf.state,secondConf.tape,secondConf.position,secondConf.isEndState,secondConf.isDone,direction,this.writeChar,command,this.counter,transition,firstConf.state);
       this.counter++;
       return this.lastTuringData;
     } else {
@@ -130,7 +130,7 @@ export class TuringmachineService {
 
         console.log(transition);
         console.log("________________________________________________________");
-        this.lastTuringData = new TuringData(conf.state, thirdConf.tape, thirdConf.position, thirdConf.isEndState, thirdConf.isDone, direction, this.writeChar, command, this.counter, transition);
+        this.lastTuringData = new TuringData(conf.state, thirdConf.tape, thirdConf.position, thirdConf.isEndState, thirdConf.isDone, direction, this.writeChar, command, this.counter, transition,secondConf.state);
         this.counter++;
         this.secondTuringConf = this.thirdTuringConf;
         this.thirdTuringConf = new TConfiguration(conf.state,conf.position,conf.tape,conf.isEndState,conf.isDone);

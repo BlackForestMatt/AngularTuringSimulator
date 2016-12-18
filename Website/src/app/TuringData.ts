@@ -6,7 +6,7 @@ import {TuringCommand} from "./TuringCommand";
 
 export class TuringData {
 
-  private _state:string;
+  private _newState:string;
   private _tape:string;
   private _position:number;
   private _isEndState: boolean;
@@ -16,9 +16,10 @@ export class TuringData {
   private _turingCommand: TuringCommand;
   private _counter: number;
   private _transition: string;
+  private _currentState:string;
 
-  constructor(state: string, tape: string, position: number, isEndState: boolean, isDone: boolean, direction: number, writeChar: string, turingCommand: TuringCommand, counter: number, transition: string) {
-    this._state = state;
+  constructor(state: string, tape: string, position: number, isEndState: boolean, isDone: boolean, direction: number, writeChar: string, turingCommand: TuringCommand, counter: number, transition: string, oldstate: string) {
+    this._newState = state;
     this._tape = tape;
     this._position = position;
     this._isEndState = isEndState;
@@ -28,6 +29,7 @@ export class TuringData {
     this._turingCommand = turingCommand;
     this._counter = counter;
     this._transition = transition;
+    this._currentState = oldstate;
   }
 
   get transition(): string {
@@ -70,12 +72,12 @@ export class TuringData {
     this._direction = value;
   }
 
-  get state(): string {
-    return this._state;
+  get newState(): string {
+    return this._newState;
   }
 
-  set state(value: string) {
-    this._state = value;
+  set newState(value: string) {
+    this._newState = value;
   }
 
   get tape(): string {
@@ -109,5 +111,15 @@ export class TuringData {
 
   set isDone(value: boolean) {
     this._isDone = value;
+  }
+
+
+
+  get currentState(): string {
+    return this._currentState;
+  }
+
+  set currentState(value: string) {
+    this._currentState = value;
   }
 }

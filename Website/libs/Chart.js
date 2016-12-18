@@ -1442,11 +1442,11 @@ for (var func in conversions) {
   // export rgb2hsl and ["rgb"]["hsl"]
   convert[from] = convert[from] || {};
 
-  convert[from][to] = convert[func] = (function(func) { 
+  convert[from][to] = convert[func] = (function(func) {
     return function(arg) {
       if (typeof arg == "number")
         arg = Array.prototype.slice.call(arguments);
-      
+
       var val = conversions[func](arg);
       if (typeof val == "string" || val === undefined)
         return val; // keyword
@@ -1474,12 +1474,12 @@ Converter.prototype.routeSpace = function(space, args) {
    }
    // color.rgb(10, 10, 10)
    if (typeof values == "number") {
-      values = Array.prototype.slice.call(args);        
+      values = Array.prototype.slice.call(args);
    }
 
    return this.setValues(space, values);
 };
-  
+
 /* Set the values for a space, invalidating cache */
 Converter.prototype.setValues = function(space, values) {
    this.space = space;
@@ -3897,7 +3897,7 @@ module.exports = function(Chart) {
 	}
 
 	/**
-	 * Restores the canvas initial state, such as render/display sizes and style.
+	 * Restores the canvas initial newState, such as render/display sizes and style.
 	 * TODO(SB) Move this method in the upcoming core.platform class.
 	 */
 	function releaseCanvas(canvas) {
@@ -3919,9 +3919,9 @@ module.exports = function(Chart) {
 			canvas.style[key] = value;
 		});
 
-		// The canvas render size might have been changed (and thus the state stack discarded),
-		// we can't use save() and restore() to restore the initial state. So make sure that at
-		// least the canvas context is reset to the default state by setting the canvas width.
+		// The canvas render size might have been changed (and thus the newState stack discarded),
+		// we can't use save() and restore() to restore the initial newState. So make sure that at
+		// least the canvas context is reset to the default newState by setting the canvas width.
 		// https://www.w3.org/TR/2011/WD-html5-20110525/the-canvas-element.html
 		canvas.width = canvas.width;
 
@@ -4237,7 +4237,7 @@ module.exports = function(Chart) {
 		},
 
 		/**
-		* Resets the chart back to it's state before the initial animation
+		* Resets the chart back to it's newState before the initial animation
 		* @method reset
 		*/
 		reset: function() {
@@ -4455,7 +4455,7 @@ module.exports = function(Chart) {
 			var meta = this.getDatasetMeta(datasetIndex);
 
 			// meta.hidden is a per chart dataset hidden flag override with 3 states: if true or false,
-			// the dataset.hidden value is ignored, else if null, the dataset hidden state is returned.
+			// the dataset.hidden value is ignored, else if null, the dataset hidden newState is returned.
 			return typeof meta.hidden === 'boolean'? !meta.hidden : !this.data.datasets[datasetIndex].hidden;
 		},
 

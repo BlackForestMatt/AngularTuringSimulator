@@ -55,7 +55,7 @@ var Kinetic = {};
         dragDistance : 0,
         angleDeg: true,
 
-        // user agent  
+        // user agent
         UA: (function() {
             var userAgent = (root.navigator && root.navigator.userAgent) || '';
             var ua = userAgent.toLowerCase(),
@@ -133,8 +133,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -151,8 +151,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -299,7 +299,7 @@ var Kinetic = {};
         },
 
         /**
-         * BaseLayer constructor. 
+         * BaseLayer constructor.
          * @constructor
          * @memberof Kinetic
          * @augments Kinetic.Container
@@ -1264,10 +1264,10 @@ var Kinetic = {};
      * @memberof Kinetic
      * @param {Number} width
      * @param {Number} height
-     * @param {Number} pixelRatio KineticJS automatically handles pixel ratio adustments in order to render crisp drawings 
+     * @param {Number} pixelRatio KineticJS automatically handles pixel ratio adustments in order to render crisp drawings
      *  on all devices. Most desktops, low end tablets, and low end phones, have device pixel ratios
-     *  of 1.  Some high end tablets and phones, like iPhones and iPads (not the mini) have a device pixel ratio 
-     *  of 2.  Some Macbook Pros, and iMacs also have a device pixel ratio of 2.  Some high end Android devices have pixel 
+     *  of 1.  Some high end tablets and phones, like iPhones and iPads (not the mini) have a device pixel ratio
+     *  of 2.  Some Macbook Pros, and iMacs also have a device pixel ratio of 2.  Some high end Android devices have pixel
      *  ratios of 2 or 3.  Some browsers like Firefox allow you to configure the pixel ratio of the viewport.  Unless otherwise
      *  specificed, the pixel ratio will be defaulted to the actual device pixel ratio.  You can override the device pixel
      *  ratio for special situations, or, if you don't want the pixel ratio to be taken into account, you can set it to 1.
@@ -1316,10 +1316,10 @@ var Kinetic = {};
          * get pixel ratio
          * @method
          * @memberof Kinetic.Canvas.prototype
-         * @param {Number} pixelRatio KineticJS automatically handles pixel ratio adustments in order to render crisp drawings 
+         * @param {Number} pixelRatio KineticJS automatically handles pixel ratio adustments in order to render crisp drawings
          *  on all devices. Most desktops, low end tablets, and low end phones, have device pixel ratios
-         *  of 1.  Some high end tablets and phones, like iPhones and iPads (not the mini) have a device pixel ratio 
-         *  of 2.  Some Macbook Pros, and iMacs also have a device pixel ratio of 2.  Some high end Android devices have pixel 
+         *  of 1.  Some high end tablets and phones, like iPhones and iPads (not the mini) have a device pixel ratio
+         *  of 2.  Some Macbook Pros, and iMacs also have a device pixel ratio of 2.  Some high end Android devices have pixel
          *  ratios of 2 or 3.  Some browsers like Firefox allow you to configure the pixel ratio of the viewport.  Unless otherwise
          *  specificed, the pixel ratio will be defaulted to the actual device pixel ratio.  You can override the device pixel
          *  ratio for special situations, or, if you don't want the pixel ratio to be taken into account, you can set it to 1.
@@ -1437,7 +1437,7 @@ var Kinetic = {};
         config = config || {};
         var width = config.width || 0,
             height = config.height || 0;
-            
+
         Kinetic.Canvas.call(this, config);
         this.context = new Kinetic.HitContext(this);
         this.setSize(width, height);
@@ -1605,7 +1605,7 @@ var Kinetic = {};
         _trace: function(str) {
             var traceArr = this.traceArr,
                 len;
- 
+
             traceArr.push(str);
             len = traceArr.length;
 
@@ -1643,7 +1643,7 @@ var Kinetic = {};
          */
         clear: function(bounds) {
             var canvas = this.getCanvas();
-            
+
             if (bounds) {
                 this.clearRect(bounds.x || 0, bounds.y || 0, bounds.width || 0, bounds.height || 0);
             }
@@ -1828,12 +1828,12 @@ var Kinetic = {};
                     that[methodName] = function() {
                         args = _simplifyArray(Array.prototype.slice.call(arguments, 0));
                         ret = origMethod.apply(that, arguments);
-           
+
                         that._trace({
                             method: methodName,
                             args: args
                         });
-                 
+
                         return ret;
                     };
             };
@@ -1917,7 +1917,7 @@ var Kinetic = {};
                 endRadius = shape.getFillRadialGradientEndRadius(),
                 colorStops = shape.getFillRadialGradientColorStops(),
                 grd = this.createRadialGradient(start.x, start.y, startRadius, end.x, end.y, endRadius);
-           
+
             // build color stops
             for(var n = 0; n < colorStops.length; n += 2) {
                 grd.addColorStop(colorStops[n], colorStops[n + 1]);
@@ -1984,7 +1984,7 @@ var Kinetic = {};
                     }));
 
                 shape._strokeFunc(this);
-                
+
                 if (!strokeScaleEnabled) {
                     this.restore();
                 }
@@ -2009,7 +2009,7 @@ var Kinetic = {};
             this.setAttr('shadowBlur', blur);
             this.setAttr('shadowOffsetX', offset.x);
             this.setAttr('shadowOffsetY', offset.y);
-        
+
         }
     };
     Kinetic.Util.extend(Kinetic.SceneContext, Kinetic.Context);
@@ -2144,7 +2144,7 @@ var Kinetic = {};
                 }
 
                 this._fireChangeEvent(attr, oldVal, val);
-                
+
                 if (after) {
                     after.call(this);
                 }
@@ -2386,13 +2386,13 @@ var Kinetic = {};
                 hitContext = cachedHitCanvas.getContext();
 
             this.clearCache();
-   
+
             sceneContext.save();
             hitContext.save();
 
             // this will draw a red border around the cached box for
             // debugging purposes
-            if (drawBorder) {        
+            if (drawBorder) {
                 sceneContext.save();
                 sceneContext.beginPath();
                 sceneContext.rect(0, 0, width, height);
@@ -2408,7 +2408,7 @@ var Kinetic = {};
 
             if (this.nodeType === 'Shape') {
                 sceneContext.translate(this.x() * -1, this.y() * -1);
-                hitContext.translate(this.x() * -1, this.y() * -1);        
+                hitContext.translate(this.x() * -1, this.y() * -1);
             }
 
             this.drawScene(cachedSceneCanvas, this);
@@ -2561,7 +2561,7 @@ var Kinetic = {};
 
                 // NOTE: this flag is set to true when any event handler is added, even non
                 // mouse or touch gesture events.  This improves performance for most
-                // cases where users aren't using events, but is still very light weight.  
+                // cases where users aren't using events, but is still very light weight.
                 // To ensure perfect accuracy, devs can explicitly set listening to false.
                 /*
                 if (name !== KINETIC) {
@@ -2762,11 +2762,11 @@ var Kinetic = {};
          * determine if node is listening for events by taking into account ancestors.
          *
          * Parent    | Self      | isListening
-         * listening | listening | 
+         * listening | listening |
          * ----------+-----------+------------
-         * T         | T         | T 
+         * T         | T         | T
          * T         | F         | F
-         * F         | T         | T 
+         * F         | T         | T
          * F         | F         | F
          * ----------+-----------+------------
          * T         | I         | T
@@ -2802,11 +2802,11 @@ var Kinetic = {};
          * determine if node is visible by taking into account ancestors.
          *
          * Parent    | Self      | isVisible
-         * visible   | visible   | 
+         * visible   | visible   |
          * ----------+-----------+------------
-         * T         | T         | T 
+         * T         | T         | T
          * T         | F         | F
-         * F         | T         | T 
+         * F         | T         | T
          * F         | F         | F
          * ----------+-----------+------------
          * T         | I         | T
@@ -3355,7 +3355,7 @@ var Kinetic = {};
         getAbsoluteTransform: function(top) {
             // if using an argument, we can't cache the result.
             if (top) {
-                return this._getAbsoluteTransform(top); 
+                return this._getAbsoluteTransform(top);
             }
             // if no argument, we can cache the result
             else {
@@ -3698,7 +3698,7 @@ var Kinetic = {};
                     // set value to default value using getAttr
                     this.attrs[key] = this.getAttr(key);
                 }
-                
+
                 this.attrs[key][component] = val;
                 this._fireChangeEvent(key, oldVal, val);
             }
@@ -4146,7 +4146,7 @@ var Kinetic = {};
     Kinetic.Factory.addGetterSetter(Kinetic.Node, 'listening', 'inherit');
     /**
      * get/set listenig attr.  If you need to determine if a node is listening or not
-     *   by taking into account its parents, use the isListening() method  
+     *   by taking into account its parents, use the isListening() method
      * @name listening
      * @method
      * @memberof Kinetic.Node.prototype
@@ -4195,7 +4195,7 @@ var Kinetic = {};
     /**
      * get/set visible attr.  Can be "inherit", true, or false.  The default is "inherit".
      *   If you need to determine if a node is visible or not
-     *   by taking into account its parents, use the isVisible() method  
+     *   by taking into account its parents, use the isVisible() method
      * @name visible
      * @method
      * @memberof Kinetic.Node.prototype
@@ -4291,7 +4291,7 @@ var Kinetic = {};
 })();
 ;(function() {
     /**
-     * Brighten Filter.  
+     * Brighten Filter.
      * @function
      * @memberof Kinetic.Filters
      * @param {Object} imageData
@@ -4314,7 +4314,7 @@ var Kinetic = {};
 
     Kinetic.Factory.addGetterSetter(Kinetic.Node, 'brightness', 0, null, Kinetic.Factory.afterSetFilter);
     /**
-    * get/set filter brightness.  The brightness is a number between -1 and 1.&nbsp; Positive values 
+    * get/set filter brightness.  The brightness is a number between -1 and 1.&nbsp; Positive values
     *  brighten the pixels and negative values darken them.
     * @name brightness
     * @method
@@ -4858,7 +4858,7 @@ var Kinetic = {};
 
 		return maskResult;
 	}
-	
+
 	/**
 	 * Mask Filter
 	 * @function
@@ -4881,7 +4881,7 @@ var Kinetic = {};
 
 			// Apply mask
 			applyMask(imageData, mask);
-			
+
 			// todo : Update hit region function according to mask
 		}
 
@@ -5393,7 +5393,7 @@ var Kinetic = {};
             bMid, bGoalMax,aGoalMin,
             aMid, aGoalMax,bGoalMin;
 
-        // If the enhancement is positive - stretch the histogram 
+        // If the enhancement is positive - stretch the histogram
         if ( enhanceAmount > 0 ){
             rGoalMax = rMax + enhanceAmount*(255-rMax);
             rGoalMin = rMin - enhanceAmount*(rMin-0);
@@ -5535,7 +5535,7 @@ var Kinetic = {};
 
         for (xBin = 0; xBin < nBinsX; xBin += 1) {
             for (yBin = 0; yBin < nBinsY; yBin += 1) {
-        
+
                 // Initialize the color accumlators to 0
                 red = 0;
                 green = 0;
@@ -5582,7 +5582,7 @@ var Kinetic = {};
                 }
             }
         }
-      
+
     };
 
     Kinetic.Factory.addGetterSetter(Kinetic.Node, 'pixelSize', 8, null, Kinetic.Factory.afterSetFilter);
@@ -5598,7 +5598,7 @@ var Kinetic = {};
 })();;(function () {
 
     /**
-     * Threshold Filter. Pushes any value above the mid point to 
+     * Threshold Filter. Pushes any value above the mid point to
      *  the max and any value below the mid point to the min.
      *  This affects the alpha channel.
      * @function
@@ -5645,13 +5645,13 @@ var Kinetic = {};
             y = imageData.height,
             w4 = w*4,
             offsetY, x, offset, or, og, ob, r, g, b;
-        
+
         do {
             offsetY = (y-1)*w4;
             x = w;
             do {
                 offset = offsetY + (x-1)*4;
-                
+
                 or = data[offset];
                 og = data[offset+1];
                 ob = data[offset+2];
@@ -5717,7 +5717,7 @@ var Kinetic = {};
 (function () {
 
   /*
-   * ToPolar Filter. Converts image data to polar coordinates. Performs 
+   * ToPolar Filter. Converts image data to polar coordinates. Performs
    *  w*h*4 pixel reads and w*h pixel writes. The r axis is placed along
    *  what would be the y axis and the theta axis along the x axis.
    * @function
@@ -5865,7 +5865,7 @@ var Kinetic = {};
     var tempCanvas = Kinetic.Util.createCanvasElement();
 
     /*
-     * Kaleidoscope Filter. 
+     * Kaleidoscope Filter.
      * @function
      * @author ippo615
      * @memberof Kinetic.Filters
@@ -5892,7 +5892,7 @@ var Kinetic = {};
             polarCenterY:ySize/2
         });
 
-        // Determine how big each section will be, if it's too small 
+        // Determine how big each section will be, if it's too small
         // make it bigger
         var minSectionSize = xSize / Math.pow(2,power);
         while( minSectionSize <= 8){
@@ -6006,7 +6006,7 @@ var Kinetic = {};
     function requestAnimFrame() {
         return RAF.apply(Kinetic.root, arguments);
     }
-    
+
     /**
      * Animation constructor.  A stage is used to contain multiple layers and handle
      * @constructor
@@ -6286,7 +6286,7 @@ var Kinetic = {};
     idCounter = 0;
 
     /**
-     * Tween constructor.  Tweens enable you to animate a node between the current state and a new state.
+     * Tween constructor.  Tweens enable you to animate a node between the current newState and a new newState.
      *  You can play, pause, reverse, seek, reset, and finish tweens.  By default, tweens are animated using
      *  a linear easing.  For more tweening options, check out {@link Kinetic.Easings}
      * @constructor
@@ -7713,7 +7713,7 @@ var Kinetic = {};
          *  because it performs much better
          * @method
          * @memberof Kinetic.Shape.prototype
-         * @param {Object} point 
+         * @param {Object} point
          * @param {Number} point.x
          * @param {Number} point.y
          * @returns {Boolean}
@@ -7728,7 +7728,7 @@ var Kinetic = {};
             p = bufferHitCanvas.context.getImageData(Math.round(pos.x), Math.round(pos.y), 1, 1).data;
             return p[3] > 0;
         },
-        // extends Node.prototype.destroy 
+        // extends Node.prototype.destroy
         destroy: function() {
             Kinetic.Node.prototype.destroy.call(this);
             delete Kinetic.shapes[this.colorKey];
@@ -7760,7 +7760,7 @@ var Kinetic = {};
                         bufferContext.save();
                         bufferContext._applyLineJoin(this);
                         layer._applyTransform(this, bufferContext, top);
-                     
+
                         drawFunc.call(this, bufferContext);
                         bufferContext.restore();
 
@@ -7778,7 +7778,7 @@ var Kinetic = {};
                     else {
                         context._applyLineJoin(this);
                         layer._applyTransform(this, context, top);
-               
+
                         if (hasShadow) {
                             context.save();
                             context._applyShadow(this);
@@ -7804,7 +7804,7 @@ var Kinetic = {};
                 cachedHitCanvas = cachedCanvas && cachedCanvas.hit;
 
             if(this.shouldDrawHit()) {
-                
+
                 if (cachedHitCanvas) {
                     this._drawCachedHitCanvas(context);
                 }
@@ -7812,11 +7812,11 @@ var Kinetic = {};
                     context.save();
                     context._applyLineJoin(this);
                     layer._applyTransform(this, context, top);
-                   
+
                     drawFunc.call(this, context);
                     context.restore();
                 }
-                
+
             }
 
             return this;
@@ -7826,7 +7826,7 @@ var Kinetic = {};
         * @method
         * @memberof Kinetic.Shape.prototype
         * @param {Integer} alphaThreshold alpha channel threshold that determines whether or not
-        *  a pixel should be drawn onto the hit graph.  Must be a value between 0 and 255.  
+        *  a pixel should be drawn onto the hit graph.  Must be a value between 0 and 255.
         *  The default is 0
         * @returns {Kinetic.Shape}
         * @example
@@ -8080,9 +8080,9 @@ var Kinetic = {};
      * @example
      *  // apply dashed stroke that is 10px long and 5 pixels apart<br>
      *  line.dash([10, 5]);<br><br>
-     *  
-     *  // apply dashed stroke that is made up of alternating dashed<br> 
-     *  // lines that are 10px long and 20px apart, and dots that have<br> 
+     *
+     *  // apply dashed stroke that is made up of alternating dashed<br>
+     *  // lines that are 10px long and 20px apart, and dots that have<br>
      *  // a radius of 5px and are 20px apart<br>
      *  line.dash([10, 20, 0.001, 20]);
      */
@@ -8182,7 +8182,7 @@ var Kinetic = {};
      * // set shadow alpha component<br>
      * shape.shadowAlpha(0.5);
      */
-     
+
     Kinetic.Factory.addGetterSetter(Kinetic.Shape, 'shadowBlur');
 
     /**
@@ -8402,7 +8402,7 @@ var Kinetic = {};
      * @example
      * // get fill pattern x<br>
      * var fillPatternX = shape.fillPatternX();<br><br>
-     * 
+     *
      * // set fill pattern x<br>
      * shape.fillPatternX(20);
      */
@@ -8419,7 +8419,7 @@ var Kinetic = {};
      * @example
      * // get fill pattern y<br>
      * var fillPatternY = shape.fillPatternY();<br><br>
-     * 
+     *
      * // set fill pattern y<br>
      * shape.fillPatternY(20);
      */
@@ -9144,7 +9144,7 @@ var Kinetic = {};
                 obj = {};
             }
             obj.container = Kinetic.document.createElement(DIV);
-            
+
             return Kinetic.Container.prototype.clone.call(this, obj);
         },
         /**
@@ -9657,7 +9657,7 @@ var Kinetic = {};
             this.content.setAttribute('role', 'presentation');
             container.appendChild(this.content);
 
-            // the buffer canvas pixel ratio must be 1 because it is used as an 
+            // the buffer canvas pixel ratio must be 1 because it is used as an
             // intermediate canvas before copying the result onto a scene canvas.
             // not setting it to 1 will result in an over compensation
             this.bufferCanvas = new Kinetic.SceneCanvas({
@@ -9701,7 +9701,7 @@ var Kinetic = {};
      * @example
      * // get container<br>
      * var container = stage.container();<br><br>
-     * 
+     *
      * // set container<br>
      * var container = document.createElement('div');<br>
      * body.appendChild(container);<br>
@@ -9876,7 +9876,7 @@ var Kinetic = {};
          * |       |
          * 1 - 0   5
          *         |
-         * 8 - 7 - 6     
+         * 8 - 7 - 6
          */
         INTERSECTION_OFFSETS = [
             {x:  0, y:  0}, // 0
@@ -9978,7 +9978,7 @@ var Kinetic = {};
             if(this.getClearBeforeDraw()) {
                 canvas.getContext().clear();
             }
-            
+
             Kinetic.Container.prototype.drawScene.call(this, canvas, top);
 
             this._fire(DRAW, {
@@ -10119,7 +10119,7 @@ var Kinetic = {};
             if(this.getClearBeforeDraw()) {
                 canvas.getContext().clear();
             }
-            
+
             Kinetic.Container.prototype.drawScene.call(this, canvas);
 
             return this;
@@ -10136,7 +10136,7 @@ var Kinetic = {};
         draw: function() {
             this.drawScene();
             return this;
-        },  
+        },
         /**
          * clear scene and hit canvas contexts tied to the layer
          * @method
@@ -10205,8 +10205,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -10223,8 +10223,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -10300,7 +10300,7 @@ var Kinetic = {};
                 width = this.getWidth(),
                 height = this.getHeight();
 
-            
+
             context.beginPath();
 
             if(!cornerRadius) {
@@ -10337,7 +10337,7 @@ var Kinetic = {};
      * @example
      * // get corner radius<br>
      * var cornerRadius = rect.cornerRadius();<br><br>
-     * 
+     *
      * // set corner radius<br>
      * rect.cornerRadius(10);
      */
@@ -10365,8 +10365,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -10383,8 +10383,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -10591,7 +10591,7 @@ var Kinetic = {};
      * @example
      * // get radius<br>
      * var radius = ellipse.radius();<br><br>
-     * 
+     *
      * // set radius<br>
      * ellipse.radius({<br>
      *   x: 200,<br>
@@ -10610,7 +10610,7 @@ var Kinetic = {};
      * @example
      * // get radius x<br>
      * var radiusX = ellipse.radiusX();<br><br>
-     * 
+     *
      * // set radius x<br>
      * ellipse.radiusX(200);
      */
@@ -10626,7 +10626,7 @@ var Kinetic = {};
      * @example
      * // get radius y<br>
      * var radiusY = ellipse.radiusY();<br><br>
-     * 
+     *
      * // set radius y<br>
      * ellipse.radiusY(200);
      */
@@ -10636,7 +10636,7 @@ var Kinetic = {};
 })();;(function() {
     // the 0.0001 offset fixes a bug in Chrome 27
     var PIx2 = (Math.PI * 2) - 0.0001;
-    
+
     /**
      * Ring constructor
      * @constructor
@@ -10654,8 +10654,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -10672,8 +10672,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -10791,7 +10791,7 @@ var Kinetic = {};
      * // set inner radius<br>
      * ring.innerRadius(20);
      */
-     
+
     Kinetic.Factory.addGetterSetter(Kinetic.Ring, 'outerRadius', 0);
 
     /**
@@ -10829,8 +10829,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -10847,8 +10847,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -11016,8 +11016,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -11034,8 +11034,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -11140,7 +11140,7 @@ var Kinetic = {};
      * // set inner radius
      * arc.innerRadius(20);
      */
-     
+
     Kinetic.Factory.addGetterSetter(Kinetic.Arc, 'outerRadius', 0);
 
     /**
@@ -11219,8 +11219,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -11237,8 +11237,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -11389,7 +11389,7 @@ var Kinetic = {};
      * @method
      * @name crop
      * @memberof Kinetic.Image.prototype
-     * @param {Object} crop 
+     * @param {Object} crop
      * @param {Number} crop.x
      * @param {Number} crop.y
      * @param {Number} crop.width
@@ -11526,8 +11526,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -11544,8 +11544,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -11948,7 +11948,7 @@ var Kinetic = {};
      * @example
      * // get padding<br>
      * var padding = text.padding();<br><br>
-     * 
+     *
      * // set padding to 10 pixels<br>
      * text.padding(10);
      */
@@ -11982,7 +11982,7 @@ var Kinetic = {};
      * @memberof Kinetic.Text.prototype
      * @param {Number} lineHeight
      * @returns {Number}
-     * @example 
+     * @example
      * // get line height<br>
      * var lineHeight = text.lineHeight();<br><br><br>
      *
@@ -12020,7 +12020,7 @@ var Kinetic = {};
      * @example
      * // get text<br>
      * var text = text.text();<br><br>
-     * 
+     *
      * // set text<br>
      * text.text('Hello world!');
      */
@@ -12038,7 +12038,7 @@ var Kinetic = {};
      * @param {Array} config.points
      * @param {Number} [config.tension] Higher values will result in a more curvy line.  A value of 0 will result in no interpolation.
      *   The default is 0
-     * @param {Boolean} [config.closed] defines whether or not the line shape is closed, creating a polygon or blob 
+     * @param {Boolean} [config.closed] defines whether or not the line shape is closed, creating a polygon or blob
      * @param {String} [config.fill] fill color
      * @param {Integer} [config.fillRed] set fill red component
      * @param {Integer} [config.fillGreen] set fill green component
@@ -12048,8 +12048,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -12066,8 +12066,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -12241,7 +12241,7 @@ var Kinetic = {};
                     p[0],
                     p[1]
                 ]);
-                    
+
             return tp;
         }
     };
@@ -12326,8 +12326,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -12344,8 +12344,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -12423,7 +12423,7 @@ var Kinetic = {};
      *         156, 109, 70, 98,<br>
      *         229, 109, 60, 98,<br>
      *         287, 109, 41, 98<br>
-     *       ]<br>          
+     *       ]<br>
      *     },<br>
      *     frameRate: 7,<br>
      *     frameIndex: 0<br>
@@ -12578,7 +12578,7 @@ var Kinetic = {};
      * @example
      * // get animations map<br>
      * var animations = sprite.animations();<br><br>
-     * 
+     *
      * // set animations map<br>
      * sprite.animations({<br>
      *   standing: [<br>
@@ -12598,7 +12598,7 @@ var Kinetic = {};
      *     156, 109, 70, 98,<br>
      *     229, 109, 60, 98,<br>
      *     287, 109, 41, 98<br>
-     *   ]<br>          
+     *   ]<br>
      * });
      */
 
@@ -12681,8 +12681,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -12699,8 +12699,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -13048,8 +13048,8 @@ var Kinetic = {};
                         cpx += dx;
                         cpy += dy;
                         cmd = 'M';
-                        // After closing the path move the current position 
-                        // to the the first point of the path (if any). 
+                        // After closing the path move the current position
+                        // to the the first point of the path (if any).
                         if(ca.length>2 && ca[ca.length-1].command==='z'){
                             for(var idx=ca.length-2;idx>=0;idx--){
                                 if(ca[idx].command==='M'){
@@ -13392,8 +13392,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -13410,8 +13410,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -13500,7 +13500,7 @@ var Kinetic = {};
             this._strokeFunc = _strokeFunc;
             this._fillFuncHit = _fillFunc;
             this._strokeFuncHit = _strokeFunc;
-            
+
             this.className = 'TextPath';
 
             this.dataArray = Kinetic.Path.parsePathData(this.attrs.data);
@@ -13872,8 +13872,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -13890,8 +13890,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
@@ -14040,8 +14040,8 @@ var Kinetic = {};
      * @param {Number} [config.fillPatternX]
      * @param {Number} [config.fillPatternY]
      * @param {Object} [config.fillPatternOffset] object with x and y component
-     * @param {Number} [config.fillPatternOffsetX] 
-     * @param {Number} [config.fillPatternOffsetY] 
+     * @param {Number} [config.fillPatternOffsetX]
+     * @param {Number} [config.fillPatternOffsetY]
      * @param {Object} [config.fillPatternScale] object with x and y component
      * @param {Number} [config.fillPatternScaleX]
      * @param {Number} [config.fillPatternScaleY]
@@ -14058,8 +14058,8 @@ var Kinetic = {};
      * @param {Number} [config.fillRadialGradientStartPointX]
      * @param {Number} [config.fillRadialGradientStartPointY]
      * @param {Object} [config.fillRadialGradientEndPoint] object with x and y component
-     * @param {Number} [config.fillRadialGradientEndPointX] 
-     * @param {Number} [config.fillRadialGradientEndPointY] 
+     * @param {Number} [config.fillRadialGradientEndPointX]
+     * @param {Number} [config.fillRadialGradientEndPointY]
      * @param {Number} [config.fillRadialGradientStartRadius]
      * @param {Number} [config.fillRadialGradientEndRadius]
      * @param {Array} [config.fillRadialGradientColorStops] array of color stops
