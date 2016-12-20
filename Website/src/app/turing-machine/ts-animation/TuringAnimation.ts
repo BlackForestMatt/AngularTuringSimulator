@@ -1,6 +1,3 @@
-
-
-
 import {TuringmachineService} from "../../turingmachineservice.service";
 import {TuringData} from "../../TuringData";
 import {TuringCommand} from "../../TuringCommand";
@@ -211,7 +208,7 @@ export class TuringAnimation {
             if(turingData.isDone) {
               this.tsComponent.state = turingData.newState;
               this.updateDiagram(turingData.newState);
-              
+
               this.tsComponent.resetInputBtnVisible();
               this.tsComponent.sendStateDiagram(this.stateDiagram);
               if (turingData.isEndState) {
