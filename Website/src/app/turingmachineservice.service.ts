@@ -216,8 +216,8 @@ export class TuringmachineService {
         let direction2 = this.getDirection(lastPos, nextPos);
         let directionLRN2 = this.getDirectionLRN(direction2);
 
-        let transition1 = "("+currentState+","+currentChar +")" + " := " + "("+ lastState + "," + newChar + "," + directionLRN + ")\n";
-        let transition2 = "("+lastState+","+currentChar2 +")" + " := " + "("+ nextState + "," + newChar2 + "," + directionLRN2 + ")\n";
+        let transition1 = "\u03B4("+currentState+","+currentChar +")" + " := " + "("+ lastState + "," + newChar + "," + directionLRN + ")\n";
+        let transition2 = "\u03B4("+lastState+","+currentChar2 +")" + " := " + "("+ nextState + "," + newChar2 + "," + directionLRN2 + ")\n";
         return transition1 + transition2;
       } else {
 
@@ -230,7 +230,7 @@ export class TuringmachineService {
     }
 
 
-    let transition = "("+currentState+","+currentChar +")" + " := " + "("+ nextState + "," + newChar + "," + directionLRN + ")\n";
+    let transition = "\u03B4("+currentState+","+currentChar +")" + " := " + "("+ nextState + "," + newChar + "," + directionLRN + ")\n";
     return transition;
   }
 
