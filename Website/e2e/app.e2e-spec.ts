@@ -1,10 +1,10 @@
-import { AnimationExamplePage } from './app.po';
+import { TuringMachinePage } from './app.po';
 
-describe('animation-example App', function() {
-  let page: AnimationExamplePage;
+describe('turing-machine App', function() {
+  let page: TuringMachinePage;
 
   beforeEach(() => {
-    page = new AnimationExamplePage();
+    page = new TuringMachinePage();
   });
 
   it('should display message saying app works', () => {

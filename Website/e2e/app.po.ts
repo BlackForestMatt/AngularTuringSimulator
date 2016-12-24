@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class AnimationExamplePage {
+export class TuringMachinePage {
   navigateTo() {
     return browser.get('/');
   }
