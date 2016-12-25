@@ -7,11 +7,11 @@
 <div id="container4">
 
   <div class="row well"  style="padding:0;">
-    <ts-animation [isPlayBtnVisible]="isPlayBtnVisible" (eventStateDiagram)="setStateDiagram($event)" (eventWordStatus)="setWordStatus($event)" ></ts-animation>
+    <ts-animation [turingExampleName]="exampleName"  [isPlayBtnVisible]="isPlayBtnVisible" (eventStateDiagram)="setStateDiagram($event)" (eventWordStatus)="setWordStatus($event)" ></ts-animation>
   </div>
   <div class="row">
     <div class="col-md-12" style="text-align:center;">
-      <load-example (onLoaded)="setExample($event)"></load-example>
+      <load-example (onLoaded)="setLoadExample($event)"></load-example>
     </div>
 
     <div class="col-md-12" style="margin-top:0.5%;">

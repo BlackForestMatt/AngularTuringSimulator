@@ -17,7 +17,7 @@ export class AboutComponent implements OnInit {
     this.modal.alert()
       .size('lg')
       .showClose(true)
-      .title('Impressum')
+      .title('About')
       .body(`
       <p> Name: Josef Grieb </p>
       <p>Please send all suggestions,bugs feedback etc. to <a href="mailto:turingsimulator95@gmail.com">turingsimulator95@gmail.com</a>

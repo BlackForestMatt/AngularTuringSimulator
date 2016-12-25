@@ -26,8 +26,9 @@ export class LoadExampleComponent implements OnInit {
     "s4, _ -> s5, _, >; \n";
 
   @Output()
-  onLoaded = new EventEmitter<string>(); //need for pass the data to EditorComponent
+  onLoaded = new EventEmitter<Array<string>>(); //need for pass the data to EditorComponent
 
+  private turingExamples = ['Delete a','Palindrome','Example1'];
   constructor() {
 
 
@@ -37,9 +38,16 @@ export class LoadExampleComponent implements OnInit {
   }
 
   public loadExample(example: string):void {
-    if(example === "Example1") { //should switch
-      this.onLoaded.emit(this.example1);
+
+    switch(example) {
+      case "Example1":
+        let loadExample = [example,this.example1];
+        this.onLoaded.emit(loadExample);
+        break;
+      default:
+        break;
     }
+
 
   }
 

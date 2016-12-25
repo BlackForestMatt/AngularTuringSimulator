@@ -28,6 +28,9 @@ export class TsAnimationComponent implements OnInit {
   private _isFail = false;
   private inputBtnNotVisible = false;
 
+  @Input()
+  turingExampleName:string = "";
+
   @Output()
   eventWordStatus = new EventEmitter<string>();
 

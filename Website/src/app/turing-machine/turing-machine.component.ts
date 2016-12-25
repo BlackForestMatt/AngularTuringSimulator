@@ -16,6 +16,7 @@ export class TuringMachineComponent implements AfterViewInit,OnChanges {
   private stateDiagram = new Map<string,number>();
   private isSuccess = false;
   private isFail = false;
+  private exampleName:string;
 
 
   constructor(private tsService: TuringmachineService) { }
@@ -29,8 +30,10 @@ export class TuringMachineComponent implements AfterViewInit,OnChanges {
 }
 
 
-  setExample(example:string) {
-    this.exampleCode = example;
+  setLoadExample(example:Array<string>) {
+    this.exampleCode = example[1];
+    this.exampleName = example[0];
+
   }
 
   codeChange(code:string) { //for any change on the editor
