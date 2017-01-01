@@ -23,6 +23,8 @@ export class TuringmachineService {
   private secondTuringConf:TConfiguration;
   private thirdTuringConf:TConfiguration;
   private _errorCompileMessage: string;
+  private isSymbolChange: boolean;
+  private input:string;
 
   public compile(sourcecode: string) {
     try {
@@ -40,6 +42,7 @@ export class TuringmachineService {
   }
 
   public start(input: string):TuringData {
+    this.input = input;
     this.isStart = true;
     this.isDone = false;
     this.counter = 1;
@@ -55,11 +58,11 @@ export class TuringmachineService {
 
       let direction = this.getDirection(firstConf.position,secondConf.position);
       let command = this.getTuringCommand(firstConf.tape,secondConf.tape,firstConf.position,secondConf.position);
+      let writeChar = this.writeChar;
 
       console.log("Direction: "+direction);
       console.log(firstConf);
       console.log(secondConf);
-
 
       switch(command) {
         case TuringCommand.Nothing:
@@ -71,16 +74,29 @@ export class TuringmachineService {
       }
 
 
-      if(command === TuringCommand.Nothing ) {
-        this.writeChar = "";
+      let transition;
+      let firstCommand;
+      let firstWriteChar;
+      if(input !== firstConf.tape) {
+        firstCommand = this.getTuringCommand(input,firstConf.tape,firstConf.position,firstConf.position);
+        firstWriteChar = this.writeChar;
+        console.log("firstWriteChar: "+firstWriteChar);
+        transition = this.getTransition(firstConf.state,secondConf.state,firstConf.tape,input,secondConf.position,firstConf.position,thirdConf.state,thirdConf.position);
+        this.isSymbolChange = true;
+      } else {
+        transition = this.getTransition(firstConf.state,secondConf.state,secondConf.tape,firstConf.tape,secondConf.position,firstConf.position,thirdConf.state,thirdConf.position);
+        console.log(transition);
+        this.isSymbolChange = false;
       }
-
-      let transition = this.getTransition(firstConf.state,secondConf.state,secondConf.tape,firstConf.tape,secondConf.position,firstConf.position,thirdConf.state,thirdConf.position);
-      console.log(transition);
 
       console.log("________________________________________________________");
 
-      this.lastTuringData = new TuringData(secondConf.state,secondConf.tape,secondConf.position,secondConf.isEndState,secondConf.isDone,direction,this.writeChar,command,this.counter,transition,firstConf.state);
+      this.lastTuringData = new TuringData(secondConf.state,secondConf.tape,secondConf.position,secondConf.isEndState,secondConf.isDone,direction,writeChar,command,this.counter,transition,firstConf.state);
+      if(this.isSymbolChange) {
+        this.lastTuringData.firstCommand = firstCommand;
+        this.lastTuringData.firstWriteChar = firstWriteChar;
+      }
+      this.lastTuringData.isFirstTapeChange = this.isSymbolChange;
       this.counter++;
       return this.lastTuringData;
     } else {
@@ -173,6 +189,7 @@ export class TuringmachineService {
 
 
       if (this.currentChar === this.newChar) {
+        this.writeChar = "";
         return TuringCommand.Nothing;
       } else {
         this.writeChar = this.newChar;
@@ -196,7 +213,6 @@ export class TuringmachineService {
     let direction = this.getDirection(currentPos, nextPos);
     directionLRN = this.getDirectionLRN(direction);
 
-
     currentPos--;
     lastPos--;
     nextPos--;
@@ -204,25 +220,68 @@ export class TuringmachineService {
     let currentChar;
     let newChar;
     if(currentPos >= 0) {
-
       if(this.counter == 1) {
-        newChar = currentTape.charAt(currentPos);
-        currentChar = lastTape.charAt(currentPos);
-        direction = this.getDirection(currentPos, lastPos);
-        directionLRN = this.getDirectionLRN(direction);
+        if(this.input.length > lastTape.length) { //5. input === currentTape
+          currentChar = this.input.charAt(currentPos);
+          newChar = "";
+          direction = this.getDirection(currentPos, lastPos);
+          directionLRN = this.getDirectionLRN(direction);
 
-        let newChar2 = currentTape.charAt(lastPos);
-        let currentChar2 = lastTape.charAt(lastPos);
-        let direction2 = this.getDirection(lastPos, nextPos);
-        let directionLRN2 = this.getDirectionLRN(direction2);
+          let newChar2 = currentTape.charAt(lastPos);
+          let currentChar2 = lastTape.charAt(lastPos);
+          let direction2 = this.getDirection(lastPos, nextPos);
+          let directionLRN2 = this.getDirectionLRN(direction2);
 
-        let transition1 = "\u03B4("+currentState+","+currentChar +")" + " := " + "("+ lastState + "," + newChar + "," + directionLRN + ")\n";
-        let transition2 = "\u03B4("+lastState+","+currentChar2 +")" + " := " + "("+ nextState + "," + newChar2 + "," + directionLRN2 + ")\n";
-        return transition1 + transition2;
+          let transition1 = "\u03B4(" + currentState + "," + currentChar + ")" + " := " + "(" + lastState + "," + newChar + "," + directionLRN + ")\n";
+          let transition2 = "\u03B4(" + lastState + "," + currentChar2 + ")" + " := " + "(" + nextState + "," + newChar2 + "," + directionLRN2 + ")\n";
+          return transition1 + transition2;
+
+        } else {
+          console.log("Transition Equal");
+          newChar = currentTape.charAt(currentPos);
+          currentChar = lastTape.charAt(currentPos);
+          direction = this.getDirection(currentPos, lastPos);
+          directionLRN = this.getDirectionLRN(direction);
+
+          let newChar2 = lastTape.charAt(lastPos);
+          let currentChar2 = currentTape.charAt(lastPos);
+          let direction2 = this.getDirection(lastPos, nextPos);
+          let directionLRN2 = this.getDirectionLRN(direction2);
+
+          console.log("SCurrentTape: "+currentTape);
+          console.log("SLastTape: "+lastTape);
+          console.log("SLastPos: "+lastPos);
+          let transition1 = "\u03B4(" + currentState + "," + currentChar + ")" + " := " + "(" + lastState + "," + newChar + "," + directionLRN + ")\n";
+          let transition2 = "\u03B4(" + lastState + "," + currentChar2 + ")" + " := " + "(" + nextState + "," + newChar2 + "," + directionLRN2 + ")\n";
+          return transition1 + transition2;
+        }
       } else {
+        console.log("TTCUrrentPos: "+currentPos);
+        console.log("TTLastPos: "+lastPos);
 
-        newChar = currentTape.charAt(currentPos);
-        currentChar = lastTape.charAt(currentPos);
+        if(currentPos == -1) {
+          currentChar = "";
+          if(currentTape.length > lastTape.length) {
+            newChar = currentTape.charAt(0);
+          } else {
+            newChar = "";
+            console.log("LastPos: -1");
+          }
+
+        } else if(currentPos == currentTape.length) { //(tape Length+1 == lastPos
+          currentChar = "";
+          if(currentTape.length > lastTape.length) {
+            newChar = currentTape.charAt(currentTape.length - 1);
+          } else {
+            newChar = "";
+          }
+        } else {
+            newChar = currentTape.charAt(currentPos);
+            currentChar = lastTape.charAt(currentPos);
+            console.log("Normal Transition");
+        }
+        console.log("TNewChar: "+newChar);
+        console.log("TCurrentChar: "+currentChar);
       }
     } else {
       currentChar = "";
@@ -233,6 +292,7 @@ export class TuringmachineService {
     let transition = "\u03B4("+currentState+","+currentChar +")" + " := " + "("+ nextState + "," + newChar + "," + directionLRN + ")\n";
     return transition;
   }
+
 
   private getDirectionLRN(direction: number):string {
     switch (direction) {

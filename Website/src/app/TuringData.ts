@@ -17,6 +17,9 @@ export class TuringData {
   private _counter: number;
   private _transition: string;
   private _currentState:string;
+  private _isFirstTapeChange: boolean;
+  private _firstCommand: TuringCommand;
+  private _firstWriteChar: string;
 
   constructor(state: string, tape: string, position: number, isEndState: boolean, isDone: boolean, direction: number, writeChar: string, turingCommand: TuringCommand, counter: number, transition: string, oldstate: string) {
     this._newState = state;
@@ -121,5 +124,30 @@ export class TuringData {
 
   set currentState(value: string) {
     this._currentState = value;
+  }
+
+
+  get isFirstTapeChange(): boolean {
+    return this._isFirstTapeChange;
+  }
+
+  set isFirstTapeChange(value: boolean) {
+    this._isFirstTapeChange = value;
+  }
+
+  get firstCommand(): TuringCommand {
+    return this._firstCommand;
+  }
+
+  set firstCommand(value: TuringCommand) {
+    this._firstCommand = value;
+  }
+
+  get firstWriteChar(): string {
+    return this._firstWriteChar;
+  }
+
+  set firstWriteChar(value: string) {
+    this._firstWriteChar = value;
   }
 }

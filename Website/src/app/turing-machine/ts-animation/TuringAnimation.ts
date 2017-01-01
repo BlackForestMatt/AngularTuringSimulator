@@ -122,14 +122,7 @@ export class TuringAnimation {
         duration: this.speed,
         easing: (Kinetic as any).Easings.EaseInOut,
         onFinish: () => {
-          switch(direction) {
-            case -1:
-              this.middleTape++;
-              break;
-            case 1:
-              this.middleTape--;
-              break;
-          }
+
         }
       });
 
@@ -139,10 +132,21 @@ export class TuringAnimation {
         duration: this.speed,
         easing: (Kinetic as any).Easings.EaseInOut,
         onFinish: () => {
+
+          switch(direction) {
+            case -1:
+              this.middleTape++;
+              break;
+            case 1:
+              this.middleTape--;
+              break;
+          }
+
           this.write(turingCommand,writeChar);
           if (!this._isPause) {
             this.nextStep();
           }
+
           doneCallback();
         }
       });
@@ -173,12 +177,17 @@ export class TuringAnimation {
   public nextStep() {
     let turingData;
     if(!this.isStarted && this.inputText !== '') {
+
       this.stateDiagram = this.tsService.getStateDiagram();
       turingData = this.tsService.start(this.inputText);
-
       this.tsComponent.counter = turingData.counter;
       this.tsComponent.state = turingData.currentState;
       this.isStarted = true;
+
+      if(turingData.isFirstTapeChange) {
+          this.write(turingData.firstCommand,turingData.firstWriteChar);
+      }
+
     } else {
       turingData = this.tsService.step();
     }
