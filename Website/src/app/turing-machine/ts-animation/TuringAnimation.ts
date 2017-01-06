@@ -1,8 +1,8 @@
-import {TuringmachineService} from "../../turingmachineservice.service";
 import {TuringData} from "../../TuringData";
 import {TuringCommand} from "../../TuringCommand";
 import {transition, NgZone} from "@angular/core";
 import {TsAnimationComponent} from "./ts-animation.component";
+import {TuringmachineService} from "../../service/turingmachineservice.service";
 export class TuringAnimation {
   private color: string = "#38A214";
   private canvasWidth: number;

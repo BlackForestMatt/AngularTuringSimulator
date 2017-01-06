@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {TuringData} from "./TuringData";
-import {TuringCommand} from "./TuringCommand";
-import {TConfiguration} from "./TConfiguration";
-import {Compiler} from "./compiler/compiler";
-import {TuringSimulator} from "./compiler/simulator";
+import {TuringData} from "../TuringData";
+import {TConfiguration} from "../TConfiguration";
+import {Compiler} from "../compiler/compiler";
+import {TuringSimulator} from "../compiler/simulator";
+import {TuringCommand} from "../TuringCommand";
+
 
 
 @Injectable()
@@ -222,6 +223,7 @@ export class TuringmachineService {
     if(currentPos >= 0) {
       if(this.counter == 1) {
         if(this.input.length > lastTape.length) { //5. input === currentTape
+
           currentChar = this.input.charAt(currentPos);
           newChar = "";
           direction = this.getDirection(currentPos, lastPos);
@@ -268,7 +270,8 @@ export class TuringmachineService {
             console.log("LastPos: -1");
           }
 
-        } else if(currentPos == currentTape.length) { //(tape Length+1 == lastPos
+        } else if(1 != 1) { //(tape Length+1 == lastPos
+          console.log("tape Length+1 == lastPos");
           currentChar = "";
           if(currentTape.length > lastTape.length) {
             newChar = currentTape.charAt(currentTape.length - 1);

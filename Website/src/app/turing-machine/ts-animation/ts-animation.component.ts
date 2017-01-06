@@ -3,8 +3,8 @@ import * as CodeMirror from 'codemirror';
 import * as noUiSlider from 'nouislider';
 import {TuringAnimation} from "./TuringAnimation";
 import {TuringData} from "../../TuringData";
-import {TuringmachineService} from "../../turingmachineservice.service";
 import {TuringDiagram} from "../../TuringDiagram";
+import {TuringmachineService} from "../../service/turingmachineservice.service";
 
 @Component({
   selector: 'ts-animation',

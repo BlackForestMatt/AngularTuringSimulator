@@ -2,7 +2,8 @@ import {Component, OnInit, AfterViewInit, ViewChild, ElementRef, AfterContentIni
 import * as CodeMirror from 'codemirror';
 import * as noUiSlider from 'nouislider';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
-import {TuringmachineService} from "./turingmachineservice.service";
+import {TuringmachineService} from "./service/turingmachineservice.service";
+
 
 
 @Component({

@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, OnChanges, Output,EventEmitter} from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import {Subscription} from "rxjs";
-import {TuringmachineService} from "../../turingmachineservice.service";
+import {TuringmachineService} from "../../service/turingmachineservice.service";
 
 @Component({
   selector: 'ts-editor',

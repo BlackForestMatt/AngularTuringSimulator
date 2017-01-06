@@ -1,6 +1,6 @@
 import {Component, OnInit, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
-import {TuringmachineService} from "../turingmachineservice.service";
 import {TuringDiagram} from "../TuringDiagram";
+import {TuringmachineService} from "../service/turingmachineservice.service";
 
 @Component({
   selector: 'app-turing-machine',
