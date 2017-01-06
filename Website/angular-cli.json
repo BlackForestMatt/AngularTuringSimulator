@@ -23,8 +23,7 @@
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../libs/kinetic-v5.1.0.js",
         "../libs/nouislider.min.js",
-        "../libs/Chart.js",
-        "../../Compiler/dist/turing.js"
+        "../libs/Chart.js"
       ],
       "environments": {
         "source": "environments/environment.ts",

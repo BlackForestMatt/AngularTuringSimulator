@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import {TuringData} from "./TuringData";
 import {TuringCommand} from "./TuringCommand";
 import {TConfiguration} from "./TConfiguration";
+import {Compiler} from "./compiler/compiler";
+import {TuringSimulator} from "./compiler/simulator";
 
-declare var Compiler: any;
-declare var TuringSimulator: any;
 
 @Injectable()
 export class TuringmachineService {
