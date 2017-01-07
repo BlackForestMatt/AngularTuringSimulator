@@ -21,11 +21,13 @@ export class TuringmachineService {
   private writeChar: string = '';
   private currentChar: string;
   private newChar: string;
+  private firstTuringConf:TConfiguration;
   private secondTuringConf:TConfiguration;
   private thirdTuringConf:TConfiguration;
   private _errorCompileMessage: string;
   private isSymbolChange: boolean;
   private input:string;
+  private countBlank: number = 1; //Compiler Bug
 
   public compile(sourcecode: string) {
     try {
@@ -96,6 +98,10 @@ export class TuringmachineService {
       if(this.isSymbolChange) {
         this.lastTuringData.firstCommand = firstCommand;
         this.lastTuringData.firstWriteChar = firstWriteChar;
+        this.firstTuringConf = new TConfiguration(firstConf.state,firstConf.position,firstConf.tape,firstConf.isEndState,firstConf.isDone);
+        this.secondTuringConf = new TConfiguration(secondConf.state,secondConf.position,secondConf.tape,secondConf.isEndState,secondConf.isDone);
+        this.thirdTuringConf = new TConfiguration(thirdConf.state,thirdConf.position,thirdConf.tape,thirdConf.isEndState,thirdConf.isDone);
+
       }
       this.lastTuringData.isFirstTapeChange = this.isSymbolChange;
       this.counter++;
@@ -108,50 +114,53 @@ export class TuringmachineService {
   public step():TuringData {
     if(this.isStart) {
       //if (!this.secondTConf.isDone) {
-        let conf = this.simulator.step();
 
-        let secondConf = this.secondTuringConf;
-        let thirdConf = this.thirdTuringConf;
+      let conf = this.simulator.step();
 
-        console.log(this.secondTuringConf);
-        console.log(this.thirdTuringConf);
-
-        let direction = this.getDirection(secondConf.position, thirdConf.position);
-        let command = this.getTuringCommand(secondConf.tape, thirdConf.tape, secondConf.position, thirdConf.position);
-
-        let transitions = conf.tape + " " + thirdConf.state + " Pos: " + thirdConf.position + '<br>';
-
-        console.log("Direction: " + direction);
-        console.log(transitions);
-
-        switch (command) {
-          case TuringCommand.Nothing:
-            console.log("Nothing");
-            break;
-          case TuringCommand.Write:
-            console.log("Write");
-            break;
-          }
+      let firstConf = this.firstTuringConf; //needed when isSymbolChange == true
+      let secondConf = this.secondTuringConf;
+      let thirdConf = this.thirdTuringConf;
 
 
-        if (command === TuringCommand.Nothing) {
-          this.writeChar = "";
-        }
+      console.log(this.secondTuringConf);
+      console.log(this.thirdTuringConf);
 
-        let transition;
-        if(!this.thirdTuringConf.isDone) {
+      let direction = this.getDirection(secondConf.position, thirdConf.position);
+      let command = this.getTuringCommand(secondConf.tape, thirdConf.tape, secondConf.position, thirdConf.position);
+
+      let transitions = conf.tape + " " + thirdConf.state + " Pos: " + thirdConf.position + '<br>';
+
+      console.log("Direction: " + direction);
+      console.log(transitions);
+
+      switch (command) {
+        case TuringCommand.Nothing:
+          console.log("Nothing");
+          break;
+        case TuringCommand.Write:
+          console.log("Write");
+          break;
+      }
+
+
+      if (command === TuringCommand.Nothing) {
+        this.writeChar = "";
+      }
+
+      let transition;
+      if(!this.thirdTuringConf.isDone) {
           transition = this.getTransition(thirdConf.state, secondConf.state, secondConf.tape, thirdConf.tape, secondConf.position, thirdConf.position, conf.state, conf.position);
-        } else {
-          transition = "";
+      } else {
+        transition = "";
         }
 
-        console.log(transition);
-        console.log("________________________________________________________");
-        this.lastTuringData = new TuringData(conf.state, thirdConf.tape, thirdConf.position, thirdConf.isEndState, thirdConf.isDone, direction, this.writeChar, command, this.counter, transition,secondConf.state);
-        this.counter++;
-        this.secondTuringConf = this.thirdTuringConf;
-        this.thirdTuringConf = new TConfiguration(conf.state,conf.position,conf.tape,conf.isEndState,conf.isDone);
-        return this.lastTuringData;
+      console.log(transition);
+      console.log("________________________________________________________");
+      this.lastTuringData = new TuringData(conf.state, thirdConf.tape, thirdConf.position, thirdConf.isEndState, thirdConf.isDone, direction, this.writeChar, command, this.counter, transition,secondConf.state);
+      this.counter++;
+      this.secondTuringConf = this.thirdTuringConf;
+      this.thirdTuringConf = new TConfiguration(conf.state, conf.position, conf.tape, conf.isEndState, conf.isDone);
+      return this.lastTuringData;
       //}
     }
     return null;
@@ -218,6 +227,7 @@ export class TuringmachineService {
     lastPos--;
     nextPos--;
 
+
     let currentChar;
     let newChar;
     if(currentPos >= 0) {
@@ -258,6 +268,11 @@ export class TuringmachineService {
           return transition1 + transition2;
         }
       } else {
+
+        if(this.isSymbolChange) {
+          currentPos -= this.countBlank;
+          lastPos -= this.countBlank;
+        }
         console.log("TTCUrrentPos: "+currentPos);
         console.log("TTLastPos: "+lastPos);
 
@@ -269,18 +284,26 @@ export class TuringmachineService {
             newChar = "";
             console.log("LastPos: -1");
           }
-
-        } else if(1 != 1) { //(tape Length+1 == lastPos
-          console.log("tape Length+1 == lastPos");
-          currentChar = "";
-          if(currentTape.length > lastTape.length) {
-            newChar = currentTape.charAt(currentTape.length - 1);
-          } else {
-            newChar = "";
-          }
         } else {
-            newChar = currentTape.charAt(currentPos);
-            currentChar = lastTape.charAt(currentPos);
+            if(!this.isSymbolChange) {
+              newChar = currentTape.charAt(currentPos);
+              currentChar = lastTape.charAt(currentPos);
+            } else {
+              if(currentPos+this.countBlank > currentTape.length) {
+                if(currentTape.length < lastTape.length) {
+                  currentChar = lastTape.charAt(currentPos);
+                  this.countBlank++;
+                  currentPos -= this.countBlank;
+                  newChar = currentTape.charAt(currentPos);
+                } else {
+                  newChar = currentTape.charAt(currentPos);
+                  currentChar = lastTape.charAt(currentPos);
+                }
+              } else {
+                newChar = currentTape.charAt(currentPos);
+                currentChar = lastTape.charAt(currentPos);
+              }
+            }
             console.log("Normal Transition");
         }
         console.log("TNewChar: "+newChar);
@@ -328,6 +351,7 @@ export class TuringmachineService {
   this.secondTuringConf = null;
   this.thirdTuringConf = null;
   this._errorCompileMessage = null;
+  this.isSymbolChange = false;
   }
 
   public getStateDiagram():Map<string,number> {
