@@ -24,10 +24,10 @@ export class ChartComponent implements OnInit,OnChanges {
   public barChartLegend:boolean = true;
   public chartColors: Array<any> = [
     { // first color
-      backgroundColor: 'rgba(51, 122, 183, 1)',
-      borderColor: 'rgba(51, 122, 183, 1)',
-      pointHoverBackgroundColor: 'rgba(51, 122, 183, 1)',
-      pointHoverBorderColor: 'rgba(51, 122, 183, 1)'
+      backgroundColor: 'rgba(35, 47, 57, 1)',
+      borderColor: 'rgba(35, 47, 57, 1)',
+      pointHoverBackgroundColor: 'rgba(35, 47, 57, 1)',
+      pointHoverBorderColor: 'rgba(35, 47, 57, 1)'
 
     }];
 
