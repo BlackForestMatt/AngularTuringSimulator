@@ -45,13 +45,13 @@ export class TuringmachineService {
   }
 
   public start(input: string):TuringData {
-    this.input = input;
     this.isStart = true;
     this.isDone = false;
     this.counter = 1;
 
     if(this._isCompile) {
       this.simulator.setup(input);
+      this.input = this.simulator.getWord();
       let firstConf = this.simulator.step();
       let secondConf = this.simulator.step();
       let thirdConf = this.simulator.step();
@@ -76,18 +76,18 @@ export class TuringmachineService {
           break;
       }
 
-
+      debugger;
       let transition;
       let firstCommand;
       let firstWriteChar;
-      if(input !== firstConf.tape) {
+      if(this.input !== firstConf.tape) {
         firstCommand = this.getTuringCommand(input,firstConf.tape,firstConf.position,firstConf.position);
         firstWriteChar = this.writeChar;
         console.log("firstWriteChar: "+firstWriteChar);
-        transition = this.getTransition(firstConf.state,secondConf.state,firstConf.tape,input,secondConf.position,firstConf.position,thirdConf.state,thirdConf.position);
+        transition = this.getTransition(firstConf.state,secondConf.state,firstConf.tape,secondConf.tape,secondConf.position + 1 ,firstConf.position + 1,thirdConf.state,thirdConf.position);
         this.isSymbolChange = true;
       } else {
-        transition = this.getTransition(firstConf.state,secondConf.state,secondConf.tape,firstConf.tape,secondConf.position,firstConf.position,thirdConf.state,thirdConf.position);
+        transition = this.getTransition(firstConf.state, secondConf.state, secondConf.tape, firstConf.tape, secondConf.position, firstConf.position, thirdConf.state, thirdConf.position);
         console.log(transition);
         this.isSymbolChange = false;
       }
@@ -184,7 +184,7 @@ export class TuringmachineService {
     console.log("NewTapeLength: "+ newTape.length);
     console.log("NewPos: "+ newPos);
 
-    newPos--;
+    //newPos--;
     if(currentTape.length == newTape.length) {
       if ((currentPos < currentTape.length && (currentPos < newTape.length))) {
         this.currentChar = currentTape.charAt(newPos);
@@ -223,91 +223,29 @@ export class TuringmachineService {
     let direction = this.getDirection(currentPos, nextPos);
     directionLRN = this.getDirectionLRN(direction);
 
-    currentPos--;
-    lastPos--;
-    nextPos--;
-
 
     let currentChar;
     let newChar;
     if(currentPos >= 0) {
+
       if(this.counter == 1) {
-        if(this.input.length > lastTape.length) { //5. input === currentTape
+        newChar = currentTape.charAt(currentPos);
+        currentChar = lastTape.charAt(currentPos);
+        direction = this.getDirection(currentPos, lastPos);
+        directionLRN = this.getDirectionLRN(direction);
 
-          currentChar = this.input.charAt(currentPos);
-          newChar = "";
-          direction = this.getDirection(currentPos, lastPos);
-          directionLRN = this.getDirectionLRN(direction);
+        let newChar2 = currentTape.charAt(lastPos);
+        let currentChar2 = lastTape.charAt(lastPos);
+        let direction2 = this.getDirection(lastPos, nextPos);
+        let directionLRN2 = this.getDirectionLRN(direction2);
 
-          let newChar2 = currentTape.charAt(lastPos);
-          let currentChar2 = lastTape.charAt(lastPos);
-          let direction2 = this.getDirection(lastPos, nextPos);
-          let directionLRN2 = this.getDirectionLRN(direction2);
-
-          let transition1 = "\u03B4(" + currentState + "," + currentChar + ")" + " := " + "(" + lastState + "," + newChar + "," + directionLRN + ")\n";
-          let transition2 = "\u03B4(" + lastState + "," + currentChar2 + ")" + " := " + "(" + nextState + "," + newChar2 + "," + directionLRN2 + ")\n";
-          return transition1 + transition2;
-
-        } else {
-          console.log("Transition Equal");
-          newChar = currentTape.charAt(currentPos);
-          currentChar = lastTape.charAt(currentPos);
-          direction = this.getDirection(currentPos, lastPos);
-          directionLRN = this.getDirectionLRN(direction);
-
-          let newChar2 = lastTape.charAt(lastPos);
-          let currentChar2 = currentTape.charAt(lastPos);
-          let direction2 = this.getDirection(lastPos, nextPos);
-          let directionLRN2 = this.getDirectionLRN(direction2);
-
-          console.log("SCurrentTape: "+currentTape);
-          console.log("SLastTape: "+lastTape);
-          console.log("SLastPos: "+lastPos);
-          let transition1 = "\u03B4(" + currentState + "," + currentChar + ")" + " := " + "(" + lastState + "," + newChar + "," + directionLRN + ")\n";
-          let transition2 = "\u03B4(" + lastState + "," + currentChar2 + ")" + " := " + "(" + nextState + "," + newChar2 + "," + directionLRN2 + ")\n";
-          return transition1 + transition2;
-        }
+        let transition1 = "\u03B4("+currentState+","+currentChar +")" + " := " + "("+ lastState + "," + newChar + "," + directionLRN + ")\n";
+        let transition2 = "\u03B4("+lastState+","+currentChar2 +")" + " := " + "("+ nextState + "," + newChar2 + "," + directionLRN2 + ")\n";
+        return transition1 + transition2;
       } else {
 
-        if(this.isSymbolChange) {
-          currentPos -= this.countBlank;
-          lastPos -= this.countBlank;
-        }
-        console.log("TTCUrrentPos: "+currentPos);
-        console.log("TTLastPos: "+lastPos);
-
-        if(currentPos == -1) {
-          currentChar = "";
-          if(currentTape.length > lastTape.length) {
-            newChar = currentTape.charAt(0);
-          } else {
-            newChar = "";
-            console.log("LastPos: -1");
-          }
-        } else {
-            if(!this.isSymbolChange) {
-              newChar = currentTape.charAt(currentPos);
-              currentChar = lastTape.charAt(currentPos);
-            } else {
-              if(currentPos+this.countBlank > currentTape.length) {
-                if(currentTape.length < lastTape.length) {
-                  currentChar = lastTape.charAt(currentPos);
-                  this.countBlank++;
-                  currentPos -= this.countBlank;
-                  newChar = currentTape.charAt(currentPos);
-                } else {
-                  newChar = currentTape.charAt(currentPos);
-                  currentChar = lastTape.charAt(currentPos);
-                }
-              } else {
-                newChar = currentTape.charAt(currentPos);
-                currentChar = lastTape.charAt(currentPos);
-              }
-            }
-            console.log("Normal Transition");
-        }
-        console.log("TNewChar: "+newChar);
-        console.log("TCurrentChar: "+currentChar);
+        newChar = currentTape.charAt(currentPos);
+        currentChar = lastTape.charAt(currentPos);
       }
     } else {
       currentChar = "";
@@ -318,6 +256,7 @@ export class TuringmachineService {
     let transition = "\u03B4("+currentState+","+currentChar +")" + " := " + "("+ nextState + "," + newChar + "," + directionLRN + ")\n";
     return transition;
   }
+
 
 
   private getDirectionLRN(direction: number):string {
