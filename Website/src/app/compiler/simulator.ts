@@ -69,9 +69,7 @@ export class TuringSimulator {
     let word: string = "";
     for (let i = 0; i < this.tape.length; i++) {
       let code: number = this.tape[i];
-      if (code !== this.code[1][0]) {
         word += String.fromCharCode(this.code[3][code]);
-      }
     }
     return word;
   }
@@ -125,6 +123,7 @@ export class TuringSimulator {
    * @param word Initial tape contents
    */
   setup(word: string): void {
+    debugger;
     this.reset();
     this.setWord(word);
   }
