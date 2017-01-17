@@ -123,7 +123,6 @@ export class TuringSimulator {
    * @param word Initial tape contents
    */
   setup(word: string): void {
-    debugger;
     this.reset();
     this.setWord(word);
   }

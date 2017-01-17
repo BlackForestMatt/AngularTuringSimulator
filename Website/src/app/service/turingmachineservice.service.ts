@@ -63,8 +63,8 @@ export class TuringmachineService {
 
       let direction = this.getDirection(firstConf.position,secondConf.position);
       let command = this.getTuringCommand(firstConf.tape,secondConf.tape,firstConf.position,secondConf.position);
-      let writeChar = this.writeChar;
 
+      debugger;
       console.log("Direction: "+direction);
       console.log(firstConf);
       console.log(secondConf);
@@ -78,13 +78,17 @@ export class TuringmachineService {
           break;
       }
 
+
+      if (command === TuringCommand.Nothing || (TuringCommand.Write === command && (this.writeChar === this.blankedSymbol))) {
+        this.writeChar = "";
+      }
+
       let transition;
       let firstCommand;
       let firstWriteChar;
       if(this.input !== firstConf.tape) {
         firstCommand = this.getTuringCommand(input,firstConf.tape,firstConf.position,firstConf.position);
         firstWriteChar = this.writeChar;
-        console.log("firstWriteChar: "+firstWriteChar);
         transition = this.getTransition(firstConf.state,secondConf.state,firstConf.tape,this.input,secondConf.position ,firstConf.position,thirdConf.state,thirdConf.position);
         this.isSymbolChange = true;
       } else {
@@ -95,7 +99,7 @@ export class TuringmachineService {
 
       console.log("________________________________________________________");
 
-      this.lastTuringData = new TuringData(secondConf.state,secondConf.tape,secondConf.position,secondConf.isEndState,secondConf.isDone,direction,writeChar,command,this.counter,transition,firstConf.state);
+      this.lastTuringData = new TuringData(secondConf.state,secondConf.tape,secondConf.position,secondConf.isEndState,secondConf.isDone,direction,this.writeChar,command,this.counter,transition,firstConf.state);
       if(this.isSymbolChange) {
         this.lastTuringData.firstCommand = firstCommand;
         this.lastTuringData.firstWriteChar = firstWriteChar;
@@ -143,8 +147,7 @@ export class TuringmachineService {
           break;
       }
 
-
-      if (command === TuringCommand.Nothing) {
+      if (command === TuringCommand.Nothing || (TuringCommand.Write === command && (this.writeChar === this.blankedSymbol))) {
         this.writeChar = "";
       }
 
@@ -204,6 +207,9 @@ export class TuringmachineService {
         return TuringCommand.Nothing;
       } else {
         this.writeChar = this.newChar;
+        if (this.writeChar === this.blankedSymbol) {
+          this.writeChar = "";
+        }
         return TuringCommand.Write;
       }
     } else {
@@ -212,6 +218,9 @@ export class TuringmachineService {
         return TuringCommand.Write;
       } else {
         this.writeChar = newTape.charAt(newPos);
+        if (this.writeChar === this.blankedSymbol) {
+          this.writeChar = "";
+        }
         return TuringCommand.Write;
       }
 
