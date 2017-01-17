@@ -21,7 +21,6 @@ export class TuringmachineService {
   private writeChar: string = '';
   private currentChar: string;
   private newChar: string;
-  private firstTuringConf:TConfiguration;
   private secondTuringConf:TConfiguration;
   private thirdTuringConf:TConfiguration;
   private _errorCompileMessage: string;
@@ -64,7 +63,6 @@ export class TuringmachineService {
       let direction = this.getDirection(firstConf.position,secondConf.position);
       let command = this.getTuringCommand(firstConf.tape,secondConf.tape,firstConf.position,secondConf.position);
 
-      debugger;
       console.log("Direction: "+direction);
       console.log(firstConf);
       console.log(secondConf);
@@ -103,9 +101,6 @@ export class TuringmachineService {
       if(this.isSymbolChange) {
         this.lastTuringData.firstCommand = firstCommand;
         this.lastTuringData.firstWriteChar = firstWriteChar;
-        this.firstTuringConf = new TConfiguration(firstConf.state,firstConf.position,firstConf.tape,firstConf.isEndState,firstConf.isDone);
-        this.secondTuringConf = new TConfiguration(secondConf.state,secondConf.position,secondConf.tape,secondConf.isEndState,secondConf.isDone);
-        this.thirdTuringConf = new TConfiguration(thirdConf.state,thirdConf.position,thirdConf.tape,thirdConf.isEndState,thirdConf.isDone);
 
       }
       this.lastTuringData.isFirstTapeChange = this.isSymbolChange;
@@ -121,11 +116,8 @@ export class TuringmachineService {
       //if (!this.secondTConf.isDone) {
 
       let conf = this.simulator.step();
-
-      let firstConf = this.firstTuringConf; //needed when isSymbolChange == true
       let secondConf = this.secondTuringConf;
       let thirdConf = this.thirdTuringConf;
-
 
       console.log(this.secondTuringConf);
       console.log(this.thirdTuringConf);
@@ -239,8 +231,6 @@ export class TuringmachineService {
     if(currentPos >= 0) {
 
       if(this.counter == 1) {
-        //currentPos += blankedCounter;
-        //lastPos += blankedCounter;
 
         newChar = lastTape.charAt(currentPos);
         currentChar = currentTape.charAt(currentPos);
