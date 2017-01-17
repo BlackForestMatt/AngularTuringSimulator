@@ -176,4 +176,8 @@ export class TuringSimulator {
     }
     return config;
   }
+
+   getBlankSymbol(): string {
+     return String.fromCharCode(this.code[3][this.blank]);
+   }
 }

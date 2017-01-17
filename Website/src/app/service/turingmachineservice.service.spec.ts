@@ -34,21 +34,21 @@ describe('deleteA Test', () => {
   ];
 
   let palindrom = [
-    "\u03B4(s0,a) := (s1,,R)\n",
+    "\u03B4(s0,a) := (s1,_,R)\n",
     "\u03B4(s1,b) := (s1,b,R)\n",
     "\u03B4(s1,b) := (s1,b,R)\n",
     "\u03B4(s1,a) := (s1,a,R)\n",
-    "\u03B4(s1,) := (s3,,L)\n",
-    "\u03B4(s3,a) := (s5,,L)\n",
+    "\u03B4(s1,_) := (s3,_,L)\n",
+    "\u03B4(s3,a) := (s5,_,L)\n",
     "\u03B4(s5,b) := (s5,b,L)\n",
     "\u03B4(s5,b) := (s5,b,L)\n",
-    "\u03B4(s5,) := (s0,,R)\n",
-    "\u03B4(s0,b) := (s2,,R)\n",
+    "\u03B4(s5,_) := (s0,_,R)\n",
+    "\u03B4(s0,b) := (s2,_,R)\n",
     "\u03B4(s2,b) := (s2,b,R)\n",
-    "\u03B4(s2,) := (s4,,L)\n",
-    "\u03B4(s4,b) := (s5,,L)\n",
-    "\u03B4(s5,) := (s0,,R)\n",
-    "\u03B4(s0,) := (s6,a,N)\n",
+    "\u03B4(s2,_) := (s4,_,L)\n",
+    "\u03B4(s4,b) := (s5,_,L)\n",
+    "\u03B4(s5,_) := (s0,_,R)\n",
+    "\u03B4(s0,_) := (s6,_,N)\n",
   ];
 
   let service : TuringmachineService;
@@ -94,10 +94,10 @@ describe('deleteA Test', () => {
 
       if(counter === 0) {
         let deleteTransition = palindrom[0] + palindrom[1];
-        //expect(transition).toEqual(deleteTransition);
-        counter = 1;
+        expect(transition).toEqual(deleteTransition);
+        counter++;
       } else {
-        //expect(transition).toEqual(palindrom[counter]);
+        expect(transition).toEqual(palindrom[counter]);
       }
       counter++;
       turingData = service.step();

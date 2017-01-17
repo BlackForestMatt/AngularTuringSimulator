@@ -27,7 +27,7 @@ export class TuringmachineService {
   private _errorCompileMessage: string;
   private isSymbolChange: boolean;
   private input:string;
-  private countBlank: number = 1; //Compiler Bug
+  private blankedSymbol:string;
 
   public compile(sourcecode: string) {
     try {
@@ -52,6 +52,8 @@ export class TuringmachineService {
     if(this._isCompile) {
       this.simulator.setup(input);
       this.input = this.simulator.getWord();
+      this.blankedSymbol = this.simulator.getBlankSymbol();
+
       let firstConf = this.simulator.step();
       let secondConf = this.simulator.step();
       let thirdConf = this.simulator.step();
@@ -76,7 +78,6 @@ export class TuringmachineService {
           break;
       }
 
-      debugger;
       let transition;
       let firstCommand;
       let firstWriteChar;
@@ -84,7 +85,7 @@ export class TuringmachineService {
         firstCommand = this.getTuringCommand(input,firstConf.tape,firstConf.position,firstConf.position);
         firstWriteChar = this.writeChar;
         console.log("firstWriteChar: "+firstWriteChar);
-        transition = this.getTransition(firstConf.state,secondConf.state,firstConf.tape,secondConf.tape,secondConf.position + 1 ,firstConf.position + 1,thirdConf.state,thirdConf.position);
+        transition = this.getTransition(firstConf.state,secondConf.state,firstConf.tape,this.input,secondConf.position ,firstConf.position,thirdConf.state,thirdConf.position);
         this.isSymbolChange = true;
       } else {
         transition = this.getTransition(firstConf.state, secondConf.state, secondConf.tape, firstConf.tape, secondConf.position, firstConf.position, thirdConf.state, thirdConf.position);
@@ -223,19 +224,22 @@ export class TuringmachineService {
     let direction = this.getDirection(currentPos, nextPos);
     directionLRN = this.getDirectionLRN(direction);
 
-
     let currentChar;
     let newChar;
+
     if(currentPos >= 0) {
 
       if(this.counter == 1) {
-        newChar = currentTape.charAt(currentPos);
-        currentChar = lastTape.charAt(currentPos);
+        //currentPos += blankedCounter;
+        //lastPos += blankedCounter;
+
+        newChar = lastTape.charAt(currentPos);
+        currentChar = currentTape.charAt(currentPos);
         direction = this.getDirection(currentPos, lastPos);
         directionLRN = this.getDirectionLRN(direction);
 
-        let newChar2 = currentTape.charAt(lastPos);
-        let currentChar2 = lastTape.charAt(lastPos);
+        let newChar2 = lastTape.charAt(lastPos);
+        let currentChar2 = currentTape.charAt(lastPos);
         let direction2 = this.getDirection(lastPos, nextPos);
         let directionLRN2 = this.getDirectionLRN(direction2);
 
@@ -243,6 +247,9 @@ export class TuringmachineService {
         let transition2 = "\u03B4("+lastState+","+currentChar2 +")" + " := " + "("+ nextState + "," + newChar2 + "," + directionLRN2 + ")\n";
         return transition1 + transition2;
       } else {
+
+        debugger;
+        //currentPos += blankedCounter;
 
         newChar = currentTape.charAt(currentPos);
         currentChar = lastTape.charAt(currentPos);
@@ -305,4 +312,5 @@ export class TuringmachineService {
     }
     return stateDiagram;
   }
+
 }
