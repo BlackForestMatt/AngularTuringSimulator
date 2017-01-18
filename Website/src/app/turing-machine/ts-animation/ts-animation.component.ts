@@ -27,6 +27,7 @@ export class TsAnimationComponent implements OnInit {
   private _isSuccess = false;
   private _isFail = false;
   private inputBtnNotVisible = false;
+  private transitionEditor;
 
   @Input()
   turingExampleName:string = "";
@@ -46,13 +47,13 @@ export class TsAnimationComponent implements OnInit {
   }
 
   init() {
-    let transitionEditor = (CodeMirror as any).fromTextArea((document as any).getElementById('consoleCM'), {
+    this.transitionEditor = (CodeMirror as any).fromTextArea((document as any).getElementById('consoleCM'), {
       mode: "text/html",
       lineNumbers: true,
       readOnly: true
     });
 
-    transitionEditor.setSize(null,100);
+    this.transitionEditor.setSize(null,100);
 
     let speed_bar = document.getElementById('slider');
     (noUiSlider as any).create(speed_bar, {
@@ -65,7 +66,7 @@ export class TsAnimationComponent implements OnInit {
       },
     });
 
-    this.turingAnimation.transitionEditor = transitionEditor;
+    this.turingAnimation.transitionEditor = this.transitionEditor;
     this.turingAnimation.speedBar = speed_bar;
   }
 
@@ -129,6 +130,8 @@ export class TsAnimationComponent implements OnInit {
   clear() {
     console.log("Clear");
     this.inputBtnNotVisible = false;
+    this.transitionEditor.setValue("");
+    this.transitionEditor.clearHistory();
     this.turingAnimation.clear();
     this.tsService.clear();
     this.input = "";
