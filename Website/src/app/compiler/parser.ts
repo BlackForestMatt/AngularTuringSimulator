@@ -1,3 +1,6 @@
+/**
+ * Created by josef on 1/18/17.
+ */
 /// <reference path="./lexer.ts"/>
 
 import {Token} from "./lexer";
@@ -362,8 +365,8 @@ export class Parser {
         let type: string = null;
         ASTPos = this.AST.findEmpty(head);
         if (head === input.value ||
-           (head === "z" && input.type === "IDENTIFIER") ||
-           (head === "v" && input.type === "IDENTIFIER" && input.value.length === 1)) {
+          (head === "z" && input.type === "IDENTIFIER") ||
+          (head === "v" && input.type === "IDENTIFIER" && input.value.length === 1)) {
           if (ASTPos) {
             ASTPos.data = input.value;
           }

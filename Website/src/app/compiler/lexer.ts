@@ -1,3 +1,6 @@
+/**
+ * Created by josef on 1/18/17.
+ */
 export interface Token {
   type: string;
   value: string;
@@ -67,8 +70,8 @@ export class Lexer {
    */
   private isAplhaNumeric(char: string): boolean {
     return (char >= "a" && char <= "z") ||
-           (char >= "A" && char <= "Z") ||
-           (char >= "0" && char <= "9");
+      (char >= "A" && char <= "Z") ||
+      (char >= "0" && char <= "9");
   }
 
   /**

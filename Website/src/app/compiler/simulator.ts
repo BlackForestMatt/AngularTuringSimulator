@@ -1,4 +1,7 @@
 /**
+ * Created by josef on 1/18/17.
+ */
+/**
  * Represents a turing machine configuration
  */
 export class TuringConfiguration {
@@ -69,7 +72,7 @@ export class TuringSimulator {
     let word: string = "";
     for (let i = 0; i < this.tape.length; i++) {
       let code: number = this.tape[i];
-        word += String.fromCharCode(this.code[3][code]);
+      word += String.fromCharCode(this.code[3][code]);
     }
     return word;
   }
@@ -176,7 +179,7 @@ export class TuringSimulator {
     return config;
   }
 
-   getBlankSymbol(): string {
-     return String.fromCharCode(this.code[3][this.blank]);
-   }
+  getBlankSymbol(): string {
+    return String.fromCharCode(this.code[3][this.blank]);
+  }
 }

@@ -53,8 +53,6 @@ export class TsAnimationComponent implements OnInit {
     });
 
     transitionEditor.setSize(null,100);
-    // myCodeMirror.setValue("Test \ntestdfasdf");
-    // myCodeMirror.addLineClass(1,'Josef','CodeMirror-activeline-background');
 
     let speed_bar = document.getElementById('slider');
     (noUiSlider as any).create(speed_bar, {

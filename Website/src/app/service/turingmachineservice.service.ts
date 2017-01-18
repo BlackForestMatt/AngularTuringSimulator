@@ -246,10 +246,6 @@ export class TuringmachineService {
         let transition2 = "\u03B4("+lastState+","+currentChar2 +")" + " := " + "("+ nextState + "," + newChar2 + "," + directionLRN2 + ")\n";
         return transition1 + transition2;
       } else {
-
-        debugger;
-        //currentPos += blankedCounter;
-
         newChar = currentTape.charAt(currentPos);
         currentChar = lastTape.charAt(currentPos);
       }
