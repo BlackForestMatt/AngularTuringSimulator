@@ -114,8 +114,6 @@ export class TuringAnimation {
       this.first_X = (this.first_X - direction + this.nCell) % this.nCell;
       this.currentX = this.currentX + direction * this.cellSize;
 
-      console.log("Animate");
-
       let rectTween = new (Kinetic as any).Tween({
         node: this.rectGroup,
         x: this.currentX,

@@ -100,11 +100,6 @@ export class TsAnimationComponent implements OnInit {
     this._state = value;
   }
 
-  test2() {
-    this._counter++;
-  }
-
-
   get isSuccess() {
     return this._isSuccess;
   }
@@ -128,7 +123,6 @@ export class TsAnimationComponent implements OnInit {
   }
 
   clear() {
-    console.log("Clear");
     this.inputBtnNotVisible = false;
     this.transitionEditor.setValue("");
     this.transitionEditor.clearHistory();
@@ -139,7 +133,6 @@ export class TsAnimationComponent implements OnInit {
 
 
   public sendStateDiagram( stateDiagram: Map<string,number>) {
-    console.log("TsAnimation StateDiagram");
     let turingDiagram = new TuringDiagram();
     turingDiagram.stateDiagram = stateDiagram;
     this.eventStateDiagram.emit(turingDiagram);

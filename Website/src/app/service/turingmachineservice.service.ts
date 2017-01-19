@@ -63,19 +63,6 @@ export class TuringmachineService {
       let direction = this.getDirection(firstConf.position,secondConf.position);
       let command = this.getTuringCommand(firstConf.tape,secondConf.tape,firstConf.position,secondConf.position);
 
-      console.log("Direction: "+direction);
-      console.log(firstConf);
-      console.log(secondConf);
-
-      switch(command) {
-        case TuringCommand.Nothing:
-          console.log("Nothing");
-          break;
-        case TuringCommand.Write:
-          console.log("Write");
-          break;
-      }
-
 
       if (command === TuringCommand.Nothing || (TuringCommand.Write === command && (this.writeChar === this.blankedSymbol))) {
         this.writeChar = "";
@@ -95,8 +82,6 @@ export class TuringmachineService {
         this.isSymbolChange = false;
       }
 
-      console.log("________________________________________________________");
-
       this.lastTuringData = new TuringData(secondConf.state,secondConf.tape,secondConf.position,secondConf.isEndState,secondConf.isDone,direction,this.writeChar,command,this.counter,transition,firstConf.state);
       if(this.isSymbolChange) {
         this.lastTuringData.firstCommand = firstCommand;
@@ -113,31 +98,12 @@ export class TuringmachineService {
 
   public step():TuringData {
     if(this.isStart) {
-      //if (!this.secondTConf.isDone) {
-
       let conf = this.simulator.step();
       let secondConf = this.secondTuringConf;
       let thirdConf = this.thirdTuringConf;
 
-      console.log(this.secondTuringConf);
-      console.log(this.thirdTuringConf);
-
       let direction = this.getDirection(secondConf.position, thirdConf.position);
       let command = this.getTuringCommand(secondConf.tape, thirdConf.tape, secondConf.position, thirdConf.position);
-
-      let transitions = conf.tape + " " + thirdConf.state + " Pos: " + thirdConf.position + '<br>';
-
-      console.log("Direction: " + direction);
-      console.log(transitions);
-
-      switch (command) {
-        case TuringCommand.Nothing:
-          console.log("Nothing");
-          break;
-        case TuringCommand.Write:
-          console.log("Write");
-          break;
-      }
 
       if (command === TuringCommand.Nothing || (TuringCommand.Write === command && (this.writeChar === this.blankedSymbol))) {
         this.writeChar = "";
@@ -150,14 +116,11 @@ export class TuringmachineService {
         transition = "";
         }
 
-      console.log(transition);
-      console.log("________________________________________________________");
       this.lastTuringData = new TuringData(conf.state, thirdConf.tape, thirdConf.position, thirdConf.isEndState, thirdConf.isDone, direction, this.writeChar, command, this.counter, transition,secondConf.state);
       this.counter++;
       this.secondTuringConf = this.thirdTuringConf;
       this.thirdTuringConf = new TConfiguration(conf.state, conf.position, conf.tape, conf.isEndState, conf.isDone);
       return this.lastTuringData;
-      //}
     }
     return null;
   }
@@ -173,14 +136,6 @@ export class TuringmachineService {
   }
 
   private getTuringCommand(currentTape: string,newTape: string, currentPos: number,newPos: number):TuringCommand{
-    console.log("CurrentTape: "+currentTape);
-    console.log("CurrentTapeLength: "+ currentTape.length);
-    console.log("CurrentPos: "+currentPos);
-    console.log("NewTape: "+ newTape);
-    console.log("NewTapeLength: "+ newTape.length);
-    console.log("NewPos: "+ newPos);
-
-    //newPos--;
     if(currentTape.length == newTape.length) {
       if ((currentPos < currentTape.length && (currentPos < newTape.length))) {
         this.currentChar = currentTape.charAt(newPos);
