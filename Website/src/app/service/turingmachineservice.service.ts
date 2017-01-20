@@ -219,11 +219,11 @@ export class TuringmachineService {
   private getDirectionLRN(direction: number):string {
     switch (direction) {
       case 0:
-        return "N";
+        return "-";
       case 1:
-        return "L";
+        return "<";
       case -1:
-        return "R";
+        return ">";
 
     }
   }
