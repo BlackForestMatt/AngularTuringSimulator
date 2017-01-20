@@ -1,5 +1,4 @@
 Turing Machine Simulator
-A project implementing a Turing Machine Simulator in Typescript
 
 The Turing Machine:
 -------------------
