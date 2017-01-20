@@ -1,4 +1,4 @@
-Angular Turing Machine Simulator
+#Angular Turing Machine Simulator
 -------------------
 
 Machine Simulator:
