@@ -1,4 +1,7 @@
-Turing Machine Simulator:
+Angular Turing Machine Simulator
+-------------------
+
+Machine Simulator:
 -------------------
 A Turing Machine consists in simple of a read-write head and an infinite tape on which the head can move.
 The machine can have multiple states and must always be in one of these states.
