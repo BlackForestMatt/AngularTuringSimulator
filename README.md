@@ -1,5 +1,4 @@
 #Angular Turing Machine Simulator
--------------------
 https://turingsimulator.org/
 Machine Simulator:
 -------------------
