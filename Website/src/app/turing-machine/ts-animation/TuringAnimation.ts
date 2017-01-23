@@ -104,7 +104,6 @@ export class TuringAnimation {
     this.speed = 2.0001 - (1.3 * this._speedBar.noUiSlider.get())/100;
     this._speedBar.noUiSlider.on('slide',() => {
       this.speed = 2.0001 - (1.7 * this._speedBar.noUiSlider.get())/100;
-      console.log("Speed: "+this.speed);
     });
   }
 

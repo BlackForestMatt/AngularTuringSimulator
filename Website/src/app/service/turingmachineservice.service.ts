@@ -141,8 +141,6 @@ export class TuringmachineService {
         this.currentChar = currentTape.charAt(newPos);
         this.newChar = newTape.charAt(newPos);
 
-        console.log("CurrentChar: " + this.currentChar);
-        console.log("NewChar: " + this.newChar);
       } else {
         this.currentChar = '';
         this.newChar = '';

@@ -51,15 +51,11 @@ export class ChartComponent implements OnInit,OnChanges {
           this.barChartLabels.push(String(value));
 
           data.push(key);
-          console.log("State: " + value);
-          console.log("Number: " + key);
         });
 
         let clone = JSON.parse(JSON.stringify(this.barChartData));
         clone[0].data = data;
         this.barChartData = clone;
-        console.log(this.barChartData);
-        console.log(this.barChartLabels);
       }
     }
   }
