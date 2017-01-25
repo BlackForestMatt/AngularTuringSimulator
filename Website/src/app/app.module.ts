@@ -16,6 +16,8 @@ import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 import { ModalModule } from 'angular2-modal';
 import {TuringmachineService} from "./service/turingmachineservice.service";
 
+/// <reference path="./compiler/compiler.ts"/>
+
 @NgModule({
   declarations: [
     AppComponent,

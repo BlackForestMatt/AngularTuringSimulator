@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {TuringData} from "../TuringData";
 import {TConfiguration} from "../TConfiguration";
-import {Compiler} from "../compiler/compiler";
 import {TuringSimulator} from "../compiler/simulator";
+import {Compiler} from "../compiler/compiler";
 import {TuringCommand} from "../TuringCommand";
 
-
+/// <reference path="./compiler/compiler.ts"/>
 
 @Injectable()
 export class TuringmachineService {
