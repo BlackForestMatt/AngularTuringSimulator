@@ -23,12 +23,11 @@ export class ChartComponent implements OnInit,OnChanges {
   public barChartType:string = 'horizontalBar';
   public barChartLegend:boolean = true;
   public chartColors: Array<any> = [
-    { // first color
+    {
       backgroundColor: 'rgba(35, 47, 57, 1)',
       borderColor: 'rgba(35, 47, 57, 1)',
       pointHoverBackgroundColor: 'rgba(35, 47, 57, 1)',
       pointHoverBorderColor: 'rgba(35, 47, 57, 1)'
-
     }];
 
   public barChartData:any[] = [
