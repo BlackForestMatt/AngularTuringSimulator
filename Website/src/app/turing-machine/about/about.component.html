@@ -1,5 +1,23 @@
 <div style="text-align: center">
-  <button (click)="showImpressumDialog()">About</button>
-  <a style="margin-left: 30px; text-decoration:underline;" href="https://github.com/BlackForestMatt/AngularTuringSimulator">View On Github</a>
+  <button (click)="showImpressumDialog(template)">About</button>
+  <a style="margin-left: 30px; text-decoration:underline;" href="https://github.com/BlackForestMatt/AngularTuringSimulator">Github</a>
 </div>
+
+
+<template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">About</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p><b>Adress</b></p>
+    <p>Josef Grieb </p>
+    <p>Stavangerstraße 2</p>
+    <p>10439 Berlin</p>
+    <br>
+    <p>Please send all suggestions,bugs feedback etc. to <a href="mailto:turingsimulator95@gmail.com">turingsimulator95@gmail.com</a>
+  </div>
+</template>
 

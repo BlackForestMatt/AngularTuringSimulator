@@ -1,6 +1,6 @@
-<div class="btn-group btn-group-lg">
-  <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Example <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-    <li *ngFor="let example of turingExamples"><a (click)="loadExample(example)">{{example}}</a></li>
+<div class="btn-group btn-group-lg" dropdown>
+  <button type="button" dropdownToggle class="btn btn-default dropdown-toggle">Example <span class="caret"></span></button>
+  <ul *dropdownMenu class="dropdown-menu" role="menu">
+    <li role="menuitem" *ngFor="let example of turingExamples"><a class="dropdown-item"  (click)="loadExample(example)">{{example}}</a></li>
   </ul>
 </div>

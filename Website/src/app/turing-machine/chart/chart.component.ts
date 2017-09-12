@@ -5,23 +5,23 @@ import {Component, OnInit, Input, SimpleChanges, OnChanges} from '@angular/core'
   templateUrl: 'chart.component.html',
   styleUrls: ['chart.component.css']
 })
-export class ChartComponent implements OnInit,OnChanges {
+export class ChartComponent implements OnInit, OnChanges {
   public barChartOptions:any = {
     scaleShowVerticalLines: false,
     responsive: true,
-    beginAtZero:true,
+    beginAtZero: true,
     scales: {
       xAxes: [{
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           scaleStepWidth: 1
         }
       }]
     }
   };
-  public barChartLabels:string[] = [];
-  public barChartType:string = 'horizontalBar';
-  public barChartLegend:boolean = true;
+  public barChartLabels: string[] = [];
+  public barChartType: string = 'horizontalBar';
+  public barChartLegend: boolean = true;
   public chartColors: Array<any> = [
     {
       backgroundColor: 'rgba(35, 47, 57, 1)',

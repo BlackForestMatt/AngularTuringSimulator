@@ -1,7 +1,8 @@
 import {Component, OnInit, Input, OnChanges, Output,EventEmitter} from '@angular/core';
-import * as CodeMirror from 'codemirror';
-import {Subscription} from "rxjs";
-import {TuringmachineService} from "../../service/turingmachineservice.service";
+import {Subscription} from 'rxjs';
+import {TuringmachineService} from '../../service/turingmachineservice.service';
+import * as CodeMirror from "codemirror";
+
 
 @Component({
   selector: 'ts-editor',
@@ -32,7 +33,7 @@ export class EditorComponent implements OnInit,OnChanges {
   ngOnInit() {
     console.log("ngOnInit");
     this.editor = (CodeMirror as any).fromTextArea((document as any).getElementById('editorCM'), {
-      mode: "text/html",
+      mode: 'text/html',
       lineNumbers: true
     });
 
@@ -45,8 +46,8 @@ export class EditorComponent implements OnInit,OnChanges {
 
   }
 
-   codeChange(code:string) { //static because of the function "change()"
-    console.log("EditorCodeChange");
+   codeChange(code:string) { // static because of the function "change()"
+    console.log('EditorCodeChange');
     this.codeChanges.emit(code);
   }
 

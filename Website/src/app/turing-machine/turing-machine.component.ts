@@ -8,18 +8,18 @@ import {TuringmachineService} from "../service/turingmachineservice.service";
   styleUrls: ['./turing-machine.component.css']
 })
 export class TuringMachineComponent implements AfterViewInit,OnChanges {
-  private exampleCode:string = ""; //For passsing the messages
-  private currentCode:string;
-  private isPlayBtnVisible = true;
-  private isCompileError = false;
-  private errorMessage = "";
-  private stateDiagram = new Map<string,number>();
-  private isSuccess = false;
-  private isFail = false;
-  private exampleName:string;
+  public exampleCode:string = ""; //For passsing the messages
+  public currentCode:string;
+  public isPlayBtnVisible = true;
+  public isCompileError = false;
+  public errorMessage = "";
+  public stateDiagram = new Map<string,number>();
+  public isSuccess = false;
+  public isFail = false;
+  public exampleName:string;
 
 
-  constructor(private tsService: TuringmachineService) { }
+  constructor(public tsService: TuringmachineService) { }
 
   ngAfterViewInit() {
 

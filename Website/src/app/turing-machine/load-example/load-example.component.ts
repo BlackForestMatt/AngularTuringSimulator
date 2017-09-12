@@ -11,7 +11,7 @@ export class LoadExampleComponent implements OnInit {
   @Output()
   onLoaded = new EventEmitter<Array<string>>(); //need for pass the data to EditorComponent
 
-  private turingExamples = ['Delete a','Palindrome'];
+  public turingExamples = ['Delete a','Palindrome'];
   constructor() {
 
 

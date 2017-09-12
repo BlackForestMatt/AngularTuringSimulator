@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'my-app',
-  template: `
-    <app-turing-machine></app-turing-machine>
-
-  `
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  isVisible : boolean = true;
-  test5 : boolean = true;
+  title = 'app';
 }

@@ -1,10 +1,11 @@
 import {Component, OnInit, AfterViewInit, Input, NgZone, Output,EventEmitter} from '@angular/core';
-import * as CodeMirror from 'codemirror';
-import * as noUiSlider from 'nouislider';
+// import * as CodeMirror from 'codemirror';
+ import * as noUiSlider from 'nouislider';
 import {TuringAnimation} from "./TuringAnimation";
 import {TuringData} from "../../TuringData";
 import {TuringDiagram} from "../../TuringDiagram";
 import {TuringmachineService} from "../../service/turingmachineservice.service";
+import * as CodeMirror from "codemirror";
 
 @Component({
   selector: 'ts-animation',
@@ -13,21 +14,21 @@ import {TuringmachineService} from "../../service/turingmachineservice.service";
 })
 export class TsAnimationComponent implements OnInit {
 
-  private turingAnimation: TuringAnimation;
-  private input = "";
+  public turingAnimation: TuringAnimation;
+  public input = "";
 
   @Input()
-  private isPlayBtnVisible: true;
+  public isPlayBtnVisible: true;
 
-  private _counter = 0;
-  private _state: String = "";
+  public _counter = 0;
+  public _state: String = "";
   /*
   turing machine process is success or not
   */
-  private _isSuccess = false;
-  private _isFail = false;
-  private inputBtnNotVisible = false;
-  private transitionEditor;
+  public _isSuccess = false;
+  public _isFail = false;
+  public inputBtnNotVisible = false;
+  public transitionEditor;
 
   @Input()
   turingExampleName:string = "";
